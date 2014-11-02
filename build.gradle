@@ -1,0 +1,8 @@
+apply plugin: "eclipse"
+
+apply from: buildScriptsDir + "/build_java_lib.gradle"
+//apply from: publishScriptsDir + "/publish.gradle"
+
+dependencies {
+   testCompile group: "junit", name: "junit", version: "3.8+"
+}
