@@ -8,10 +8,8 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
-public class Longitude extends GeographicCoordinate
-{
-   public static enum Direction
-   {
+public class Longitude extends GeographicCoordinate {
+   public static enum Direction {
       EAST,
       WEST
    };
@@ -20,14 +18,12 @@ public class Longitude extends GeographicCoordinate
 
    private Direction direction;
 
-   public Longitude()
-   {
+   public Longitude() {
       super( GeographicCoordinate.Type.LONGITUDE );
    }
 
    public Longitude( final double longitude )
-   throws GeographicCoordinateException
-   {
+   throws GeographicCoordinateException {
       super( GeographicCoordinate.Type.LONGITUDE,
              (int) Math.abs(longitude),
              (int) ((Math.abs(longitude) - (int)Math.abs(longitude)) * 60.0d),
@@ -37,8 +33,7 @@ public class Longitude extends GeographicCoordinate
    }
 
    public Longitude( final int degrees, final int minutes, final double seconds, final Direction dir )
-   throws GeographicCoordinateException
-   {
+   throws GeographicCoordinateException {
       super( GeographicCoordinate.Type.LONGITUDE, degrees, minutes, seconds );
       setDirection( dir );
    }
@@ -48,35 +43,26 @@ public class Longitude extends GeographicCoordinate
     * @throws IllegalArgumentException if {@code direction} is null
     */
    public void setDirection( final Direction direction )
-   throws IllegalArgumentException
-   {
-      if( direction == null )
-      {
-         throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
-      }
+   throws IllegalArgumentException {
+      if( direction == null )  throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
 
       this.direction = direction;
    }
 
-   public Direction getDirection()
-   {
+   public Direction getDirection() {
       return direction;
    }
 
-   public double toDouble()
-   {
-      if( getDirection() == null )
-      {
-         throw new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
-      }
+   public double toDouble() {
+      if( getDirection() == null )  throw new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
 
       final double decimal = getDegrees() + (getMinutes() / 60.0d) + (getSeconds() / 3600.0d);
+
       return getDirection() == Direction.EAST ? decimal : -decimal;
    }
 
    @Override
-   public int hashCode()
-   {
+   public int hashCode() {
       final int prime = 31;
       int result = super.hashCode();
 
@@ -86,8 +72,7 @@ public class Longitude extends GeographicCoordinate
    }
 
    @Override
-   public boolean equals( final Object compareTo )
-   {
+   public boolean equals( final Object compareTo ) {
       final Longitude other;
 
       if( this == compareTo ) return true;
@@ -104,8 +89,7 @@ public class Longitude extends GeographicCoordinate
    }
 
    @Override
-   public String toString()
-   {
+   public String toString() {
       return String.format( Locale.US,
                             "%s Direction (%s), decimal (%f)",
                             super.toString(),

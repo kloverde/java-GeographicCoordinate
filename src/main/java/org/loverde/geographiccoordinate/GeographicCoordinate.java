@@ -8,10 +8,8 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
-public abstract class GeographicCoordinate
-{
-   protected static enum Type
-   {
+public abstract class GeographicCoordinate {
+   protected static enum Type {
       LATITUDE,
       LONGITUDE
    }
@@ -27,15 +25,13 @@ public abstract class GeographicCoordinate
    private static final int MAX_VALUE_MINUTES = 59;
    private static final double MAX_VALUE_SECONDS = 59.9999999999999d;
 
-   public GeographicCoordinate( final Type type )
-   {
+   public GeographicCoordinate( final Type type ) {
       setType( type );
       setMaxValueDegrees( type == Type.LATITUDE ? Latitude.MAX_VALUE : Longitude.MAX_VALUE );
    }
 
    public GeographicCoordinate( final Type type, final int degrees, final int minutes, final double seconds )
-   throws GeographicCoordinateException
-   {
+   throws GeographicCoordinateException {
       this( type );
 
       setDegrees( degrees );
@@ -43,43 +39,35 @@ public abstract class GeographicCoordinate
       setSeconds( seconds );
    }
 
-   private void setType( final Type t )
-   {
-      if( t == null )
-      {
+   private void setType( final Type t ) {
+      if( t == null ) {
          throw new IllegalArgumentException( GeographicCoordinateException.Messages.COORDINATE_TYPE_NULL );
       }
 
       type = t;
    }
 
-   private Type getType()
-   {
+   private Type getType() {
       return type;
    }
 
-   private void setMaxValueDegrees( final int maxValHrs )
-   {
+   private void setMaxValueDegrees( final int maxValHrs ) {
       maxValueDegrees = maxValHrs;
    }
 
-   private int getMaxValueDegrees()
-   {
+   private int getMaxValueDegrees() {
       return maxValueDegrees;
    }
 
    public void setDegrees( final int deg )
-   throws GeographicCoordinateException
-   {
-      if( deg < 0 || deg > getMaxValueDegrees() )
-      {
+   throws GeographicCoordinateException {
+      if( deg < 0 || deg > getMaxValueDegrees() ) {
          throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
                                                 ? GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE
                                                 : GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE );
       }
 
-      if( deg == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) )
-      {
+      if( deg == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) ) {
          throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
@@ -88,23 +76,19 @@ public abstract class GeographicCoordinate
       degrees = deg;
    }
 
-   public int getDegrees()
-   {
+   public int getDegrees() {
       return degrees;
    }
 
    public void setMinutes( final int mins )
-   throws GeographicCoordinateException
-   {
-      if( mins < 0 || mins > MAX_VALUE_MINUTES )
-      {
+   throws GeographicCoordinateException {
+      if( mins < 0 || mins > MAX_VALUE_MINUTES ) {
          throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_RANGE
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE );
       }
 
-      if( getDegrees() == getMaxValueDegrees() && mins != 0 )
-      {
+      if( getDegrees() == getMaxValueDegrees() && mins != 0 ) {
          throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
@@ -113,23 +97,19 @@ public abstract class GeographicCoordinate
       this.minutes = mins;
    }
 
-   public int getMinutes()
-   {
+   public int getMinutes() {
       return minutes;
    }
 
    public void setSeconds( final double seconds )
-   throws GeographicCoordinateException
-   {
-      if( seconds < 0.0d || seconds > MAX_VALUE_SECONDS )
-      {
+   throws GeographicCoordinateException {
+      if( seconds < 0.0d || seconds > MAX_VALUE_SECONDS ) {
          throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
                                                 ? GeographicCoordinateException.Messages.LATITUDE_SECONDS_RANGE
                                                 : GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE );
       }
 
-      if( getDegrees() == getMaxValueDegrees() && seconds != 0.0d )
-      {
+      if( getDegrees() == getMaxValueDegrees() && seconds != 0.0d ) {
          throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
@@ -138,14 +118,12 @@ public abstract class GeographicCoordinate
       this.seconds = seconds;
    }
 
-   public double getSeconds()
-   {
+   public double getSeconds() {
       return seconds;
    }
 
    @Override
-   public int hashCode()
-   {
+   public int hashCode() {
       final int prime = 31;
       int result = 1;
 
@@ -169,8 +147,7 @@ public abstract class GeographicCoordinate
     */
    @Override
    public boolean equals( final Object compareTo )
-   throws IllegalArgumentException
-   {
+   throws IllegalArgumentException {
       final GeographicCoordinate other;
 
       if( this == compareTo ) return true;
@@ -195,8 +172,7 @@ public abstract class GeographicCoordinate
    }
 
    @Override
-   public String toString()
-   {
+   public String toString() {
       return String.format( Locale.US,
                             "Degrees (%d) Minutes (%d) Seconds (%f)",
                             getDegrees(),

@@ -6,12 +6,10 @@
 package org.loverde.geographiccoordinate;
 
 
-public class GeographicCoordinateException extends Exception
-{
+public class GeographicCoordinateException extends Exception {
    private static final long serialVersionUID = 6477388496558631205L;
 
-   public static final class Messages
-   {
+   public static final class Messages {
       private static final String LATITUDE = "Latitude",
                                   LONGITUDE = "Longitude",
 
@@ -37,23 +35,19 @@ public class GeographicCoordinateException extends Exception
                                  LONGITUDE_SECONDS_RANGE = LONGITUDE + SECONDS_RANGE;
    }
 
-   public GeographicCoordinateException()
-   {
+   public GeographicCoordinateException() {
       super();
    }
 
-   public GeographicCoordinateException( final String msg )
-   {
+   public GeographicCoordinateException( final String msg ) {
       super( msg );
    }
 
-   public GeographicCoordinateException( final Throwable t )
-   {
+   public GeographicCoordinateException( final Throwable t ) {
       super( t );
    }
 
-   public GeographicCoordinateException( final String msg, final Throwable t )
-   {
+   public GeographicCoordinateException( final String msg, final Throwable t ) {
       super( msg, t );
-   }   
+   }
 }

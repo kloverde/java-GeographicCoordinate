@@ -8,10 +8,8 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
-public class Latitude extends GeographicCoordinate
-{
-   public static enum Direction
-   {
+public class Latitude extends GeographicCoordinate {
+   public static enum Direction {
       NORTH,
       SOUTH
    };
@@ -20,14 +18,12 @@ public class Latitude extends GeographicCoordinate
 
    private Direction direction;
 
-   public Latitude()
-   {
+   public Latitude() {
       super( GeographicCoordinate.Type.LATITUDE );
    }
 
    public Latitude( final double latitude )
-   throws GeographicCoordinateException
-   {
+   throws GeographicCoordinateException {
       super( GeographicCoordinate.Type.LATITUDE,
              (int) Math.abs(latitude),
              (int) ((Math.abs(latitude) - (int)Math.abs(latitude)) * 60.0d),
@@ -37,8 +33,7 @@ public class Latitude extends GeographicCoordinate
    }
 
    public Latitude( final int degrees, final int minutes, final double seconds, final Direction dir )
-   throws GeographicCoordinateException
-   {
+   throws GeographicCoordinateException {
       super( GeographicCoordinate.Type.LATITUDE, degrees, minutes, seconds );
       setDirection( dir );
    }
@@ -48,25 +43,20 @@ public class Latitude extends GeographicCoordinate
     * @throws IllegalArgumentException if {@code direction} is null
     */
    public void setDirection( final Direction direction )
-   throws IllegalArgumentException
-   {
-      if( direction == null )
-      {
+   throws IllegalArgumentException {
+      if( direction == null ) {
          throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
       }
 
       this.direction = direction;
    }
 
-   public Direction getDirection()
-   {
+   public Direction getDirection() {
       return direction;
    }
 
-   public double toDouble()
-   {
-      if( getDirection() == null )
-      {
+   public double toDouble() {
+      if( getDirection() == null ) {
          throw new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
       }
 
@@ -75,8 +65,7 @@ public class Latitude extends GeographicCoordinate
    }
 
    @Override
-   public int hashCode()
-   {
+   public int hashCode() {
       final int prime = 31;
       int result = super.hashCode();
 
@@ -86,8 +75,7 @@ public class Latitude extends GeographicCoordinate
    }
 
    @Override
-   public boolean equals( final Object compareTo )
-   {
+   public boolean equals( final Object compareTo ) {
       final Latitude other;
 
       if( this == compareTo ) return true;
@@ -104,8 +92,7 @@ public class Latitude extends GeographicCoordinate
    }
 
    @Override
-   public String toString()
-   {
+   public String toString() {
       return String.format( Locale.US,
                             "%s Direction (%s), decimal (%f)",
                             super.toString(),
