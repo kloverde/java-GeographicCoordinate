@@ -146,8 +146,7 @@ public abstract class GeographicCoordinate {
     * @return true if equivalent, false if not
     */
    @Override
-   public boolean equals( final Object compareTo )
-   throws IllegalArgumentException {
+   public boolean equals( final Object compareTo ) {
       final GeographicCoordinate other;
 
       if( this == compareTo ) return true;
