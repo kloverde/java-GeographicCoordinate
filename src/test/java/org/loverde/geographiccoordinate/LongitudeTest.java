@@ -334,7 +334,7 @@ public class LongitudeTest extends TestCase {
 
    public void testEquals_failDifferentSiblingClass()
    throws GeographicCoordinateException {
-      final org.loverde.geographiccoordinate.Latitude latitude = new org.loverde.geographiccoordinate.Latitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), org.loverde.geographiccoordinate.Latitude.Direction.NORTH );
+      final Latitude latitude = new Latitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Latitude.Direction.NORTH );
       assertFalse( lon1.equals(latitude) );
    }
 
