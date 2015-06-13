@@ -40,10 +40,8 @@ public class Latitude extends GeographicCoordinate {
 
    /**
     * @param direction Must be a member of {@code Latitude.Direction}
-    * @throws IllegalArgumentException if {@code direction} is null
     */
-   public void setDirection( final Direction direction )
-   throws IllegalArgumentException {
+   public void setDirection( final Latitude.Direction direction ) {
       if( direction == null ) {
          throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
       }
@@ -51,7 +49,7 @@ public class Latitude extends GeographicCoordinate {
       this.direction = direction;
    }
 
-   public Direction getDirection() {
+   public Latitude.Direction getDirection() {
       return direction;
    }
 
