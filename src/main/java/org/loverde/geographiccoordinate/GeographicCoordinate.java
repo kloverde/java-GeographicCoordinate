@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2015 Kurtis LoVerde
+ * All rights reserved
+ */
+
 package org.loverde.geographiccoordinate;
 
 
