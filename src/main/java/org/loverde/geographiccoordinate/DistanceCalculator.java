@@ -31,10 +31,13 @@ public class DistanceCalculator {
       Latitude latitude2 = new Latitude( 38, 54, 17, Latitude.Direction.NORTH );
       Longitude longitude2 = new Longitude( 77, 0, 59, Longitude.Direction.WEST );
 
-      System.out.println( distance(new Point(latitude1, longitude1), new Point(latitude2, longitude2), Unit.KILOMETERS) );
-      System.out.println( distance(new Point(latitude1, longitude1), new Point(latitude2, longitude2), Unit.METERS) );
-      System.out.println( distance(new Point(latitude1, longitude1), new Point(latitude2, longitude2), Unit.MILES) );
-      System.out.println( distance(new Point(latitude1, longitude1), new Point(latitude2, longitude2), Unit.NAUTICAL_MILES) );
+      Point point1 = new Point( latitude1, longitude1 );
+      Point point2 = new Point( latitude2, longitude2 );
+
+      System.out.println( distance(point1, point2, Unit.KILOMETERS) );
+      System.out.println( distance(point1, point2, Unit.METERS) );
+      System.out.println( distance(point1, point2, Unit.MILES) );
+      System.out.println( distance(point1, point2, Unit.NAUTICAL_MILES) );
    }
 */
 
