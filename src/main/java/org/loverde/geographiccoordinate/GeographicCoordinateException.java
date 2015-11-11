@@ -7,7 +7,8 @@ package org.loverde.geographiccoordinate;
 
 
 public class GeographicCoordinateException extends Exception {
-   private static final long serialVersionUID = 6477388496558631205L;
+
+   private static final long serialVersionUID = -5390540198404132694L;
 
    public static final class Messages {
       private static final String LATITUDE = "Latitude",
@@ -28,11 +29,20 @@ public class GeographicCoordinateException extends Exception {
                                  LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO = LATITUDE + MINUTES_AND_SECONDS_MUST_BE_ZERO + MAX_LATITUDE_DEGREES,
                                  LATITUDE_MINUTES_RANGE = LATITUDE + MINUTES_RANGE,
                                  LATITUDE_SECONDS_RANGE = LATITUDE + SECONDS_RANGE,
+                                 LATITUDE_1_NULL = LATITUDE + " 1 is null",
+                                 LATITUDE_2_NULL = LATITUDE + " 2 is null",
 
                                  LONGITUDE_DEGREES_RANGE = LONGITUDE + DEGREES_RANGE + MAX_LONGITUDE_DEGREES,
                                  LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO = LONGITUDE + MINUTES_AND_SECONDS_MUST_BE_ZERO + MAX_LONGITUDE_DEGREES,
                                  LONGITUDE_MINUTES_RANGE = LONGITUDE + MINUTES_RANGE,
-                                 LONGITUDE_SECONDS_RANGE = LONGITUDE + SECONDS_RANGE;
+                                 LONGITUDE_SECONDS_RANGE = LONGITUDE + SECONDS_RANGE,
+                                 LONGITUDE_1_NULL = LONGITUDE + " 1 is null",
+                                 LONGITUDE_2_NULL = LONGITUDE + " 2 is null",
+
+                                 POINT_1_NULL = "Point 1 is null",
+                                 POINT_2_NULL = "Point 2 is null",
+
+                                 UNIT_NULL = "Unit is null";
    }
 
    public GeographicCoordinateException() {

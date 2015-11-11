@@ -375,4 +375,8 @@ public class LatitudeTest extends TestCase {
       lat2.setDirection( Latitude.Direction.SOUTH );
       assertFalse( lat1.hashCode() == lat2.hashCode() );
    }
+
+   public void testToRadians() {
+      assertEquals( Math.toRadians(lat1.toDouble()), lat1.toRadians() );
+   }
 }
