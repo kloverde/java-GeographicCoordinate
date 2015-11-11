@@ -8,7 +8,8 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
-public class Longitude extends GeographicCoordinate {
+public class Longitude extends GeographicCoordinateImpl {
+
    public static enum Direction {
       EAST,
       WEST
@@ -18,13 +19,13 @@ public class Longitude extends GeographicCoordinate {
 
    private Direction direction;
 
+
    public Longitude() {
-      super( GeographicCoordinate.Type.LONGITUDE );
+      super( GeographicCoordinateImpl.Type.LONGITUDE );
    }
 
-   public Longitude( final double longitude )
-   throws GeographicCoordinateException {
-      super( GeographicCoordinate.Type.LONGITUDE,
+   public Longitude( final double longitude ) throws GeographicCoordinateException {
+      super( GeographicCoordinateImpl.Type.LONGITUDE,
              (int) Math.abs(longitude),
              (int) ((Math.abs(longitude) - (int)Math.abs(longitude)) * 60.0d),
              (((Math.abs(longitude) - (int)Math.abs(longitude)) * 60.0d) % 1.0d) * 60.0d );
@@ -32,9 +33,8 @@ public class Longitude extends GeographicCoordinate {
       setDirection( longitude > 0.0d ? Direction.EAST : Direction.WEST );
    }
 
-   public Longitude( final int degrees, final int minutes, final double seconds, final Direction dir )
-   throws GeographicCoordinateException {
-      super( GeographicCoordinate.Type.LONGITUDE, degrees, minutes, seconds );
+   public Longitude( final int degrees, final int minutes, final double seconds, final Direction dir ) throws GeographicCoordinateException {
+      super( GeographicCoordinateImpl.Type.LONGITUDE, degrees, minutes, seconds );
       setDirection( dir );
    }
 
@@ -51,6 +51,7 @@ public class Longitude extends GeographicCoordinate {
       return direction;
    }
 
+   @Override
    public double toDouble() {
       if( getDirection() == null )  throw new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
 

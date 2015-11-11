@@ -376,4 +376,8 @@ public class LongitudeTest extends TestCase {
       lon2.setDirection( Longitude.Direction.WEST );
       assertFalse( lon1.hashCode() == lon2.hashCode() );
    }
+
+   public void testToRadians() {
+      assertEquals( Math.toRadians(lon1.toDouble()), lon1.toRadians() );
+   }
 }
