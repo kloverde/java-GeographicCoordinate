@@ -23,7 +23,7 @@ package org.loverde.geographiccoordinate;
  * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">https://en.wikipedia.org/wiki/Haversine_formula</a>
  */
 public class DistanceCalculator {
-
+/*
    public static void main(String args[]) throws GeographicCoordinateException {
       Latitude latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
       Longitude longitude1 = new Longitude(  74, 0, 21, Longitude.Direction.WEST );
@@ -36,6 +36,8 @@ public class DistanceCalculator {
       System.out.println( distance(new Point(latitude1, longitude1), new Point(latitude2, longitude2), Unit.MILES) );
       System.out.println( distance(new Point(latitude1, longitude1), new Point(latitude2, longitude2), Unit.NAUTICAL_MILES) );
    }
+*/
+
    /**
     * Units of distance - use this with the {@code distance} methods in this class.
     */
