@@ -9,16 +9,18 @@ package org.loverde.geographiccoordinate;
 /**
  * <p>
  * This class calculates the distance bewteen two sets of coordinates as the crow
- * flies using the Haversine formula.  When implemented correctly, Haversine has
- * an error of up to 0.3% due to its assumption of a perfectly spherical Earth.
+ * flies, using the common Haversine formula.  Haversine assumes a perfectly
+ * spherical Earth, so some amount of error is guaranteed in all calculations.
  * </p>
  *
  * <p><strong>
- * ACCURACY IS NOT GUARANTEED.  AS STATED IN THIS SOFTWARE'S LICENSE, YOU BEAR
- * FULL AND SOLE LIABILITY FOR YOUR USE OF THIS SOFTWARE.  THAT INCLUDES YOUR
- * USE OF CALCULATIONS PERFORMED BY THIS SOFTWARE.  DO NOT RELY ON THESE
- * CALCULATIONS FOR NAVIGATION <em>OR FOR ANY OTHER PURPOSE</em>.
- * </strong></p>
+ * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
+ * UNDERSTANDING OF, GEODESY; I MERELY IMPLEMENTED A FORMULA I
+ * FOUND ON WIKIPEDIA.  YOU WOULDN'T ENTRUST A WIKIPEDIA PAGE WITH
+ * YOUR SAFETY, SO DON'T ENTRUST IT TO THIS SOFTWARE.  THIS WOULD
+ * BE A GOOD TIME FOR YOU TO READ AND UNDERSTAND THE WAIVER PRESENT
+ * IN THIS SOFTWARE'S LICENSE.
+ * </p></strong>
  *
  * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">https://en.wikipedia.org/wiki/Haversine_formula</a>
  */
@@ -66,7 +68,7 @@ public class DistanceCalculator {
 
       private double perKilometer;
 
-      private Unit( final double perKilometer) {
+      private Unit( final double perKilometer ) {
          this.perKilometer = perKilometer;
       }
    }
@@ -81,10 +83,12 @@ public class DistanceCalculator {
     * </p>
     *
     * <p><strong>
-    * ACCURACY IS NOT GUARANTEED.  AS STATED IN THIS SOFTWARE'S LICENSE, YOU BEAR
-    * FULL AND SOLE LIABILITY FOR YOUR USE OF THIS SOFTWARE.  THAT INCLUDES YOUR
-    * USE OF CALCULATIONS PERFORMED BY THIS SOFTWARE.  DO NOT RELY ON THESE
-    * CALCULATIONS FOR NAVIGATION <em>OR FOR ANY OTHER PURPOSE</em>.
+    * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
+    * UNDERSTANDING OF, GEODESY; I MERELY IMPLEMENTED A FORMULA I
+    * FOUND ON WIKIPEDIA.  YOU WOULDN'T ENTRUST A WIKIPEDIA PAGE WITH
+    * YOUR SAFETY, SO DON'T ENTRUST IT TO THIS SOFTWARE.  THIS WOULD
+    * BE A GOOD TIME FOR YOU TO READ AND UNDERSTAND THE WAIVER PRESENT
+    * IN THIS SOFTWARE'S LICENSE.
     * </strong></p>
     *
     * @param point1 The first set of latitude/longitude
@@ -109,10 +113,12 @@ public class DistanceCalculator {
     * <p>
     *
     * <p><strong>
-    * ACCURACY IS NOT GUARANTEED.  AS STATED IN THIS SOFTWARE'S LICENSE, YOU BEAR
-    * FULL AND SOLE LIABILITY FOR YOUR USE OF THIS SOFTWARE.  THAT INCLUDES YOUR
-    * USE OF CALCULATIONS PERFORMED BY THIS SOFTWARE.  DO NOT RELY ON THESE
-    * CALCULATIONS FOR NAVIGATION <em>OR FOR ANY OTHER PURPOSE</em>.
+    * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
+    * UNDERSTANDING OF, GEODESY; I MERELY IMPLEMENTED A FORMULA I
+    * FOUND ON WIKIPEDIA.  YOU WOULDN'T ENTRUST A WIKIPEDIA PAGE WITH
+    * YOUR SAFETY, SO DON'T ENTRUST IT TO THIS SOFTWARE.  THIS WOULD
+    * BE A GOOD TIME FOR YOU TO READ AND UNDERSTAND THE WAIVER PRESENT
+    * IN THIS SOFTWARE'S LICENSE.
     * </strong></p>
     *
     * @param latitude1 Point 1 latitude
