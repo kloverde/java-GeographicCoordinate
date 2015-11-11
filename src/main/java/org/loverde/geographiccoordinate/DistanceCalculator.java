@@ -115,35 +115,30 @@ public class DistanceCalculator {
     * CALCULATIONS FOR NAVIGATION <em>OR FOR ANY OTHER PURPOSE</em>.
     * </strong></p>
     *
-    * @param lat1 Point 1 latitude
-    * @param lon1 Point 1 longitude
-    * @param lat2 Point 2 latitude
-    * @param lon2 Point 2 longitude
+    * @param latitude1 Point 1 latitude
+    * @param longitude1 Point 1 longitude
+    * @param latitude2 Point 2 latitude
+    * @param longitude2 Point 2 longitude
     * @param unit The unit of measurement
     *
     * @return The distance from point 1 to point 2, expressed in terms of {@code unit}
     */
-   public static double distance( final Latitude lat1, final Longitude lon1, final Latitude lat2, final Longitude lon2, final Unit unit ) {
-      if( lat1 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LATITUDE_1_NULL );
-      if( lon1 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LONGITUDE_1_NULL );
-      if( lat2 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LATITUDE_2_NULL );
-      if( lon2 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LONGITUDE_2_NULL );
+   public static double distance( final Latitude latitude1, final Longitude longitude1, final Latitude latitude2, final Longitude longitude2, final Unit unit ) {
+      if( latitude1 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LATITUDE_1_NULL );
+      if( longitude1 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LONGITUDE_1_NULL );
+      if( latitude2 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LATITUDE_2_NULL );
+      if( longitude2 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LONGITUDE_2_NULL );
       if( unit == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.UNIT_NULL );
 
-      // φ = latitude
-      // λ = longitude
-      // Δφ = latitude delta
-      // Δλ = longitude delta
+      final double lat1 = latitude1.toRadians(),
+                   lat2 = latitude2.toRadians(),
+                   lon1 = longitude1.toRadians(),
+                   lon2 = longitude2.toRadians(),
+                   deltaLat = lat2 - lat1,
+                   deltaLon = lon2 - lon1;
 
-      final double φ1 = lat1.toRadians(),
-                   φ2 = lat2.toRadians(),
-                   λ1 = lon1.toRadians(),
-                   λ2 = lon2.toRadians(),
-                   Δφ = φ2 - φ1,
-                   Δλ = λ2 - λ1;
-
-      final double d = (2.0d * EARTH_RADIUS_KILOMETERS) * Math.asin( Math.sqrt( Math.pow(Math.sin(Δφ / 2.0d), 2.0d)
-                                                                                + ( Math.cos(φ1) * Math.cos(φ2) * Math.pow(Math.sin(Δλ / 2.0d), 2.0d) ) ) );
+      final double d = (2.0d * EARTH_RADIUS_KILOMETERS) * Math.asin( Math.sqrt( Math.pow(Math.sin(deltaLat / 2.0d), 2.0d)
+                                                                                + ( Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2.0d), 2.0d) ) ) );
 
       return d * unit.perKilometer;
    }
