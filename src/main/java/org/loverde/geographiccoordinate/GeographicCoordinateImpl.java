@@ -181,7 +181,7 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    @Override
    public String toString() {
       return String.format( Locale.US,
-                            "Degrees (%d) Minutes (%d) Seconds (%f)",
+                            "Degrees (%d) Minutes (%d) Seconds (%.15f)",
                             getDegrees(),
                             getMinutes(),
                             getSeconds() );
