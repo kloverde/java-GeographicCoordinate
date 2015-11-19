@@ -90,7 +90,7 @@ public class Longitude extends GeographicCoordinateImpl {
    @Override
    public String toString() {
       return String.format( Locale.US,
-                            "%s Direction (%s), decimal (%f)",
+                            "%s Direction (%s), decimal (%.15f)",
                             super.toString(),
                             getDirection(),
                             toDouble() );
