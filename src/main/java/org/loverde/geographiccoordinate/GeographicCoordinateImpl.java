@@ -27,6 +27,13 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
       setMaxValueDegrees( type == Type.LATITUDE ? Latitude.MAX_VALUE : Longitude.MAX_VALUE );
    }
 
+   public GeographicCoordinateImpl( final Type type, final double value ) throws GeographicCoordinateException {
+      this( type,
+            (int) Math.abs(value),
+            (int) ((Math.abs(value) - (int)Math.abs(value)) * 60.0d),
+            (((Math.abs(value) - (int)Math.abs(value)) * 60.0d) % 1.0d) * 60.0d );
+   }
+
    public GeographicCoordinateImpl( final Type type, final int degrees, final int minutes, final double seconds ) throws GeographicCoordinateException {
       this( type );
 
@@ -36,9 +43,7 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    }
 
    private void setType( final Type t ) {
-      if( t == null ) {
-         throw new IllegalArgumentException( GeographicCoordinateException.Messages.COORDINATE_TYPE_NULL );
-      }
+      if( t == null )  throw new IllegalArgumentException( GeographicCoordinateException.Messages.COORDINATE_TYPE_NULL );
 
       type = t;
    }

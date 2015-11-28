@@ -25,15 +25,11 @@ public class Latitude extends GeographicCoordinateImpl {
    }
 
    public Latitude( final double latitude ) throws GeographicCoordinateException {
-      super( GeographicCoordinateImpl.Type.LATITUDE,
-             (int) Math.abs(latitude),
-             (int) ((Math.abs(latitude) - (int)Math.abs(latitude)) * 60.0d),
-             (((Math.abs(latitude) - (int)Math.abs(latitude)) * 60.0d) % 1.0d) * 60.0d );
-
+      super( GeographicCoordinateImpl.Type.LATITUDE, latitude );
       setDirection( latitude > 0.0d ? Direction.NORTH : Direction.SOUTH );
    }
 
-   public Latitude( final int degrees, final int minutes, final double seconds, final Direction dir ) throws GeographicCoordinateException {
+   public Latitude( final int degrees, final int minutes, final double seconds, final Latitude.Direction dir ) throws GeographicCoordinateException {
       super( GeographicCoordinateImpl.Type.LATITUDE, degrees, minutes, seconds );
       setDirection( dir );
    }

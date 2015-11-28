@@ -1,3 +1,8 @@
+## UPCOMING RELEASE
+
+* Consolidated duplicated constructor code
+
+
 ## Release 1.1.1 (November 18, 2015)
 
 * toString() now prints the actual decimal value - not a rounded one
