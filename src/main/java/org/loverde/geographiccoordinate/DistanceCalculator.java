@@ -20,7 +20,7 @@ package org.loverde.geographiccoordinate;
  * YOUR SAFETY, SO DON'T ENTRUST IT TO THIS SOFTWARE.  THIS WOULD
  * BE A GOOD TIME FOR YOU TO READ AND UNDERSTAND THE WAIVER PRESENT
  * IN THIS SOFTWARE'S LICENSE.
- * </p></strong>
+ * </strong></p>
  *
  * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">https://en.wikipedia.org/wiki/Haversine_formula</a>
  */
