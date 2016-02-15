@@ -52,8 +52,8 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
       return type;
    }
 
-   private void setMaxValueDegrees( final int maxValHrs ) {
-      maxValueDegrees = maxValHrs;
+   private void setMaxValueDegrees( final int max ) {
+      maxValueDegrees = max;
    }
 
    private int getMaxValueDegrees() {
