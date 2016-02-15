@@ -6,6 +6,7 @@
 package org.loverde.geographiccoordinate;
 
 
+
 /**
  * <p>
  * This class calculates the distance bewteen two sets of coordinates as the crow
@@ -98,12 +99,49 @@ public class DistanceCalculator {
     * @return The distance between {@code point1} and {@code point2}, expressed in terms of {@code unit}
     */
    public static double distance( final Point point1, final Point point2, final Unit unit ) {
-      if( point1 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.POINT_1_NULL );
-      if( point2 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.POINT_2_NULL );
+      if( point1 == null ) throw new IllegalArgumentException( "Point 1 is null" );
+      if( point2 == null ) throw new IllegalArgumentException( "Point 2 is null" );
 
       return distance( point1.getLatitude(), point1.getLongitude(),
                        point2.getLatitude(), point2.getLongitude(),
                        unit );
+   }
+
+   /**
+    * <p>
+    * Gets the total travel distance for an unlimited number of points.  For example, if the distance from
+    * point A to point B is 3, and the distance from point B to point C is 2, the total distance
+    * traveled will be (3 + 2) = 5.  Just pass {@linkplain Point}s in the order in which they're visited.
+    * </p>
+    *
+    * <p><strong>
+    * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
+    * UNDERSTANDING OF, GEODESY; I MERELY IMPLEMENTED A FORMULA I
+    * FOUND ON WIKIPEDIA.  YOU WOULDN'T ENTRUST A WIKIPEDIA PAGE WITH
+    * YOUR SAFETY, SO DON'T ENTRUST IT TO THIS SOFTWARE.  THIS WOULD
+    * BE A GOOD TIME FOR YOU TO READ AND UNDERSTAND THE WAIVER PRESENT
+    * IN THIS SOFTWARE'S LICENSE.
+    * </strong></p>
+    *
+    * @param unit The unit of measurement
+    * @param points A vararg of {@linkplain Point}s arranged in the order in which the points are visited
+    *
+    * @return The total distance traveled
+    */
+   public static double totalTravelDistance( final Unit unit, final Point ... points ) {
+      if( points == null ) throw new IllegalArgumentException( "Points are null" );
+      if( points.length < 2 ) throw new IllegalArgumentException( "Need to provide at least 2 points" );
+
+      double distance = 0;
+      Point previous = points[0];
+
+      for( int i = 1; i < points.length; i++ ) {
+         final Point current = points[i];
+         distance += distance( previous, current, unit );
+         previous = current;
+      }
+
+      return distance;
    }
 
    /**
@@ -130,11 +168,11 @@ public class DistanceCalculator {
     * @return The distance from point 1 to point 2, expressed in terms of {@code unit}
     */
    public static double distance( final Latitude latitude1, final Longitude longitude1, final Latitude latitude2, final Longitude longitude2, final Unit unit ) {
-      if( latitude1 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LATITUDE_1_NULL );
-      if( longitude1 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LONGITUDE_1_NULL );
-      if( latitude2 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LATITUDE_2_NULL );
-      if( longitude2 == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LONGITUDE_2_NULL );
-      if( unit == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.UNIT_NULL );
+      if( latitude1 == null ) throw new IllegalArgumentException( "Latitude 1 is null" );
+      if( longitude1 == null ) throw new IllegalArgumentException( "Longitude 1 is null" );
+      if( latitude2 == null ) throw new IllegalArgumentException( "Latitude 2 is null" );
+      if( longitude2 == null ) throw new IllegalArgumentException( "Longitude 2 is null" );
+      if( unit == null ) throw new IllegalArgumentException( "Unit is null" );
 
       final double lat1 = latitude1.toRadians(),
                    lat2 = latitude2.toRadians(),

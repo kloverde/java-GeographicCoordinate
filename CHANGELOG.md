@@ -1,6 +1,8 @@
-## UPCOMING RELEASE
+## Release 1.2 (February 15, 2016)
 
-* Consolidated duplicated constructor code
+* Added a totalTravelDistance method to DistanceCalculator.  This method calculates the total distance traveled between an unlimited number of points (A to B to C, etc.).
+* The following constants have been removed from GeographicCoordinateException.Messages:  LATITUDE_1_NULL, LATITUDE_2_NULL, LONGITUDE_1_NULL, LONGITUDE_2_NULL, POINT_1_NULL, POINT_2_NULL, UNIT_NULL.
+* Consolidated duplicated constructor code in the Latitude and Longitude classes
 
 
 ## Release 1.1.1 (November 18, 2015)
