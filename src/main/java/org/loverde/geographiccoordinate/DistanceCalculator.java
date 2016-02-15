@@ -7,6 +7,7 @@ package org.loverde.geographiccoordinate;
 
 
 
+
 /**
  * <p>
  * This class calculates the distance bewteen two sets of coordinates as the crow
@@ -97,10 +98,11 @@ public class DistanceCalculator {
     * @param unit The unit of measurement
     *
     * @return The distance between {@code point1} and {@code point2}, expressed in terms of {@code unit}
+    *
+    * @deprecated This method will be removed in the near future - possibly in the next release.  Use {@link #distance(Unit, Point...) distance(Unit, Point...)}
     */
+   @Deprecated
    public static double distance( final Point point1, final Point point2, final Unit unit ) {
-      if( point1 == null ) throw new IllegalArgumentException( "Point 1 is null" );
-      if( point2 == null ) throw new IllegalArgumentException( "Point 2 is null" );
 
       return distance( point1.getLatitude(), point1.getLongitude(),
                        point2.getLatitude(), point2.getLongitude(),
@@ -109,9 +111,10 @@ public class DistanceCalculator {
 
    /**
     * <p>
-    * Gets the total travel distance for an unlimited number of points.  For example, if the distance from
-    * point A to point B is 3, and the distance from point B to point C is 2, the total distance
-    * traveled will be (3 + 2) = 5.  Just pass {@linkplain Point}s in the order in which they're visited.
+    * Gets the total distance between an unlimited number of {@linkplain Point}s.  For example, if the
+    * distance from point A to point B is 3, and the distance from point B to point C is 2, the total
+    * distance traveled will be (3 + 2) = 5.  Just pass {@code Point}s in the order in which they're
+    * visited.  This is equivalent to repeatedly calling {@link DistanceCalculator#distance(Latitude, Longitude, Latitude, Longitude, Unit)}.
     * </p>
     *
     * <p><strong>
@@ -126,9 +129,9 @@ public class DistanceCalculator {
     * @param unit The unit of measurement
     * @param points A vararg of {@linkplain Point}s arranged in the order in which the points are visited
     *
-    * @return The total distance traveled
+    * @return The total distance traveled, expressed in terms of {@code unit}
     */
-   public static double totalTravelDistance( final Unit unit, final Point ... points ) {
+   public static double distance( final Unit unit, final Point ... points ) {
       if( points == null ) throw new IllegalArgumentException( "Points are null" );
       if( points.length < 2 ) throw new IllegalArgumentException( "Need to provide at least 2 points" );
 
@@ -137,7 +140,11 @@ public class DistanceCalculator {
 
       for( int i = 1; i < points.length; i++ ) {
          final Point current = points[i];
-         distance += distance( previous, current, unit );
+
+         if( previous == null ) throw new IllegalArgumentException( "points " + (i - 1) + " is null" );
+         if( current == null ) throw new IllegalArgumentException( "points " + i + " is null" );
+
+         distance += distance( previous.getLatitude(), previous.getLongitude(), current.getLatitude(), current.getLongitude(), unit );
          previous = current;
       }
 

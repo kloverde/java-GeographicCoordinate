@@ -1,3 +1,9 @@
+## Release 1.2.1 (February 15, 2016)
+
+* Renamed the new method from today's earlier release:  DistanceCalculator.totalTravelDistance( Unit, Point ... ) method is now DistanceCalculator.distance( Unit, Point ... ).
+* Deprecated DistanceCalculator.distance( Point, Point, Unit ), as it has been rendered redundant by the vararg method above.  *This deprecated method will be removed in the near future - possibly in the next release.*
+* Updated README and javadoc
+
 ## Release 1.2 (February 15, 2016)
 
 * Added a totalTravelDistance method to DistanceCalculator.  This method calculates the total distance traveled between an unlimited number of points (A to B to C, etc.).
