@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 
 public class PointTest extends TestCase {
 
-
    private Latitude latitude1;
 
    private Longitude longitude1;
