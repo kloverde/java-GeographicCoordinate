@@ -176,9 +176,6 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    }
 
    @Override
-   public abstract double toDouble();
-
-   @Override
    public double toRadians() {
       return Math.toRadians( toDouble() );
    }

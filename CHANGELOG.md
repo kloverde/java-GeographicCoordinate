@@ -1,3 +1,7 @@
+## Release 1.3 (UPCOMING RELEASE)
+
+* Integrated with the latest version of the BuildScripts project (https://github.com/kloverde/BuildScripts).  Improvements include support for findbugs and a new approach to packaging releases.
+
 ## Release 1.2.1 (February 15, 2016)
 
 * Renamed the new method from today's earlier release:  DistanceCalculator.totalTravelDistance( Unit, Point ... ) method is now DistanceCalculator.distance( Unit, Point ... ).

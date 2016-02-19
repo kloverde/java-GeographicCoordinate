@@ -329,7 +329,7 @@ public class LongitudeTest extends TestCase {
    }
 
    public void testEquals_failDifferentParentClass() {
-      assertFalse( lon1.equals(new Integer(2)) );
+      assertFalse( lon1.equals(Integer.valueOf(2)) );
    }
 
    public void testEquals_failDifferentSiblingClass()
