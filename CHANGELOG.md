@@ -1,6 +1,7 @@
 ## Release 1.3 (UPCOMING RELEASE)
 
-* Integrated with the latest version of the BuildScripts project (https://github.com/kloverde/BuildScripts).  Improvements include support for findbugs and a new approach to packaging releases.
+* Removed deprecated method DistanceCalculator.distance( point1, point2, Unit ).  Use DistanceCalculator( Unit, Point ... ).
+* Integrated with the latest version of the BuildScripts project (https://github.com/kloverde/BuildScripts), adding findbugs support and new release packaging:  one archive contains all zips, readme, changelog and license.
 
 ## Release 1.2.1 (February 15, 2016)
 

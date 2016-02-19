@@ -80,37 +80,6 @@ public class DistanceCalculator {
 
    /**
     * <p>
-    * Gets the distance between two sets of coordinates.  Functionally equivalent to
-    * {@linkplain DistanceCalculator#distance(Latitude, Longitude, Latitude, Longitude, Unit)}
-    * </p>
-    *
-    * <p><strong>
-    * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
-    * UNDERSTANDING OF, GEODESY; I MERELY IMPLEMENTED A FORMULA I
-    * FOUND ON WIKIPEDIA.  YOU WOULDN'T ENTRUST A WIKIPEDIA PAGE WITH
-    * YOUR SAFETY, SO DON'T ENTRUST IT TO THIS SOFTWARE.  THIS WOULD
-    * BE A GOOD TIME FOR YOU TO READ AND UNDERSTAND THE WAIVER PRESENT
-    * IN THIS SOFTWARE'S LICENSE.
-    * </strong></p>
-    *
-    * @param point1 The first set of latitude/longitude
-    * @param point2 The second set of latitude/longitude
-    * @param unit The unit of measurement
-    *
-    * @return The distance between {@code point1} and {@code point2}, expressed in terms of {@code unit}
-    *
-    * @deprecated This method will be removed in the near future - possibly in the next release.  Use {@link #distance(Unit, Point...) distance(Unit, Point...)}
-    */
-   @Deprecated
-   public static double distance( final Point point1, final Point point2, final Unit unit ) {
-
-      return distance( point1.getLatitude(), point1.getLongitude(),
-                       point2.getLatitude(), point2.getLongitude(),
-                       unit );
-   }
-
-   /**
-    * <p>
     * Gets the total distance between an unlimited number of {@linkplain Point}s.  For example, if the
     * distance from point A to point B is 3, and the distance from point B to point C is 2, the total
     * distance traveled will be (3 + 2) = 5.  Just pass {@code Point}s in the order in which they're
