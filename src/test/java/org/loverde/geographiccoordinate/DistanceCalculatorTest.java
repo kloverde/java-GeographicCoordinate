@@ -44,7 +44,7 @@ public class DistanceCalculatorTest extends TestCase {
 
    public void testDistance_onePoint() {
       try {
-         DistanceCalculator.distance( Unit.KILOMETERS, new Point(latitude1, longitude1) );
+         DistanceCalculator.distance( Unit.KILOMETERS, point1 );
          fail( "Expected exception" );
       } catch( final IllegalArgumentException e ) {
          assertEquals( "Need to provide at least 2 points", e.getMessage() );
