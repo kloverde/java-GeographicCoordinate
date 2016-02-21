@@ -102,8 +102,11 @@ public class DistanceCalculator {
     * IN THIS SOFTWARE'S LICENSE.
     * </strong></p>
     *
-    * @param unit The unit of distance
-    * @param points A vararg of {@linkplain Point}s arranged in the order in which the points are visited
+    * @param unit   The unit of distance
+    *
+    * @param points A vararg of {@linkplain Point}s arranged in the order in which they are visited.
+    *               You must provide at least 2, otherwise an {@code IllegalArgumentException} will
+    *               be thrown.
     *
     * @return The total distance traveled, expressed in terms of {@code unit}
     */
