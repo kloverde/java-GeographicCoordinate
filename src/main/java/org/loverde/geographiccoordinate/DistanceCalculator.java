@@ -102,7 +102,7 @@ public class DistanceCalculator {
     * IN THIS SOFTWARE'S LICENSE.
     * </strong></p>
     *
-    * @param unit The unit of measurement
+    * @param unit The unit of distance
     * @param points A vararg of {@linkplain Point}s arranged in the order in which the points are visited
     *
     * @return The total distance traveled, expressed in terms of {@code unit}
@@ -146,7 +146,7 @@ public class DistanceCalculator {
     * @param longitude1 Point 1 longitude
     * @param latitude2 Point 2 latitude
     * @param longitude2 Point 2 longitude
-    * @param unit The unit of measurement
+    * @param unit The unit of distance
     *
     * @return The distance from point 1 to point 2, expressed in terms of {@code unit}
     */
