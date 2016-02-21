@@ -8,12 +8,19 @@ package org.loverde.geographiccoordinate;
 
 /**
  * <p>
- * This class calculates the distance bewteen two sets of coordinates using the Haversine formula.  Haversine
- * assumes a perfectly spherical Earth, so some amount of error is present in all calculations.  Haversine is
- * not as accurate as <a href="https://en.wikipedia.org/wiki/Vincenty's_formulae">Vincenty's formulae</a>.
+ * This class calculates the distance bewteen two sets of coordinates using the Haversine formula.
+ * Unlike <a href="https://en.wikipedia.org/wiki/Vincenty's_formulae">Vincenty's formulae</a>,
+ * which are designed to operate on an oblate spheroid, Haversine assumes a perfectly spherical
+ * Earth, meaning Haversine is less accurate than Vincenty's formulae.  Haversine was chosen for
+ * its ease of implementation, plus not having to worry about a known difficulty with Vincenty, in
+ * which the iterative formulae converge very slowly for some inputs.  Thus, by using Haversine,
+ * we also sidestep a potential performance issue.
  * </p>
  *
- * <p>The Earth radius used in calculations is the volumetric mean radius, not the equatorial radius.</p>
+ * <p>
+ * The Earth radius used in calculations is the volumetric mean radius, not the equatorial radius.  As of
+ * the date this software was written, NASA's figure for the volumetric mean radius was 6371 km.
+ * </p>
  *
  * <p><strong>
  * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
@@ -25,7 +32,7 @@ package org.loverde.geographiccoordinate;
  * </strong></p>
  *
  * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">https://en.wikipedia.org/wiki/Haversine_formula</a>
- * @see <a href="http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html">Earth radius figures</a>
+ * @see <a href="http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html">NASA's Earth radius figures</a>
  */
 public class DistanceCalculator {
 /*
@@ -158,7 +165,7 @@ public class DistanceCalculator {
                    deltaLon = lon2 - lon1;
 
       final double d = (2.0d * EARTH_RADIUS_KILOMETERS) * Math.asin( Math.sqrt( Math.pow(Math.sin(deltaLat / 2.0d), 2.0d)
-                                                                                + ( Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2.0d), 2.0d) ) ) );
+                        + ( Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2.0d), 2.0d) ) ) );
 
       return d * unit.perKilometer;
    }
