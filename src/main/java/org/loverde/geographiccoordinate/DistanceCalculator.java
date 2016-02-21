@@ -10,9 +10,9 @@ package org.loverde.geographiccoordinate;
 
 /**
  * <p>
- * This class calculates the distance bewteen two sets of coordinates as the crow
- * flies, using the common Haversine formula.  Haversine assumes a perfectly
- * spherical Earth, so some amount of error is guaranteed in all calculations.
+ * This class calculates the distance bewteen two sets of coordinates using the Haversine formula.  Haversine
+ * assumes a perfectly spherical Earth, so some amount of error is present in all calculations.  Haversine is
+ * not as accurate as <a href="https://en.wikipedia.org/wiki/Vincenty's_formulae">Vincenty's formulae</a>.
  * </p>
  *
  * <p><strong>
