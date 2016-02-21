@@ -13,6 +13,8 @@ package org.loverde.geographiccoordinate;
  * not as accurate as <a href="https://en.wikipedia.org/wiki/Vincenty's_formulae">Vincenty's formulae</a>.
  * </p>
  *
+ * <p>The Earth radius used in calculations is the volumetric mean radius, not the equatorial radius.</p>
+ *
  * <p><strong>
  * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
  * UNDERSTANDING OF, GEODESY; I MERELY IMPLEMENTED A FORMULA I
@@ -23,6 +25,7 @@ package org.loverde.geographiccoordinate;
  * </strong></p>
  *
  * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">https://en.wikipedia.org/wiki/Haversine_formula</a>
+ * @see <a href="http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html">Earth radius figures</a>
  */
 public class DistanceCalculator {
 /*
