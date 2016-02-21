@@ -6,8 +6,6 @@
 package org.loverde.geographiccoordinate;
 
 
-
-
 /**
  * <p>
  * This class calculates the distance bewteen two sets of coordinates using the Haversine formula.  Haversine
@@ -38,13 +36,12 @@ public class DistanceCalculator {
       Point point1 = new Point( latitude1, longitude1 );
       Point point2 = new Point( latitude2, longitude2 );
 
-      System.out.println( distance(point1, point2, Unit.KILOMETERS) );
-      System.out.println( distance(point1, point2, Unit.METERS) );
-      System.out.println( distance(point1, point2, Unit.MILES) );
-      System.out.println( distance(point1, point2, Unit.NAUTICAL_MILES) );
+      System.out.println( distance(Unit.KILOMETERS, point1, point2) );
+      System.out.println( distance(Unit.METERS, point1, point2) );
+      System.out.println( distance(Unit.MILES, point1, point2) );
+      System.out.println( distance(Unit.NAUTICAL_MILES, point1, point2) );
    }
 */
-
    /**
     * Units of distance - use this with the {@code distance} methods in this class.
     */
