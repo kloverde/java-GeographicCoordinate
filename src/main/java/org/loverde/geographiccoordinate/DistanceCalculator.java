@@ -8,9 +8,9 @@ package org.loverde.geographiccoordinate;
 
 /**
  * <p>
- * This class calculates the distance bewteen two sets of coordinates using the Haversine formula.
- * Unlike <a href="https://en.wikipedia.org/wiki/Vincenty's_formulae">Vincenty's formulae</a>,
- * which are designed to operate on an oblate spheroid, Haversine assumes a perfectly spherical
+ * This class calculates the distance bewteen coordinates using the Haversine formula.  Unlike
+ * <a href="https://en.wikipedia.org/wiki/Vincenty's_formulae">Vincenty's formulae</a>, which
+ * are designed to operate on an oblate spheroid, Haversine assumes a perfectly spherical
  * Earth, meaning Haversine is less accurate than Vincenty's formulae.  Haversine was chosen for
  * its ease of implementation, plus not having to worry about a known difficulty with Vincenty, in
  * which the iterative formulae converge very slowly for some inputs.  Thus, by using Haversine,
@@ -133,7 +133,7 @@ public class DistanceCalculator {
    /**
     * <p>
     * Gets the distance between two sets of coordinates.  Functionally equivalent to
-    * {@linkplain DistanceCalculator#distance(Point, Point, Unit)}
+    * {@linkplain DistanceCalculator#distance(Unit, Point ...)}
     * <p>
     *
     * <p><strong>
