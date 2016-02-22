@@ -1,4 +1,4 @@
-## Release 1.3 (UPCOMING RELEASE)
+## Release 1.3 (February 21, 2016)
 
 This release contains several breaking changes which were necessary for the health of the project.  To minimize impact to third-party applications, it was decided to get all of them out of the way in a single release, rather than drag the process out.  Most if not all third-party applications will be unaffected by these changes, as they deal with obscure things.  The one change of concern is to DistanceCalculator.distance, explained below.
 
