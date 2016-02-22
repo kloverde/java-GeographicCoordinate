@@ -8,6 +8,11 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
+/**
+ * Lines of longitude run parallel to the Prime Meridian (perpendicular to the Equator).
+ * Longitude denotes whether a location is east or west of the Prime Meridian.
+ * The Prime Meridian is located at longitude 0.
+ */
 public class Longitude extends GeographicCoordinateImpl {
 
    public static enum Direction {
@@ -34,11 +39,32 @@ public class Longitude extends GeographicCoordinateImpl {
       super();
    }
 
+   /**
+    * Creates a new longitude object
+    *
+    * @param longitude - A signed value.  Positive values are east; negative values are west.  Note that a value
+    *                    of 0.0 is the Prime Meridian, which is neither east nor west.  It is equally valid to
+    *                    say 0°E or 0°W; they are the same.  For this library's purposes, if you supply a value
+    *                    of 0.0, the direction will be initialized to {@link Direction#EAST}, but you should
+    *                    ignore the direction.
+    *
+    * @throws GeographicCoordinateException If the supplied value falls outside of +/- {@linkplain Longitude#MAX_VALUE}
+    */
    public Longitude( final double longitude ) throws GeographicCoordinateException {
       super( longitude );
-      setDirection( longitude > 0.0d ? Direction.EAST : Direction.WEST );
+      setDirection( longitude >= 0.0d ? Direction.EAST : Direction.WEST );
    }
 
+   /**
+    * Creates a new longitude object
+    *
+    * @param degrees - Accepted range [0-180]
+    * @param minutes - Accepted range [0-59] unless {@code degrees} is 180, in which case {@code minutes} must be 0
+    * @param seconds - Accepted range [0-59.9999999999999] unless {@code degrees} is 180, in which case {@code seconds} must be 0
+    * @param dir
+    *
+    * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges
+    */
    public Longitude( final int degrees, final int minutes, final double seconds, final Longitude.Direction dir ) throws GeographicCoordinateException {
       super( degrees, minutes, seconds );
       setDirection( dir );
@@ -53,6 +79,13 @@ public class Longitude extends GeographicCoordinateImpl {
       this.direction = direction;
    }
 
+   /**
+    * Indicates whether your location is east or west of the Prime Meridian.  The Prime Meridian (0.0) is neither east nor west.
+    * If you want to know if you're on the Prime Meridian, check the value returned by {@link #toDouble()} and ignore the value
+    * returned by this method.
+    *
+    * @return East/west indicator
+    */
    public Longitude.Direction getDirection() {
       return direction;
    }
@@ -76,6 +109,11 @@ public class Longitude extends GeographicCoordinateImpl {
       return result;
    }
 
+   /**
+    * Compares this {@code Longitude} to another object
+    *
+    * @return {@code true} if equal, {@code false} if not
+    */
    @Override
    public boolean equals( final Object compareTo ) {
       final Longitude other;

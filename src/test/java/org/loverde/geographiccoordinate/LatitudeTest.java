@@ -12,10 +12,65 @@ public class LatitudeTest extends TestCase {
    private Latitude lat1, lat2;
 
    @Override
-   public void setUp()
-   throws GeographicCoordinateException {
+   public void setUp() throws GeographicCoordinateException {
       lat1 = new Latitude( 12, 16, 23.45d, Latitude.Direction.NORTH );
       lat2 = new Latitude( lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), lat1.getDirection() );
+   }
+
+   public void testDoubleConstructor_maxValue_success() throws GeographicCoordinateException {
+      final Latitude l = new Latitude( 90 );
+
+      assertEquals( 90, l.getDegrees() );
+      assertEquals( 0, l.getMinutes() );
+      assertEquals( 0.0d, l.getSeconds() );
+      assertEquals( Latitude.Direction.NORTH, l.getDirection() );
+      assertEquals( 90.0d, l.toDouble() );
+   }
+
+   public void testDoubleConstructor_maxValueExceeded_degrees() {
+      try {
+         new Latitude( 91 );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertEquals( GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE, e.getMessage() );
+      }
+   }
+
+   public void testDoubleConstructor_maxValueExceeded_minutesSeconds() {
+      try {
+         new Latitude( -90.000000001d );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertEquals( GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
+      }
+   }
+
+   public void testDoubleConstructor_minValue_success() throws GeographicCoordinateException {
+      final Latitude l = new Latitude( -90 );
+
+      assertEquals( 90, l.getDegrees() );  // degrees are not negative - direction indicates sign
+      assertEquals( 0, l.getMinutes() );
+      assertEquals( 0.0d, l.getSeconds() );
+      assertEquals( Latitude.Direction.SOUTH, l.getDirection() );
+      assertEquals( -90.0d, l.toDouble() );
+   }
+
+   public void testDoubleConstructor_minValueExceeded_degrees() {
+      try {
+         new Latitude( -91 );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertEquals( GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE, e.getMessage() );
+      }
+   }
+
+   public void testDoubleConstructor_minValueExceeded_minutesSeconds() {
+      try {
+         new Latitude( -90.000000001d );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertEquals( GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
+      }
    }
 
    public void testSetDegrees_minValueSuccess() throws GeographicCoordinateException {

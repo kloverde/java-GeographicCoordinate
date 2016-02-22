@@ -8,8 +8,11 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
-
-
+/**
+ * Lines of latitude run parallel to the Equator (perpendicular to the Prime Meridian).
+ * Latitude denotes whether a location is north or south of the Equator.
+ * The Equator is located at latitude 0.
+ */
 public class Latitude extends GeographicCoordinateImpl {
 
    public static enum Direction {
@@ -36,11 +39,32 @@ public class Latitude extends GeographicCoordinateImpl {
       super();
    }
 
+   /**
+    * Creates a new latitude object
+    *
+    * @param latitude - A signed value.  Positive values are north; negative values are south.  Note that a value
+    *                   of 0.0 is the Equator, which is neither north nor south.  It is equally valid to say 0°N
+    *                   or 0°S; they are the same.  For this library's purposes, if you supply a value of 0.0,
+    *                   the direction will be initialized to {@link Direction#NORTH}, but you should ignore
+    *                   the direction.
+    *
+    * @throws GeographicCoordinateException If the supplied value falls outside of +/- {@linkplain Latitude#MAX_VALUE}
+    */
    public Latitude( final double latitude ) throws GeographicCoordinateException {
       super( latitude );
-      setDirection( latitude > 0.0d ? Direction.NORTH : Direction.SOUTH );
+      setDirection( latitude >= 0.0d ? Direction.NORTH : Direction.SOUTH );
    }
 
+   /**
+    * Creates a new latitude object
+    *
+    * @param degrees - Accepted range [0-90]
+    * @param minutes - Accepted range [0-59] unless {@code degrees} is 90, in which case {@code minutes} must be 0
+    * @param seconds - Accepted range [0-59.9999999999999] unless {@code degrees} is 90, in which case {@code seconds} must be 0
+    * @param dir
+    *
+    * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges
+    */
    public Latitude( final int degrees, final int minutes, final double seconds, final Latitude.Direction dir ) throws GeographicCoordinateException {
       super( degrees, minutes, seconds );
       setDirection( dir );
@@ -55,6 +79,13 @@ public class Latitude extends GeographicCoordinateImpl {
       this.direction = direction;
    }
 
+   /**
+    * Indicates whether your location is north or south of the Equator.  The Equator (0.0) is neither north nor south.
+    * If you want to know if you're on the Equator, check the value returned by {@link #toDouble()} and ignore the
+    * value returned by this method.
+    *
+    * @return North/south indicator
+    */
    public Latitude.Direction getDirection() {
       return direction;
    }
@@ -78,6 +109,11 @@ public class Latitude extends GeographicCoordinateImpl {
       return result;
    }
 
+   /**
+    * Compares this {@code Latitude} to another object
+    *
+    * @return {@code true} if equal, {@code false} if not
+    */
    @Override
    public boolean equals( final Object compareTo ) {
       final Latitude other;

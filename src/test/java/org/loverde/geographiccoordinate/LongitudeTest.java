@@ -17,6 +17,62 @@ public class LongitudeTest extends TestCase {
       lon2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), lon1.getDirection() );
    }
 
+   public void testDoubleConstructor_maxValue_success() throws GeographicCoordinateException {
+      final Longitude l = new Longitude( 180 );
+
+      assertEquals( 180, l.getDegrees() );
+      assertEquals( 0, l.getMinutes() );
+      assertEquals( 0.0d, l.getSeconds() );
+      assertEquals( Longitude.Direction.EAST, l.getDirection() );
+      assertEquals( 180.0d, l.toDouble() );
+   }
+
+   public void testDoubleConstructor_maxValueExceeded_degrees() {
+      try {
+         new Longitude( 181 );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE, e.getMessage() );
+      }
+   }
+
+   public void testDoubleConstructor_maxValueExceeded_minutesSeconds() {
+      try {
+         new Longitude( -180.000000001d );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
+      }
+   }
+
+   public void testDoubleConstructor_minValue_success() throws GeographicCoordinateException {
+      final Longitude l = new Longitude( -180 );
+
+      assertEquals( 180, l.getDegrees() );  // degrees are not negative - direction indicates sign
+      assertEquals( 0, l.getMinutes() );
+      assertEquals( 0.0d, l.getSeconds() );
+      assertEquals( Longitude.Direction.WEST, l.getDirection() );
+      assertEquals( -180.0d, l.toDouble() );
+   }
+
+   public void testDoubleConstructor_minValueExceeded_degrees() {
+      try {
+         new Longitude( -181 );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE, e.getMessage() );
+      }
+   }
+
+   public void testDoubleConstructor_minValueExceeded_minutesSeconds() {
+      try {
+         new Longitude( -180.000000001d );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
+      }
+   }
+
    public void testSetDegrees_minValueSuccess() throws GeographicCoordinateException {
       final int degrees = 0;
       final Longitude l = new Longitude();
