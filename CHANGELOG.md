@@ -1,6 +1,6 @@
 ## Release 1.3 (February 21, 2016)
 
-This release contains several breaking changes which were necessary for the health of the project.  To minimize impact to third-party applications, it was decided to get all of them out of the way in a single release, rather than drag the process out.  Most if not all third-party applications will be unaffected by these changes, as they deal with obscure things.  The one change of concern is to DistanceCalculator.distance, explained below.
+This release contains several breaking changes which were necessary for code cleanliness.  To minimize impact to third-party applications, it was decided to get all of them out of the way in a single release, rather than drag the process out.  Most if not all third-party applications will be unaffected by these changes, as they deal with obscure things.  The one change of concern is to DistanceCalculator.distance, explained below.  No further breaking changes are planned or expected.
 
 * Removed deprecated method DistanceCalculator.distance( point1, point2, Unit ).  Use DistanceCalculator( Unit, Point ... ) instead.
 * Changed the parameter order of DistanceCalculator.distance( Latitude, Longitude, Latitude, Longitude, Unit ).  Unit has been moved from the last parameter to the first parameter to be consistent with the vararg distance method.
