@@ -6,3 +6,19 @@ apply from: buildScriptsDir + "/build_java_lib.gradle"
 dependencies {
    testCompile group: "junit", name: "junit", version: "3.8+"
 }
+
+task release( type : Zip ) {
+   dependsOn jars
+
+   if( builtByName == null || builtByName.trim().isEmpty() ) {
+      throw new GradleException( "Empty builtByName in gradle.properties" );
+   }
+
+   from( "/build/libs" )
+   include "*.jar"
+
+   from( "/" )
+   include "CHANGELOG.md"
+   include "LICENSE"
+   include "README.md"
+}

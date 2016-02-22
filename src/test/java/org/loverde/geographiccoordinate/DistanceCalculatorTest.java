@@ -18,6 +18,8 @@ public class DistanceCalculatorTest extends TestCase {
 
    private Point point1, point2;
 
+   private double fpDelta = 1E-15;
+
 
    @Override
    public void setUp() throws GeographicCoordinateException {
@@ -31,34 +33,78 @@ public class DistanceCalculatorTest extends TestCase {
       point2 = new Point( latitude2, longitude2 );
    }
 
+   public void testDistance_noPoints() {
+      try {
+         DistanceCalculator.distance( Unit.KILOMETERS );
+         fail( "Expected exception" );
+      } catch( final IllegalArgumentException e ) {
+         assertEquals( "Need to provide at least 2 points", e.getMessage() );
+      }
+   }
+
+   public void testDistance_onePoint() {
+      try {
+         DistanceCalculator.distance( Unit.KILOMETERS, point1 );
+         fail( "Expected exception" );
+      } catch( final IllegalArgumentException e ) {
+         assertEquals( "Need to provide at least 2 points", e.getMessage() );
+      }
+   }
+
+   public void testDistance_nullPoint() {
+      try {
+         DistanceCalculator.distance( Unit.KILOMETERS, null, point2 );
+         fail( "Expected exception" );
+      } catch( final IllegalArgumentException e ) {
+         assertEquals( "points 0 is null", e.getMessage() );
+      }
+   }
+
+   public void testDistance_nullLatitude() {
+      point1.setLatitude( null );
+
+      try {
+         DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
+         fail( "Expected exception" );
+      } catch( final IllegalArgumentException e ) {
+         assertEquals( "Latitude 1 is null", e.getMessage() );
+      }
+   }
+
+   public void testDistance_nullLongitude() {
+      point1.setLongitude( null );
+
+      try {
+         DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
+         fail( "Expected exception" );
+      } catch( final IllegalArgumentException e ) {
+         assertEquals( "Longitude 1 is null", e.getMessage() );
+      }
+   }
+
    public void testDistance_kilometers() {
-      @SuppressWarnings( "deprecation" )
-      final double distance = DistanceCalculator.distance( point1, point2, DistanceCalculator.Unit.KILOMETERS );
-      assertEquals( 326.3834438586294d, distance );
+      final double distance = DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
+      assertEquals( 326.3834438586294d, distance, fpDelta );
    }
 
    public void testDistance_meters() {
-      @SuppressWarnings( "deprecation" )
-      final double distance = DistanceCalculator.distance( point1, point2, DistanceCalculator.Unit.METERS );
-      assertEquals( 326383.4438586294d, distance );
+      final double distance = DistanceCalculator.distance( Unit.METERS, point1, point2 );
+      assertEquals( 326383.4438586294d, distance, fpDelta );
    }
 
    public void testDistance_miles() {
-      @SuppressWarnings( "deprecation" )
-      final double distance = DistanceCalculator.distance( point1, point2, DistanceCalculator.Unit.MILES );
-      assertEquals( 202.8052696369635d, distance );
+      final double distance = DistanceCalculator.distance( Unit.MILES, point1, point2 );
+      assertEquals( 202.8052696369635d, distance, fpDelta );
    }
 
    public void testDistance_nauticalMiles() {
-      @SuppressWarnings( "deprecation" )
-      final double distance = DistanceCalculator.distance( point1, point2, DistanceCalculator.Unit.NAUTICAL_MILES );
-      assertEquals( 176.23296104677613d, distance );
+      final double distance = DistanceCalculator.distance( Unit.NAUTICAL_MILES, point1, point2 );
+      assertEquals( 176.23296104677613d, distance, fpDelta );
    }
 
-   @SuppressWarnings( "deprecation" )
    public void testDistance_bothMethodsCalculateSameValues() {
-      assertEquals( DistanceCalculator.distance(point1, point2, Unit.KILOMETERS),
-                    DistanceCalculator.distance( latitude1, longitude1, latitude2, longitude2, Unit.KILOMETERS) );
+      assertEquals( DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 ),
+                    DistanceCalculator.distance( Unit.KILOMETERS, latitude1, longitude1, latitude2, longitude2) );
    }
 
    /**
@@ -84,7 +130,7 @@ public class DistanceCalculatorTest extends TestCase {
     * @see <a href="http://binged.it/1SPhHjq">Shortened trip URL</a>  - Who knows how long this will exist before Bing deletes it...
     * @see <a href="http://www.bing.com/mapspreview?&ty=0&rtp=pos.35.048992_-118.987968_I-5%20N%2c%20Bakersfield%2c%20CA%2093307_I-5%20N%2c%20Bakersfield%2c%20CA%2093307__e_~pos.36.078312_-120.103737_I-5%20N%2c%20Huron%2c%20CA%2093234_I-5%20N%2c%20Huron%2c%20CA%2093234__e_&mode=d&u=0&tt=I-5%20N%2c%20Bakersfield%2c%20CA%2093307%20to%20I-5%20N%2c%20Huron%2c%20CA%2093234&tsts2=%2526ty%253d18%2526q%253d35.04899226103765%25252c-118.98797131369996%2526mb%253d36.379826~-121.444888~34.715083~-117.418399&tstt2=I-5%20N%2c%20Bakersfield%2c%20CA%2093307&tsts1=%2526ty%253d0%2526rtp%253dpos.35.048992_-118.987968_I-5%252520N%25252c%252520Bakersfield%25252c%252520CA%25252093307_I-5%252520N%25252c%252520Bakersfield%25252c%252520CA%25252093307__e_~pos.36.078312_-120.103737_I-5%252520N%25252c%252520Huron%25252c%252520CA%25252093234_I-5%252520N%25252c%252520Huron%25252c%252520CA%25252093234__e_%2526mode%253dd%2526u%253d0&tstt1=I-5%20N%2c%20Bakersfield%2c%20CA%2093307%20to%20I-5%20N%2c%20Huron%2c%20CA%2093234&tsts0=%2526ty%253d18%2526q%253d36.07831163070724%25252c-120.1037394074518%2526mb%253d36.084772~-120.119465~36.071852~-120.088008&tstt0=I-5%20N%2c%20Huron%2c%20CA%2093234&cp=36.078659~-120.107106&lvl=16&ftst=1&ftics=True&v=2&sV=1&form=S00027">Full trip URL</a> - Use this if the shortened URL doesn't work.  This URL is so ridiculous, there's no telling how long it will actually work before Bing changes the URL format.
     */
-   public void testVarargDistance() throws GeographicCoordinateException {
+   public void testDistance_interpolateActualTrip() throws GeographicCoordinateException {
       Point points[] = new Point[20];
       int idx = 0;
 

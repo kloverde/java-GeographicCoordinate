@@ -5,12 +5,12 @@
 
 package org.loverde.geographiccoordinate;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 
 public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
-
-   private Type type;
 
    private int degrees;
    private int minutes;
@@ -21,35 +21,29 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    private static final int MAX_VALUE_MINUTES = 59;
    private static final double MAX_VALUE_SECONDS = 59.9999999999999d;
 
+   private static final DecimalFormat decimalFormat;
 
-   public GeographicCoordinateImpl( final Type type ) {
-      setType( type );
-      setMaxValueDegrees( type == Type.LATITUDE ? Latitude.MAX_VALUE : Longitude.MAX_VALUE );
+   static {
+      decimalFormat = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(Locale.ENGLISH) );
+      decimalFormat.setMaximumFractionDigits( 15 );
    }
 
-   public GeographicCoordinateImpl( final Type type, final double value ) throws GeographicCoordinateException {
-      this( type,
-            (int) Math.abs(value),
+   public GeographicCoordinateImpl() {
+      setMaxValueDegrees( this instanceof Latitude ? Latitude.MAX_VALUE : Longitude.MAX_VALUE );
+   }
+
+   public GeographicCoordinateImpl( final double value ) throws GeographicCoordinateException {
+      this( (int) Math.abs(value),
             (int) ((Math.abs(value) - (int)Math.abs(value)) * 60.0d),
             (((Math.abs(value) - (int)Math.abs(value)) * 60.0d) % 1.0d) * 60.0d );
    }
 
-   public GeographicCoordinateImpl( final Type type, final int degrees, final int minutes, final double seconds ) throws GeographicCoordinateException {
-      this( type );
+   public GeographicCoordinateImpl( final int degrees, final int minutes, final double seconds ) throws GeographicCoordinateException {
+      this();
 
       setDegrees( degrees );
       setMinutes( minutes );
       setSeconds( seconds );
-   }
-
-   private void setType( final Type t ) {
-      if( t == null )  throw new IllegalArgumentException( GeographicCoordinateException.Messages.COORDINATE_TYPE_NULL );
-
-      type = t;
-   }
-
-   private Type getType() {
-      return type;
    }
 
    private void setMaxValueDegrees( final int max ) {
@@ -61,20 +55,20 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    }
 
    @Override
-   public void setDegrees( final int deg ) throws GeographicCoordinateException {
-      if( deg < 0 || deg > getMaxValueDegrees() ) {
-         throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
+   public void setDegrees( final int degrees ) throws GeographicCoordinateException {
+      if( degrees < 0 || degrees > getMaxValueDegrees() ) {
+         throw new GeographicCoordinateException( this instanceof Latitude
                                                 ? GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE
                                                 : GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE );
       }
 
-      if( deg == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) ) {
-         throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
+      if( degrees == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) ) {
+         throw new GeographicCoordinateException( this instanceof Latitude
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
       }
 
-      degrees = deg;
+      this.degrees = degrees;
    }
 
    @Override
@@ -85,13 +79,13 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    @Override
    public void setMinutes( final int mins ) throws GeographicCoordinateException {
       if( mins < 0 || mins > MAX_VALUE_MINUTES ) {
-         throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
+         throw new GeographicCoordinateException( this instanceof Latitude
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_RANGE
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE );
       }
 
       if( getDegrees() == getMaxValueDegrees() && mins != 0 ) {
-         throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
+         throw new GeographicCoordinateException( this instanceof Latitude
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
       }
@@ -105,16 +99,15 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    }
 
    @Override
-   public void setSeconds( final double seconds )
-   throws GeographicCoordinateException {
+   public void setSeconds( final double seconds ) throws GeographicCoordinateException {
       if( seconds < 0.0d || seconds > MAX_VALUE_SECONDS ) {
-         throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
+         throw new GeographicCoordinateException( this instanceof Latitude
                                                 ? GeographicCoordinateException.Messages.LATITUDE_SECONDS_RANGE
                                                 : GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE );
       }
 
       if( getDegrees() == getMaxValueDegrees() && seconds != 0.0d ) {
-         throw new GeographicCoordinateException( getType().equals(Type.LATITUDE)
+         throw new GeographicCoordinateException( this instanceof Latitude
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
       }
@@ -138,8 +131,6 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
       final long temp = Double.doubleToLongBits( seconds );
       result = prime * result + (int) (temp ^ (temp >>> 32));
 
-      result = prime * result + (type == null ? 0 : type.hashCode());
-
       return result;
    }
 
@@ -160,10 +151,6 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
 
       other = (GeographicCoordinateImpl) compareTo;
 
-      if( getType() != null && other.getType() == null ) return false;
-      if( getType() == null && other.getType() != null ) return false;
-      if( !getType().equals(other.getType()) ) return false;
-
       if( getDegrees() != other.getDegrees() ) return false;
 
       if( getMaxValueDegrees() != other.getMaxValueDegrees() ) return false;
@@ -176,19 +163,19 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    }
 
    @Override
-   public abstract double toDouble();
-
-   @Override
    public double toRadians() {
       return Math.toRadians( toDouble() );
    }
 
+   /**
+    * Don't use this directly -- this string does not include the {@code direction}.  Use {@linkplain Latitude#toString()} or {@linkplain Longitude#toString()}.
+    */
    @Override
    public String toString() {
       return String.format( Locale.US,
-                            "Degrees (%d) Minutes (%d) Seconds (%.15f)",
+                            "%d°%d'%s\"",
                             getDegrees(),
                             getMinutes(),
-                            getSeconds() );
+                            decimalFormat.format(getSeconds()) );
    }
 }

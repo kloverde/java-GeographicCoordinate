@@ -74,15 +74,11 @@ public class Point {
 
    @Override
    public String toString() {
-      final StringBuilder sb = new StringBuilder( 100 );
+      final StringBuilder sb = new StringBuilder( 50 );
 
-      sb.append( "[" );
       sb.append( getLatitude() );
-      sb.append( "]" );
-
-      sb.append( ", [" );
+      sb.append( " , " );
       sb.append( getLongitude() );
-      sb.append( "]" );
 
       return sb.toString();
    }

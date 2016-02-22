@@ -10,7 +10,13 @@ public class GeographicCoordinateException extends Exception {
 
    private static final long serialVersionUID = -5390540198404132694L;
 
-   public static final class Messages {
+   /**
+    * No guarantee is made that these constants will remain unchanged, or that they will not be renamed or removed.
+    * Anything in this class can change at any time.  These constants are exposed for convenience in keeping the
+    * internal implementation and JUnit tests in sync.  Do not circumvent the package protection to use these
+    * constants in client code.
+    */
+   protected static final class Messages {
       private static final String LATITUDE = "Latitude",
                                   LONGITUDE = "Longitude",
 
@@ -22,8 +28,7 @@ public class GeographicCoordinateException extends Exception {
                                   MINUTES_RANGE = " minutes must be in a range of 0-59",
                                   SECONDS_RANGE = " seconds must be in a range of 0-59.9[..]";
 
-      public static final String COORDINATE_TYPE_NULL = "Coordinate type is null",
-                                 DIRECTION_NULL = "Coordinate direction is null",
+      public static final String DIRECTION_NULL = "Coordinate direction is null",
 
                                  LATITUDE_DEGREES_RANGE = LATITUDE + DEGREES_RANGE + MAX_LATITUDE_DEGREES,
                                  LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO = LATITUDE + MINUTES_AND_SECONDS_MUST_BE_ZERO + MAX_LATITUDE_DEGREES,
