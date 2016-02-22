@@ -8,7 +8,6 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
-
 public class Longitude extends GeographicCoordinateImpl {
 
    public static enum Direction {
