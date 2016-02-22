@@ -19,8 +19,8 @@ public class PointTest extends TestCase {
 
    @Override
    public void setUp() throws GeographicCoordinateException {
-      latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
-      longitude1 = new Longitude(  74, 0, 21, Longitude.Direction.WEST );
+      latitude1 = new Latitude( 40, 42, 46.1, Latitude.Direction.NORTH );
+      longitude1 = new Longitude(  74, 0, 21.1, Longitude.Direction.WEST );
 
       point1 = new Point( latitude1, longitude1 );
    }

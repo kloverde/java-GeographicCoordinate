@@ -8,29 +8,41 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
+
+
 public class Latitude extends GeographicCoordinateImpl {
 
    public static enum Direction {
-      NORTH,
-      SOUTH
+      NORTH( "N" ),
+      SOUTH( "S" );
+
+      private String abbreviation;
+
+      private Direction( final String abbr ) {
+         this.abbreviation = abbr;
+      }
+
+      public String getAbbreviation() {
+         return abbreviation;
+      }
    };
+
+   private Latitude.Direction direction;
 
    public static final int MAX_VALUE = 90;
 
-   private Direction direction;
-
 
    public Latitude() {
-      super( GeographicCoordinateImpl.Type.LATITUDE );
+      super();
    }
 
    public Latitude( final double latitude ) throws GeographicCoordinateException {
-      super( GeographicCoordinateImpl.Type.LATITUDE, latitude );
+      super( latitude );
       setDirection( latitude > 0.0d ? Direction.NORTH : Direction.SOUTH );
    }
 
    public Latitude( final int degrees, final int minutes, final double seconds, final Latitude.Direction dir ) throws GeographicCoordinateException {
-      super( GeographicCoordinateImpl.Type.LATITUDE, degrees, minutes, seconds );
+      super( degrees, minutes, seconds );
       setDirection( dir );
    }
 
@@ -52,6 +64,7 @@ public class Latitude extends GeographicCoordinateImpl {
       if( getDirection() == null ) throw new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
 
       final double decimal = getDegrees() + (getMinutes() / 60.0d) + (getSeconds() / 3600.0d);
+
       return getDirection() == Direction.NORTH ? decimal : -decimal;
    }
 
@@ -82,12 +95,14 @@ public class Latitude extends GeographicCoordinateImpl {
       return super.equals( other );
    }
 
+   /**
+    * Returns a degree-minute-seconds formatted latitude.  For example:  30°60'40.912"N
+    */
    @Override
    public String toString() {
       return String.format( Locale.US,
-                            "%s Direction (%s), decimal (%.15f)",
+                            "%s%s",
                             super.toString(),
-                            getDirection(),
-                            toDouble() );
+                            getDirection().getAbbreviation() );
    }
 }

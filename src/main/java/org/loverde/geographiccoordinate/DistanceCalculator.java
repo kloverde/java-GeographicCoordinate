@@ -123,7 +123,7 @@ public class DistanceCalculator {
          if( previous == null ) throw new IllegalArgumentException( "points " + (i - 1) + " is null" );
          if( current == null ) throw new IllegalArgumentException( "points " + i + " is null" );
 
-         distance += distance( previous.getLatitude(), previous.getLongitude(), current.getLatitude(), current.getLongitude(), unit );
+         distance += distance( unit, previous.getLatitude(), previous.getLongitude(), current.getLatitude(), current.getLongitude() );
          previous = current;
       }
 
@@ -145,15 +145,15 @@ public class DistanceCalculator {
     * IN THIS SOFTWARE'S LICENSE.
     * </strong></p>
     *
-    * @param latitude1 Point 1 latitude
+    * @param unit       The unit of distance
+    * @param latitude1  Point 1 latitude
     * @param longitude1 Point 1 longitude
-    * @param latitude2 Point 2 latitude
+    * @param latitude2  Point 2 latitude
     * @param longitude2 Point 2 longitude
-    * @param unit The unit of distance
     *
     * @return The distance from point 1 to point 2, expressed in terms of {@code unit}
     */
-   public static double distance( final Latitude latitude1, final Longitude longitude1, final Latitude latitude2, final Longitude longitude2, final Unit unit ) {
+   public static double distance( final Unit unit, final Latitude latitude1, final Longitude longitude1, final Latitude latitude2, final Longitude longitude2 ) {
       if( latitude1 == null ) throw new IllegalArgumentException( "Latitude 1 is null" );
       if( longitude1 == null ) throw new IllegalArgumentException( "Longitude 1 is null" );
       if( latitude2 == null ) throw new IllegalArgumentException( "Latitude 2 is null" );

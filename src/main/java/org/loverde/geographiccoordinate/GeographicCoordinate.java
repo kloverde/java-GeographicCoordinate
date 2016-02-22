@@ -8,11 +8,6 @@ package org.loverde.geographiccoordinate;
 
 public interface GeographicCoordinate {
 
-   enum Type {
-      LATITUDE,
-      LONGITUDE
-   }
-
    public int getDegrees();
    public void setDegrees( int degrees ) throws GeographicCoordinateException;
 

@@ -36,8 +36,6 @@ public class LatitudeTest extends TestCase {
       } catch( final GeographicCoordinateException e ) {
          assertEquals( 0, l.getDegrees() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -63,8 +61,6 @@ public class LatitudeTest extends TestCase {
          assertEquals( mins, l.getMinutes() );
          assertEquals( 0, l.getDegrees() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -82,8 +78,6 @@ public class LatitudeTest extends TestCase {
          assertEquals( secs, l.getSeconds() );
          assertEquals( 0, l.getDegrees() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -97,8 +91,6 @@ public class LatitudeTest extends TestCase {
       } catch( final GeographicCoordinateException e ) {
          assertEquals( 0, l.getDegrees() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -111,8 +103,6 @@ public class LatitudeTest extends TestCase {
       } catch( final IllegalArgumentException e ) {
          assertSame( bak, lat1.getDirection() );
          assertEquals( GeographicCoordinateException.Messages.DIRECTION_NULL, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -134,8 +124,6 @@ public class LatitudeTest extends TestCase {
       } catch( final GeographicCoordinateException e ) {
          assertEquals( 0, l.getMinutes() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_MINUTES_RANGE, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -157,8 +145,6 @@ public class LatitudeTest extends TestCase {
       } catch( final GeographicCoordinateException e ) {
          assertEquals( 0, l.getMinutes() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_MINUTES_RANGE, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -176,8 +162,6 @@ public class LatitudeTest extends TestCase {
          assertEquals( degrees, l.getDegrees() );
          assertEquals( 0, l.getMinutes() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -200,10 +184,6 @@ public class LatitudeTest extends TestCase {
          assertEquals( 0.0d, l.getSeconds() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_SECONDS_RANGE, e.getMessage() );
       }
-      catch( final Exception e )
-      {
-         fail( "Wrong exception: " + e );
-      }
    }
 
    public void testSetSeconds_maxValueSuccess() throws GeographicCoordinateException {
@@ -224,8 +204,6 @@ public class LatitudeTest extends TestCase {
       } catch( final GeographicCoordinateException e ) {
          assertEquals( 0.0d, l.getSeconds() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_SECONDS_RANGE, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -243,8 +221,6 @@ public class LatitudeTest extends TestCase {
          assertEquals( degrees, l.getDegrees() );
          assertEquals( 0.0d, l.getSeconds() );
          assertEquals( GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      } catch( final Exception e ) {
-         fail( "Wrong exception: " + e );
       }
    }
 
@@ -350,5 +326,19 @@ public class LatitudeTest extends TestCase {
 
    public void testToRadians() {
       assertEquals( Math.toRadians(lat1.toDouble()), lat1.toRadians() );
+   }
+
+   public void testToString_north() {
+      assertEquals( "12°16'23.45\"N", lat1.toString() );
+   }
+
+   public void testToString_south() {
+      lat1.setDirection( Latitude.Direction.SOUTH );
+      assertEquals( "12°16'23.45\"S", lat1.toString() );
+   }
+
+   public void testToString_noTrailingZeros() throws GeographicCoordinateException {
+      lat1.setSeconds( 0 );
+      assertEquals( "12°16'0\"N", lat1.toString() );
    }
 }

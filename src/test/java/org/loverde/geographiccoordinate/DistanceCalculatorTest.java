@@ -104,7 +104,7 @@ public class DistanceCalculatorTest extends TestCase {
 
    public void testDistance_bothMethodsCalculateSameValues() {
       assertEquals( DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 ),
-                    DistanceCalculator.distance( latitude1, longitude1, latitude2, longitude2, Unit.KILOMETERS) );
+                    DistanceCalculator.distance( Unit.KILOMETERS, latitude1, longitude1, latitude2, longitude2) );
    }
 
    /**

@@ -8,29 +8,40 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
+
 public class Longitude extends GeographicCoordinateImpl {
 
    public static enum Direction {
-      EAST,
-      WEST
-   };
+      EAST( "E" ),
+      WEST( "W" );
 
-   public static final int MAX_VALUE = 180;
+      private String abbreviation;
+
+      private Direction( final String abbr ) {
+         this.abbreviation = abbr;
+      }
+
+      public String getAbbreviation() {
+         return abbreviation;
+      }
+   };
 
    private Direction direction;
 
+   public static final int MAX_VALUE = 180;
+
 
    public Longitude() {
-      super( GeographicCoordinateImpl.Type.LONGITUDE );
+      super();
    }
 
    public Longitude( final double longitude ) throws GeographicCoordinateException {
-      super( GeographicCoordinateImpl.Type.LONGITUDE, longitude );
+      super( longitude );
       setDirection( longitude > 0.0d ? Direction.EAST : Direction.WEST );
    }
 
    public Longitude( final int degrees, final int minutes, final double seconds, final Longitude.Direction dir ) throws GeographicCoordinateException {
-      super( GeographicCoordinateImpl.Type.LONGITUDE, degrees, minutes, seconds );
+      super( degrees, minutes, seconds );
       setDirection( dir );
    }
 
@@ -83,12 +94,14 @@ public class Longitude extends GeographicCoordinateImpl {
       return super.equals( other );
    }
 
+   /**
+    * Returns a degree-minute-seconds formatted longitude.  For example:  30°40'50.123"E
+    */
    @Override
    public String toString() {
       return String.format( Locale.US,
-                            "%s Direction (%s), decimal (%.15f)",
+                            "%s%s",
                             super.toString(),
-                            getDirection(),
-                            toDouble() );
+                            getDirection().getAbbreviation() );
    }
 }
