@@ -55,20 +55,20 @@ public abstract class GeographicCoordinateImpl implements GeographicCoordinate {
    }
 
    @Override
-   public void setDegrees( final int deg ) throws GeographicCoordinateException {
-      if( deg < 0 || deg > getMaxValueDegrees() ) {
+   public void setDegrees( final int degrees ) throws GeographicCoordinateException {
+      if( degrees < 0 || degrees > getMaxValueDegrees() ) {
          throw new GeographicCoordinateException( this instanceof Latitude
                                                 ? GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE
                                                 : GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE );
       }
 
-      if( deg == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) ) {
+      if( degrees == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) ) {
          throw new GeographicCoordinateException( this instanceof Latitude
                                                 ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
                                                 : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
       }
 
-      degrees = deg;
+      this.degrees = degrees;
    }
 
    @Override
