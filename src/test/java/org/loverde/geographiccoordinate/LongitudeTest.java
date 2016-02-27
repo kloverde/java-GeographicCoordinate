@@ -17,6 +17,20 @@ public class LongitudeTest extends TestCase {
       lon2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), lon1.getDirection() );
    }
 
+   public void testConstructor_actuallySetsStuffCorrectly() throws GeographicCoordinateException {
+      final int deg = 1;
+      final int min = 2;
+      final double sec = 3;
+      final Longitude.Direction dir = Longitude.Direction.EAST;
+
+      final Longitude l = new Longitude( deg, min, sec, dir );
+
+      assertEquals( deg, l.getDegrees() );
+      assertEquals( min, l.getMinutes() );
+      assertEquals( sec, l.getSeconds() );
+      assertEquals( dir, l.getDirection() );
+   }
+
    public void testDoubleConstructor_maxValue_success() throws GeographicCoordinateException {
       final Longitude l = new Longitude( 180 );
 

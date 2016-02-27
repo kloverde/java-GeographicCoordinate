@@ -17,6 +17,20 @@ public class LatitudeTest extends TestCase {
       lat2 = new Latitude( lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), lat1.getDirection() );
    }
 
+   public void testConstructor_actuallySetsStuffCorrectly() throws GeographicCoordinateException {
+      final int deg = 1;
+      final int min = 2;
+      final double sec = 3;
+      final Latitude.Direction dir = Latitude.Direction.NORTH;
+
+      final Latitude l = new Latitude( deg, min, sec, dir );
+
+      assertEquals( deg, l.getDegrees() );
+      assertEquals( min, l.getMinutes() );
+      assertEquals( sec, l.getSeconds() );
+      assertEquals( dir, l.getDirection() );
+   }
+
    public void testDoubleConstructor_maxValue_success() throws GeographicCoordinateException {
       final Latitude l = new Latitude( 90 );
 
