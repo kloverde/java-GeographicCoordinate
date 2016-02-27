@@ -1,4 +1,4 @@
-## Release 1.4 (February 27, 2016)
+## Release 1.4 (UPCOMING RELEASE)
 
 * Added a 'name' field to the Point class
 * Added a constructor which includes the new 'name' field
