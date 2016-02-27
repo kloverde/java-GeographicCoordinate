@@ -1,8 +1,6 @@
 ## Release 1.4 (UPCOMING RELEASE)
 
-* Added a 'name' field to the Point class
-* Added a constructor which includes the new 'name' field
-* Updated Point.toString(), Point.equals() and Point.hashCode() to include the new 'name' field
+* Added a 'name' field to the Point class, resulting in a new constructor and updated toString, equals and hashCode methods.
 
 
 ## Release 1.3 (February 21, 2016)
