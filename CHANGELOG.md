@@ -1,11 +1,17 @@
-## Release 1.4 (UPCOMING RELEASE)
+## Release 2.0 (UPCOMING RELEASE)
 
-* Added a 'name' field to the Point class, resulting in a new constructor and updated toString, equals and hashCode methods.
+* The Latitude, Longitude and Point classes have always implemented hashCode(), so as to allow their use in HashMaps.  Despite this, the classes were mutable, which, as you might know, is incorrect.  Given the choice of either making the classes immutable or taking away hashCode(), it was decided to make them immutable.  *If you are on a previous release and are currently using setters, you will need to refactor your code.*
+* As an additional result of hiding the setters in Latitude, Longitude and Point, their no-arg constructors have been removed and the setters have been removed from the GeographicCoordinate interface.
+* GeographicCoordinateException has been changed from a checked exception to a runtime exception.  You can now decide for yourself whether to explicitly catch it during instantiation.
+* The GeographicCoordinateImpl class has been renamed to AbstractGeographicCoordinate.  Also new in this release, extending the class is disallowed and is enforced by throwing of an exception from its constructors.  This is not a client class.  No one should be affected by this, since client code would have been working with the Latitude and Longitude classes only.
+* Added a 'name' field to the Point class
+* Added Direction.NEITHER to Latitude and Longitude to represent the Equator and Prime Meridian, since they are neither north, south, east nor west
+* Fixed NullPointerException in Latitude/Longitude's .equals() when null was passed
 
 
 ## Release 1.3 (February 21, 2016)
 
-This release contains several breaking changes which were necessary for code cleanliness.  To minimize impact to third-party applications, it was decided to get all of them out of the way in a single release, rather than drag the process out.  Most if not all third-party applications will be unaffected by these changes, as they deal with obscure things.  The one change worth calling particular attention to is to DistanceCalculator.distance, explained below.  No further breaking changes are planned or expected.
+This release contains several breaking changes which were necessary for code cleanliness.  To minimize impact to third-party applications, it was decided to get all of them out of the way in a single release, rather than drag the process out.  Most if not all third-party applications will be unaffected by these changes, as they deal with obscure things.  The one change worth calling particular attention to is to DistanceCalculator.distance, explained below.
 
 * Removed deprecated method DistanceCalculator.distance( point1, point2, Unit ).  Use DistanceCalculator( Unit, Point ... ) instead.
 * Changed the parameter order of DistanceCalculator.distance( Latitude, Longitude, Latitude, Longitude, Unit ).  Unit has been moved from the last parameter to the first parameter to be consistent with the vararg distance method.

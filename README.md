@@ -8,6 +8,6 @@ Features:
 * Unlike using floating-point primitives, GeographicCoordinate enforces automatic range checking:  objects can never have invalid values.
 * Coordinates can be manipulated in floating-point form or as degrees, minutes and seconds.
 * Provides the ability to calculate the distance between two points, or for the total travel distance between an unlimited number of points.
-* Backed by more than 100 unit tests
+* Backed by more than 130 unit tests
 
-If you find this library useful, I'd love to hear from you.  I can be reached at github@loverde.org.
+It's always gratifying to know that other people find your work useful.  If you like this library, consider letting me know at github@loverde.org.

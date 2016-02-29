@@ -6,7 +6,7 @@
 package org.loverde.geographiccoordinate;
 
 
-public class GeographicCoordinateException extends Exception {
+public class GeographicCoordinateException extends RuntimeException {
 
    private static final long serialVersionUID = -5390540198404132694L;
 
@@ -28,17 +28,24 @@ public class GeographicCoordinateException extends Exception {
                                   MINUTES_RANGE = " minutes must be in a range of 0-59",
                                   SECONDS_RANGE = " seconds must be in a range of 0-59.9[..]";
 
-      public static final String DIRECTION_NULL = "Coordinate direction is null",
+      public static final String DISALLOWED_EXTENDS = "This class may only be extended by Latitude or Longitude",
+
+                                 DIRECTION_INVALID = "Direction is invalid",
+                                 DIRECTION_NULL = "Direction is null",
 
                                  LATITUDE_DEGREES_RANGE = LATITUDE + DEGREES_RANGE + MAX_LATITUDE_DEGREES,
                                  LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO = LATITUDE + MINUTES_AND_SECONDS_MUST_BE_ZERO + MAX_LATITUDE_DEGREES,
                                  LATITUDE_MINUTES_RANGE = LATITUDE + MINUTES_RANGE,
+                                 LATITUDE_NULL = "Latitude is null",
                                  LATITUDE_SECONDS_RANGE = LATITUDE + SECONDS_RANGE,
 
                                  LONGITUDE_DEGREES_RANGE = LONGITUDE + DEGREES_RANGE + MAX_LONGITUDE_DEGREES,
                                  LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO = LONGITUDE + MINUTES_AND_SECONDS_MUST_BE_ZERO + MAX_LONGITUDE_DEGREES,
                                  LONGITUDE_MINUTES_RANGE = LONGITUDE + MINUTES_RANGE,
-                                 LONGITUDE_SECONDS_RANGE = LONGITUDE + SECONDS_RANGE;
+                                 LONGITUDE_NULL = "Longitude is null",
+                                 LONGITUDE_SECONDS_RANGE = LONGITUDE + SECONDS_RANGE,
+
+                                 NAME_NULL = "Name is null";
    }
 
    public GeographicCoordinateException() {

@@ -9,15 +9,18 @@ import junit.framework.TestCase;
 
 
 public class LongitudeTest extends TestCase {
-   private Longitude lon1, lon2;
+   private Longitude lon1;
 
    @Override
    public void setUp() throws GeographicCoordinateException {
-      lon1 = new Longitude( 2, 4, 6.123d, Longitude.Direction.EAST );
-      lon2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), lon1.getDirection() );
+      lon1 = new Longitude( 12, 16, 23.45d, Longitude.Direction.EAST );
    }
 
-   public void testConstructor_actuallySetsStuffCorrectly() throws GeographicCoordinateException {
+   public void testConstant_maxValueIsCorrect() {
+      assertEquals( 180, Longitude.MAX_VALUE );
+   }
+
+   public void testConstructor_actuallySetsStuffCorrectly_east() {
       final int deg = 1;
       final int min = 2;
       final double sec = 3;
@@ -31,384 +34,362 @@ public class LongitudeTest extends TestCase {
       assertEquals( dir, l.getDirection() );
    }
 
-   public void testDoubleConstructor_maxValue_success() throws GeographicCoordinateException {
-      final Longitude l = new Longitude( 180 );
+   public void testConstructor_actuallySetsStuffCorrectly_west() {
+      final int deg = 1;
+      final int min = 2;
+      final double sec = 3;
+      final Longitude.Direction dir = Longitude.Direction.WEST;
 
-      assertEquals( 180, l.getDegrees() );
-      assertEquals( 0, l.getMinutes() );
-      assertEquals( 0.0d, l.getSeconds() );
-      assertEquals( Longitude.Direction.EAST, l.getDirection() );
-      assertEquals( 180.0d, l.toDouble() );
-   }
+      final Longitude l = new Longitude( deg, min, sec, dir );
 
-   public void testDoubleConstructor_maxValueExceeded_degrees() {
-      try {
-         new Longitude( 181 );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE, e.getMessage() );
-      }
-   }
-
-   public void testDoubleConstructor_maxValueExceeded_minutesSeconds() {
-      try {
-         new Longitude( -180.000000001d );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      }
-   }
-
-   public void testDoubleConstructor_minValue_success() throws GeographicCoordinateException {
-      final Longitude l = new Longitude( -180 );
-
-      assertEquals( 180, l.getDegrees() );  // degrees are not negative - direction indicates sign
-      assertEquals( 0, l.getMinutes() );
-      assertEquals( 0.0d, l.getSeconds() );
-      assertEquals( Longitude.Direction.WEST, l.getDirection() );
-      assertEquals( -180.0d, l.toDouble() );
-   }
-
-   public void testDoubleConstructor_minValueExceeded_degrees() {
-      try {
-         new Longitude( -181 );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE, e.getMessage() );
-      }
-   }
-
-   public void testDoubleConstructor_minValueExceeded_minutesSeconds() {
-      try {
-         new Longitude( -180.000000001d );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      }
-   }
-
-   public void testSetDegrees_minValueSuccess() throws GeographicCoordinateException {
-      final int degrees = 0;
-      final Longitude l = new Longitude();
-
-      l.setDegrees( degrees );
-      assertEquals( degrees, l.getDegrees() );
-   }
-
-   public void testSetDegrees_minValueFail() {
-      final int degrees = -1;
-      final Longitude l = new Longitude();
-
-      try {
-         l.setDegrees( degrees );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( 0, l.getDegrees() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE, e.getMessage() );
-      }
-   }
-
-   public void testSetDegrees_maxValueSuccess() throws GeographicCoordinateException {
-      final int degrees = 180;
-      final Longitude l = new Longitude();
-
-      l.setDegrees( degrees );
-      assertEquals( degrees, l.getDegrees() );
-   }
-
-   public void testSetDegrees_maxValueFailOnMinutes() throws GeographicCoordinateException {
-      final int mins = 1;
-      final int degrees = 180;
-      final Longitude l = new Longitude();
-
-      l.setMinutes( mins );
-
-      try {
-         l.setDegrees( degrees );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( mins, l.getMinutes() );
-         assertEquals( 0, l.getDegrees() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      }
-   }
-
-   public void testSetDegrees_maxValueFailOnSeconds() throws GeographicCoordinateException {
-      final double secs = 1.0d;
-      final int degrees = 180;
-      final Longitude l = new Longitude();
-
-      l.setSeconds( secs );
-
-      try {
-         l.setDegrees( degrees );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( secs, l.getSeconds() );
-         assertEquals( 0, l.getDegrees() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      }
-   }
-
-   public void testSetDegrees_maxValueFail() {
-      final int degrees = 181;
-      final Longitude l = new Longitude();
-
-      try {
-         l.setDegrees( degrees );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( 0, l.getDegrees() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE, e.getMessage() );
-      }
-   }
-
-   public void testSetDirection_failDirectionNull() {
-      final Longitude.Direction bak = lon1.getDirection();
-
-      try {
-         lon1.setDirection( null );
-         fail( "Expected exception" );
-      } catch( final IllegalArgumentException e ) {
-         assertSame( bak, lon1.getDirection() );
-         assertEquals( GeographicCoordinateException.Messages.DIRECTION_NULL, e.getMessage() );
-      }
-   }
-
-   public void testSetMinutes_minValueSuccess() throws GeographicCoordinateException {
-      final int mins = 0;
-      final Longitude l = new Longitude();
-
-      l.setMinutes( mins );
-      assertEquals( mins, l.getMinutes() );
-   }
-
-   public void testSetMinutes_minValueFail() {
-      final int mins = -1;
-      final Longitude l = new Longitude();
-
-      try {
-         l.setMinutes( mins );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( 0, l.getMinutes() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE, e.getMessage() );
-      }
-   }
-
-   public void testSetMinutes_maxValueSuccess() throws GeographicCoordinateException {
-      final int mins = 59;
-      final Longitude l = new Longitude();
-
-      l.setMinutes( mins );
-      assertEquals( mins, l.getMinutes() );
-   }
-
-   public void testSetMinutes_maxValueFail() {
-      final int mins = 60;
-      final Longitude l = new Longitude();
-
-      try {
-         l.setMinutes( mins );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( 0, l.getMinutes() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE, e.getMessage() );
-      }
-   }
-
-   public void testSetMinutes_failOnMaxDegrees() throws GeographicCoordinateException {
-      final int degrees = 180;
-      final int mins = 1;
-      final Longitude l = new Longitude();
-
-      l.setDegrees( degrees );
-
-      try {
-         l.setMinutes( mins );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( degrees, l.getDegrees() );
-         assertEquals( 0, l.getMinutes() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      }
-   }
-
-   public void testSetSeconds_minValueSuccess() throws GeographicCoordinateException {
-      final double sec = 0.0d;
-      final Longitude l = new Longitude();
-
-      l.setSeconds( sec );
+      assertEquals( deg, l.getDegrees() );
+      assertEquals( min, l.getMinutes() );
       assertEquals( sec, l.getSeconds() );
+      assertEquals( dir, l.getDirection() );
    }
 
-   public void testSetSeconds_minValueFail() {
-      final double sec = -.0000001d;
-      final Longitude l = new Longitude();
+   public void testConstructor_actuallySetsStuffCorrectly_directionNeither() {
+      final int deg = 0;
+      final int min = 0;
+      final double sec = 0;
+      final Longitude.Direction dir = Longitude.Direction.NEITHER;
 
-      try {
-         l.setSeconds( sec );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( 0.0d, l.getSeconds() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE, e.getMessage() );
-      }
-   }
+      final Longitude l = new Longitude( deg, min, sec, dir );
 
-   public void testSetSeconds_maxValueSuccess() throws GeographicCoordinateException {
-      final double sec = 59.999999999999d;
-      final Longitude l = new Longitude();
-
-      l.setSeconds( sec );
+      assertEquals( deg, l.getDegrees() );
+      assertEquals( min, l.getMinutes() );
       assertEquals( sec, l.getSeconds() );
+      assertEquals( dir, l.getDirection() );
    }
 
-   public void testSetSeconds_maxValueFail() {
-      final double sec = 60.0d;
-      final Longitude l = new Longitude();
-
+   public void testConstructor_fail_directionNeither() {
       try {
-         l.setSeconds( sec );
+         new Longitude( 1, 1, 1, Longitude.Direction.NEITHER );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertEquals( 0.0d, l.getSeconds() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE, e.getMessage() );
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.DIRECTION_INVALID) );
       }
    }
 
-   public void testSetSeconds_failOnMaxDegrees() throws GeographicCoordinateException {
-      final int degrees = 180;
-      final double secs = 1.0d;
-      final Longitude l = new Longitude();
-
-      l.setDegrees( degrees );
-
-      try {
-         l.setSeconds( secs );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( degrees, l.getDegrees() );
-         assertEquals( 0.0d, l.getSeconds() );
-         assertEquals( GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage() );
-      }
-   }
-
-   public void testToDouble_west() throws GeographicCoordinateException {
-      final Longitude l = new Longitude( 79, 59, 45.9594d, Longitude.Direction.WEST );
-      assertEquals( -79.9961d, l.toDouble(), 0.00000016666667d );
-   }
-
-   public void testToDouble_east() throws GeographicCoordinateException {
-      final Longitude l = new Longitude( 79, 59, 45.9594d, Longitude.Direction.EAST );
-      assertEquals( 79.9961d, l.toDouble(), 0.00000016666667d );
-   }
-
-   public void testDoubleConstructor_west() throws GeographicCoordinateException {
-      final Longitude l = new Longitude( -79.9961d );
-
-      assertEquals( 79, l.getDegrees() );
-      assertEquals( 59, l.getMinutes() );
-      assertEquals( 45.9594d, l.getSeconds(), 0.00059999999435d );
-      assertEquals( Longitude.Direction.WEST, l.getDirection() );
-   }
-
-   public void testDoubleConstructor_east() throws GeographicCoordinateException {
-      final Longitude l = new Longitude( 79.9961d );
-
-      assertEquals( 79, l.getDegrees() );
-      assertEquals( 59, l.getMinutes() );
-      assertEquals( 45.9594d, l.getSeconds(), 0.00059999999435d );
+   public void testDoubleConstructor_success_directionEast() {
+      final Longitude l = new Longitude( 1 );
       assertEquals( Longitude.Direction.EAST, l.getDirection() );
    }
 
-   public void testEquals_equalToOther() throws GeographicCoordinateException {
-      final Longitude l2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), lon1.getDirection() );
-      assertEquals( lon1, l2 );
+   public void testDoubleConstructor_success_directionWest() {
+      final Longitude l = new Longitude( -1 );
+      assertEquals( Longitude.Direction.WEST, l.getDirection() );
    }
 
-   public void testEquals_equalToSelf() {
+   public void testDoubleConstructor_success_directionNeither() {
+      final Longitude l = new Longitude( 0 );
+      assertEquals( Longitude.Direction.NEITHER, l.getDirection() );
+   }
+
+   public void testDoubleConstructor_success_maxValue() throws GeographicCoordinateException {
+      final Longitude l = new Longitude( Longitude.MAX_VALUE );
+
+      assertEquals( Longitude.MAX_VALUE, l.getDegrees() );
+      assertEquals( 0, l.getMinutes() );
+      assertEquals( 0.0d, l.getSeconds() );
+      assertEquals( Longitude.Direction.EAST, l.getDirection() );
+      assertEquals( Double.valueOf(Longitude.MAX_VALUE), l.toDouble() );
+   }
+
+   public void testDoubleConstructor_fail_maxValueExceeded_degrees() {
+      try {
+         new Longitude( Longitude.MAX_VALUE + 1 );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE) );
+      }
+   }
+
+   public void testDoubleConstructor_fail_maxValueExceeded_minutesSeconds() {
+      try {
+         new Longitude( Longitude.MAX_VALUE + .000000001d );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+      }
+   }
+
+   public void testDoubleConstructor_success_minValue() throws GeographicCoordinateException {
+      final Longitude l = new Longitude( -Longitude.MAX_VALUE );
+
+      assertEquals( Longitude.MAX_VALUE, l.getDegrees() );  // degrees are not negative - direction indicates sign
+      assertEquals( 0, l.getMinutes() );
+      assertEquals( 0.0d, l.getSeconds() );
+      assertEquals( Longitude.Direction.WEST, l.getDirection() );
+      assertEquals( Double.valueOf(-Longitude.MAX_VALUE), l.toDouble() );
+   }
+
+   public void testDoubleConstructor_fail_minValueExceeded_degrees() {
+      try {
+         new Longitude( -(Longitude.MAX_VALUE + 1) );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE) );
+      }
+   }
+
+   public void testDoubleConstructor_fail_minValueExceeded_minutesSeconds() {
+      try {
+         new Longitude( -(Longitude.MAX_VALUE + .000000001d) );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+      }
+   }
+
+   public void testDoubleConstructor_success_directionRecognizedAsEast() {
+      final Longitude l = new Longitude( 40.4406d );
+
+      assertEquals( 40, l.getDegrees() );
+      assertEquals( 26, l.getMinutes() );
+      assertEquals( 26.16d, l.getSeconds(), 0.00000000001236d );
+      assertEquals( Longitude.Direction.EAST, l.getDirection() );
+   }
+
+   public void testDoubleConstructor_success_directionRecognizedAsWest() {
+      final Longitude l = new Longitude( -40.4406d );
+
+      assertEquals( 40, l.getDegrees() );
+      assertEquals( 26, l.getMinutes() );
+      assertEquals( 26.16d, l.getSeconds(), 0.00000000001236d );
+      assertEquals( Longitude.Direction.WEST, l.getDirection() );
+   }
+
+   public void testConstructor_success_degreesAtMinValue() {
+      new Longitude( 0, 10, 10, Longitude.Direction.EAST );
+   }
+
+   public void testConstructor_fail_degreesBelowMinValue() {
+      try {
+         new Longitude( -1, 10, 20, Longitude.Direction.EAST );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE) );
+      }
+   }
+
+   public void testConstructor_success_degreesAtMaxValue() throws GeographicCoordinateException {
+      new Longitude( Longitude.MAX_VALUE, 0, 0, Longitude.Direction.EAST );
+   }
+
+   public void testConstructor_fail_degreesExceedMaxValue() {
+      try {
+         new Longitude( Longitude.MAX_VALUE + 1, 0, 0, Longitude.Direction.EAST );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE) );
+      }
+   }
+
+   public void testConstructor_fail_directionNull() {
+      try {
+         new Longitude( 1, 2, 3, null );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.DIRECTION_NULL) );
+      }
+   }
+
+   public void testConstructor_success_minutesAtMinValue() throws GeographicCoordinateException {
+      new Longitude( 10, 0, 10, Longitude.Direction.EAST );
+   }
+
+   public void testConstructor_fail_minutesBelowMinValue() {
+      try {
+         new Longitude( 10, -1, 10, Longitude.Direction.EAST );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE) );
+      }
+   }
+
+   public void testConstructor_success_minutesAtMaxValue() {
+      new Longitude( 10, 59, 10, Longitude.Direction.EAST );
+   }
+
+   public void testConstructor_fail_minutesExceedMaxValue() {
+      try {
+         new Longitude( 10, 60, 1, Longitude.Direction.EAST );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE) );
+      }
+   }
+
+   public void testConstructor_fail_minutesMustBeZero() {
+      try {
+         new Longitude( Longitude.MAX_VALUE, 1, 0, Longitude.Direction.EAST );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+      }
+   }
+
+   public void testConstructor_success_secondsAtMinValue() {
+      new Longitude( 20, 10, 0, Longitude.Direction.EAST );
+   }
+
+   public void testConstructor_fail_secondsBelowMinValue() {
+      try {
+         new Longitude( 20, 10, -.0000001d, Longitude.Direction.EAST );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE) );
+      }
+   }
+
+   public void testConstructor_success_secondsAtMaxValue() {
+      new Longitude( 20, 10, 59.999999999999d, Longitude.Direction.EAST );
+   }
+
+   public void testConstructor_fail_secondsExceedMaxValue() {
+      try {
+         new Longitude( 10, 10, 60, Longitude.Direction.EAST );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE) );
+      }
+   }
+
+   public void testConstructor_fail_secondsMustBeZero() {
+      try {
+         new Longitude( Longitude.MAX_VALUE, 0, 1, Longitude.Direction.EAST );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+      }
+   }
+
+   public void testToDouble_success_east() {
+      final Longitude l = new Longitude( 40, 26, 26.16d, Longitude.Direction.EAST );
+      assertEquals( 40.4406d, l.toDouble(), 0.00000016666667d );
+   }
+
+   public void testToDouble_success_west() {
+      final Longitude l = new Longitude( 40, 26, 26.16d, Longitude.Direction.WEST );
+      assertEquals( -40.4406d, l.toDouble(), 0.00000016666667d );
+   }
+
+   public void testEquals_success_equalToOther() {
+      final Longitude lon2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), lon1.getDirection() );
+      assertEquals( lon1, lon2 );
+      assertEquals( lon2, lon1 );
+   }
+
+   public void testEquals_success_equalToSelf() {
       assertEquals( lon1, lon1 );
    }
 
-   public void testEquals_failDegrees() throws GeographicCoordinateException {
+   public void testEquals_fail_null() {
+      assertFalse( lon1.equals(null) );
+   }
+
+   public void testEquals_fail_degrees() {
       final Longitude l2 = new Longitude( lon1.getDegrees() + 1, lon1.getMinutes(), lon1.getSeconds(), lon1.getDirection() );
       assertFalse( lon1.equals(l2) );
    }
 
-   public void testEquals_failMinutes() throws GeographicCoordinateException {
+   public void testEquals_fail_minutes() {
       final Longitude l2 = new Longitude( lon1.getDegrees(), lon1.getMinutes() + 1, lon1.getSeconds(), lon1.getDirection() );
       assertFalse( lon1.equals(l2) );
    }
 
-   public void testEquals_failSeconds() throws GeographicCoordinateException {
-      final Longitude l2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds() + 1.0d, lon1.getDirection() );
+   public void testEquals_fail_seconds() {
+      final Longitude l2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds() + 1, lon1.getDirection() );
       assertFalse( lon1.equals(l2) );
    }
 
-   public void testEquals_failDirectionDifferent() throws GeographicCoordinateException {
+   public void testEquals_fail_DirectionDifferent() {
       final Longitude l2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Longitude.Direction.WEST );
       assertFalse( lon1.equals(l2) );
    }
 
-   public void testEquals_failDifferentParentClass() {
+   public void testEquals_fail_DifferentParentClass() {
       assertFalse( lon1.equals(Integer.valueOf(2)) );
    }
 
-   public void testEquals_failDifferentSiblingClass() throws GeographicCoordinateException {
+   public void testEquals_fail_LatitudeDirectionNorth() {
       final Latitude latitude = new Latitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Latitude.Direction.NORTH );
       assertFalse( lon1.equals(latitude) );
    }
 
-   public void testHashCode_same() {
-      assertEquals( lon1, lon2 );
+   public void testEquals_fail_LatitudeDirectionSouth() {
+      final Latitude latitude = new Latitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Latitude.Direction.SOUTH );
+      assertFalse( lon1.equals(latitude) );
+   }
+
+   public void testEquals_fail_LatitudeDirectionNeither() {
+      final Latitude latitude = new Latitude( 0, 0, 0, Latitude.Direction.NEITHER );
+      assertFalse( lon1.equals(latitude) );
+   }
+
+   public void testHashCode_success_same() {
+      final Longitude lon2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), lon1.getDirection() );
       assertEquals( lon1.hashCode(), lon2.hashCode() );
    }
 
-   public void testHashCode_differentType() throws GeographicCoordinateException {
-      final Longitude lon = new Longitude();
-
-      lon.setDegrees( lon1.getDegrees() );
-      lon.setMinutes( lon1.getMinutes() );
-      lon.setSeconds( lon1.getSeconds() );
-
-      assertFalse( lon1.hashCode() == lon.hashCode() );
+   public void testHashCode_fail_differentTypeLatitudeDirectionNorth() {
+      final Latitude lat = new Latitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Latitude.Direction.NORTH );
+      assertFalse( lon1.hashCode() == lat.hashCode() );
    }
 
-   public void testHashCode_differentDegrees() throws GeographicCoordinateException {
-      lon2.setDegrees( lon1.getDegrees() + 1 );
-      assertFalse( lon1.hashCode() == lon2.hashCode() );
+   public void testHashCode_fail_differentTypeLatitudeDirectionSouth() {
+      final Latitude lat = new Latitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Latitude.Direction.SOUTH );
+      assertFalse( lon1.hashCode() == lat.hashCode() );
    }
 
-   public void testHashCode_differentMinutes() throws GeographicCoordinateException {
-      lon2.setMinutes( lon1.getMinutes() + 1 );
-      assertFalse( lon1.hashCode() == lon2.hashCode() );
+   public void testHashCode_fail_differentTypeLatitudeDirectionNeither() {
+      final Latitude lat = new Latitude( 0, 0, 0, Latitude.Direction.NEITHER );
+      final Longitude lon = new Longitude( lat.getDegrees(), lat.getMinutes(), lat.getSeconds(), Longitude.Direction.NEITHER );
+
+      assertFalse( lat.hashCode() == lon.hashCode() );
    }
 
-   public void testHashCode_differentSeconds() throws GeographicCoordinateException {
-      lon2.setSeconds( lon1.getSeconds() + 1 );
-      assertFalse( lon1.hashCode() == lon2.hashCode() );
+   public void testHashCode_fail_differentDegrees() {
+      final Longitude l2 = new Longitude( lon1.getDegrees() + 1, lon1.getMinutes(), lon1.getSeconds(), lon1.getDirection() );
+      assertFalse( lon1.hashCode() == l2.hashCode() );
    }
 
-   public void testHashCode_differentDirection() {
-      lon2.setDirection( Longitude.Direction.WEST );
-      assertFalse( lon1.hashCode() == lon2.hashCode() );
+   public void testHashCode_fail_differentMinutes() {
+      final Longitude l = new Longitude( lon1.getDegrees(), lon1.getMinutes() + 1, lon1.getSeconds(), lon1.getDirection() );
+      assertFalse( lon1.hashCode() == l.hashCode() );
    }
 
-   public void testToRadians() {
+   public void testHashCode_fail_differentSeconds() {
+      final Longitude l = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds() + 1, lon1.getDirection() );
+      assertFalse( lon1.hashCode() == l.hashCode() );
+   }
+
+   public void testHashCode_fail_differentDirection() {
+      final Longitude l = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Longitude.Direction.WEST );
+      assertFalse( lon1.hashCode() == l.hashCode() );
+   }
+
+   public void testToRadians_success() {
       assertEquals( Math.toRadians(lon1.toDouble()), lon1.toRadians() );
    }
 
-   public void testToString_east() {
-      assertEquals( "2°4'6.123\"E", lon1.toString() );
+   public void testToString_success_east() {
+      assertEquals( "12°16'23.45\"E", lon1.toString() );
    }
 
-   public void testToString_west() {
-      lon1.setDirection( Longitude.Direction.WEST );
-      assertEquals( "2°4'6.123\"W", lon1.toString() );
+   public void testToString_success_west() {
+      final Longitude l = new Longitude( 12, 16, 23.45d, Longitude.Direction.WEST );
+      assertEquals( "12°16'23.45\"W", l.toString() );
    }
 
-   public void testToString_noTrailingZeros() throws GeographicCoordinateException {
-      lon1.setSeconds( 0 );
-      assertEquals( "2°4'0\"E", lon1.toString() );
+   public void testToString_success_noDirectionOnPrimeMeridian() {
+      final Longitude l = new Longitude( 0 );
+      assertEquals( "0°0'0\"", l.toString() );
+   }
+
+   public void testToString_success_noTrailingZeros() {
+      final Longitude l = new Longitude(12, 16, 0, Longitude.Direction.EAST );
+      assertEquals( "12°16'0\"E", l.toString() );
    }
 }
