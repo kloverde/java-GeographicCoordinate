@@ -37,17 +37,10 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
    /**
     * @throws GeographicCoordinateException If you extend this class yourself
     */
-   public AbstractGeographicCoordinate() {
+   public AbstractGeographicCoordinate( final int degrees, final int minutes, final double seconds ) {
       if( !(this instanceof Latitude) && !(this instanceof Longitude) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DISALLOWED_EXTENDS );
 
       setMaxValueDegrees( this instanceof Latitude ? Latitude.MAX_VALUE : Longitude.MAX_VALUE );
-   }
-
-   /**
-    * @throws GeographicCoordinateException If you extend this class yourself
-    */
-   public AbstractGeographicCoordinate( final int degrees, final int minutes, final double seconds ) {
-      this();
 
       try {
          setDegrees( degrees );
