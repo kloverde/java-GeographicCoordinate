@@ -7,6 +7,10 @@ package org.loverde.geographiccoordinate;
 
 import junit.framework.TestCase;
 
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+
 import org.loverde.geographiccoordinate.DistanceCalculator.Unit;
 
 
@@ -17,6 +21,8 @@ public class DistanceCalculatorTest extends TestCase {
    private Longitude longitude1, longitude2;
 
    private Point point1, point2;
+
+   @Mock private Point mockPoint;
 
    private double fpDelta = 1E-15;
 
@@ -31,14 +37,18 @@ public class DistanceCalculatorTest extends TestCase {
 
       point1 = new Point( latitude1, longitude1 );
       point2 = new Point( latitude2, longitude2 );
+
+      MockitoAnnotations.initMocks( this );
+      Mockito.when( mockPoint.getLatitude() ).thenReturn( latitude1 );
+      Mockito.when( mockPoint.getLongitude() ).thenReturn( longitude1 );
    }
 
    public void testDistance_noPoints() {
       try {
          DistanceCalculator.distance( Unit.KILOMETERS );
          fail( "Expected exception" );
-      } catch( final IllegalArgumentException e ) {
-         assertEquals( "Need to provide at least 2 points", e.getMessage() );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith("Need to provide at least 2 points") );
       }
    }
 
@@ -46,8 +56,8 @@ public class DistanceCalculatorTest extends TestCase {
       try {
          DistanceCalculator.distance( Unit.KILOMETERS, point1 );
          fail( "Expected exception" );
-      } catch( final IllegalArgumentException e ) {
-         assertEquals( "Need to provide at least 2 points", e.getMessage() );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith("Need to provide at least 2 points") );
       }
    }
 
@@ -55,33 +65,75 @@ public class DistanceCalculatorTest extends TestCase {
       try {
          DistanceCalculator.distance( Unit.KILOMETERS, null, point2 );
          fail( "Expected exception" );
-      } catch( final IllegalArgumentException e ) {
-         assertEquals( "points 0 is null", e.getMessage() );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith("points 0 is null") );
       }
    }
-/*
-   public void testDistance_nullLatitude() {
-      point1.setLatitude( null );
+
+   /**
+    * {@linkplain Point}'s constructor doesn't allow null {@linkplain Latitude} or {@linkplain Longitude},
+    * and the class is immutable.  If that were to change, we need to know that DistanceCalculator detects
+    * nulls, so this test uses Mockito to force Point to return a null.
+    */
+   public void testDistance_nullLatitudePoint1() {
+      Mockito.when( mockPoint.getLatitude() ).thenReturn( null );
 
       try {
-         DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
+         DistanceCalculator.distance( Unit.KILOMETERS, mockPoint, point2 );
          fail( "Expected exception" );
-      } catch( final IllegalArgumentException e ) {
-         assertEquals( "Latitude 1 is null", e.getMessage() );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith("Latitude 1 is null") );
       }
    }
 
-   public void testDistance_nullLongitude() {
-      point1.setLongitude( null );
+   /**
+    * {@linkplain Point}'s constructor doesn't allow null {@linkplain Latitude} or {@linkplain Longitude},
+    * and the class is immutable.  If that were to change, we need to know that DistanceCalculator detects
+    * nulls, so this test uses Mockito to force a null to force Point to return a null.
+    */
+   public void testDistance_nullLatitudePoint2() {
+      Mockito.when( mockPoint.getLatitude() ).thenReturn( null );
 
       try {
-         DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
+         DistanceCalculator.distance( Unit.KILOMETERS, point1, mockPoint );
          fail( "Expected exception" );
-      } catch( final IllegalArgumentException e ) {
-         assertEquals( "Longitude 1 is null", e.getMessage() );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith("Latitude 2 is null") );
       }
    }
-*/
+
+   /**
+    * {@linkplain Point}'s constructor doesn't allow null {@linkplain Latitude} or {@linkplain Longitude},
+    * and the class is immutable.  If that were to change, we need to know that DistanceCalculator detects
+    * nulls, so this test uses Mockito to force a null to force Point to return a null.
+    */
+   public void testDistance_nullLongitudePoint1() {
+      Mockito.when( mockPoint.getLongitude() ).thenReturn( null );
+
+      try {
+         DistanceCalculator.distance( Unit.KILOMETERS, mockPoint, point2 );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith("Longitude 1 is null") );
+      }
+   }
+
+   /**
+    * {@linkplain Point}'s constructor doesn't allow null {@linkplain Latitude} or {@linkplain Longitude},
+    * and the class is immutable.  If that were to change, we need to know that DistanceCalculator detects
+    * nulls, so this test uses Mockito to force a null to force Point to return a null.
+    */
+   public void testDistance_nullLongitudePoint2() {
+      Mockito.when( mockPoint.getLongitude() ).thenReturn( null );
+
+      try {
+         DistanceCalculator.distance( Unit.KILOMETERS, point1, mockPoint );
+         fail( "Expected exception" );
+      } catch( final GeographicCoordinateException e ) {
+         assertTrue( e.getMessage().endsWith("Longitude 2 is null") );
+      }
+   }
+
    public void testDistance_kilometers() {
       final double distance = DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
       assertEquals( 326.3834438586294d, distance, fpDelta );

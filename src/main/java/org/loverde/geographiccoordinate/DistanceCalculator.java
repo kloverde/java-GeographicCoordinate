@@ -36,7 +36,7 @@ package org.loverde.geographiccoordinate;
  */
 public class DistanceCalculator {
 /*
-   public static void main(String args[]) throws GeographicCoordinateException {
+   public static void main( String args[] ) {
       Latitude latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
       Longitude longitude1 = new Longitude(  74, 0, 21, Longitude.Direction.WEST );
 
@@ -111,8 +111,8 @@ public class DistanceCalculator {
     * @return The total distance traveled, expressed in terms of {@code unit}
     */
    public static double distance( final Unit unit, final Point ... points ) {
-      if( points == null ) throw new IllegalArgumentException( "Points are null" );
-      if( points.length < 2 ) throw new IllegalArgumentException( "Need to provide at least 2 points" );
+      if( points == null ) throw new GeographicCoordinateException( new IllegalArgumentException( "Points are null") );
+      if( points.length < 2 ) throw new GeographicCoordinateException( new IllegalArgumentException( "Need to provide at least 2 points") );
 
       double distance = 0;
       Point previous = points[0];
@@ -120,8 +120,8 @@ public class DistanceCalculator {
       for( int i = 1; i < points.length; i++ ) {
          final Point current = points[i];
 
-         if( previous == null ) throw new IllegalArgumentException( "points " + (i - 1) + " is null" );
-         if( current == null ) throw new IllegalArgumentException( "points " + i + " is null" );
+         if( previous == null ) throw new GeographicCoordinateException( new IllegalArgumentException( "points " + (i - 1) + " is null") );
+         if( current == null ) throw new GeographicCoordinateException( new IllegalArgumentException( "points " + i + " is null") );
 
          distance += distance( unit, previous.getLatitude(), previous.getLongitude(), current.getLatitude(), current.getLongitude() );
          previous = current;
@@ -154,11 +154,11 @@ public class DistanceCalculator {
     * @return The distance from point 1 to point 2, expressed in terms of {@code unit}
     */
    public static double distance( final Unit unit, final Latitude latitude1, final Longitude longitude1, final Latitude latitude2, final Longitude longitude2 ) {
-      if( latitude1 == null ) throw new IllegalArgumentException( "Latitude 1 is null" );
-      if( longitude1 == null ) throw new IllegalArgumentException( "Longitude 1 is null" );
-      if( latitude2 == null ) throw new IllegalArgumentException( "Latitude 2 is null" );
-      if( longitude2 == null ) throw new IllegalArgumentException( "Longitude 2 is null" );
-      if( unit == null ) throw new IllegalArgumentException( "Unit is null" );
+      if( latitude1 == null ) throw new GeographicCoordinateException( new IllegalArgumentException( "Latitude 1 is null") );
+      if( longitude1 == null ) throw new GeographicCoordinateException( new IllegalArgumentException( "Longitude 1 is null") );
+      if( latitude2 == null ) throw new GeographicCoordinateException( new IllegalArgumentException( "Latitude 2 is null") );
+      if( longitude2 == null ) throw new GeographicCoordinateException( new IllegalArgumentException( "Longitude 2 is null") );
+      if( unit == null ) throw new GeographicCoordinateException( new IllegalArgumentException( "Unit is null") );
 
       final double lat1 = latitude1.toRadians(),
                    lat2 = latitude2.toRadians(),
