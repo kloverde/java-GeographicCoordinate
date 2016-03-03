@@ -56,13 +56,19 @@ public class DistanceCalculator {
     * Units of distance - use this with the {@code distance} methods in this class.
     */
    public enum Unit {
-      // Members are initialized with a conversion factor expressed in terms of one kilometer.
+      // Members are initialized with a conversion factor expressed in terms of 1 kilometer.
 
-      METERS( 1000.0d ),
+      /**
+       * This is the international foot.  For those in the U.S., yes, that is the
+       * foot you are accustomed to (12 inches = 1 ft).
+       */
+      FEET( 1000.0d / .3048d ),
+
+      KILOMETERS( 1 ),
+
+      METERS( 1000 ),
 
       MILES( 1.0d / 1.609344d ),
-
-      KILOMETERS( 1.0d ),
 
       /**
        * This is the <strong>international</strong> nautical mile.  It's not to be confused with:
@@ -73,7 +79,28 @@ public class DistanceCalculator {
        *
        * @see <a href="https://en.wikipedia.org/wiki/Nautical_mile">https://en.wikipedia.org/wiki/Nautical_mile</a>
        */
-      NAUTICAL_MILES( 1.0d / 1.852d );
+      NAUTICAL_MILES( 1.0d / 1.852d ),
+
+      /**
+       * <p>
+       * For those of you living in the U.S., the U.S. Survey Foot is NOT the foot
+       * you think of when you think of feet.  That is the
+       * {@link Unit#INTERNATIONAL_FEET international foot}.  The survey foot is
+       * used in geodetic surveys.  As defined by the National Bureau of Standards
+       * in 1959:
+       * </p>
+       *
+       * <p>
+       * "Any data expressed in feet derived from and published as a result of geodetic surveys
+       * within the United States will continue to bear the following relationship as defined
+       * in 1893:  1 foot = 1200/3937 meter"
+       * </p>
+       *
+       * @see <a href="http://www.ngs.noaa.gov/PUBS_LIB/FedRegister/FRdoc59-5442.pdf">http://www.ngs.noaa.gov/PUBS_LIB/FedRegister/FRdoc59-5442.pdf</a>
+       */
+      US_SURVEY_FEET( 1000.0d / (1200/3937.0d) ),
+
+      YARDS( 1000.0d / .9144d );
 
       private double perKilometer;
 

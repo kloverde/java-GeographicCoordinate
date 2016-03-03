@@ -8,6 +8,7 @@
 * GeographicCoordinateException has been changed from a checked exception to a runtime exception.  You can now decide for yourself whether to explicitly catch it during instantiation.
 * Added a 'name' field to the Point class
 * Added Direction.NEITHER to Latitude and Longitude to represent the Equator and Prime Meridian, since they are neither north, south, east nor west
+* Added the international foot, U.S. survey foot and yard as units of length to DistanceCalculator
 * Fixed NullPointerException in Latitude/Longitude's .equals() when null was passed
 
 

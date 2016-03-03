@@ -134,6 +134,11 @@ public class DistanceCalculatorTest extends TestCase {
       }
    }
 
+   public void testDistance_feet() {
+      final double distance = DistanceCalculator.distance( Unit.FEET, point1, point2 );
+      assertEquals( 1070811.8236831673228346456692913d, distance, fpDelta );
+   }
+
    public void testDistance_kilometers() {
       final double distance = DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
       assertEquals( 326.3834438586294d, distance, fpDelta );
@@ -152,6 +157,16 @@ public class DistanceCalculatorTest extends TestCase {
    public void testDistance_nauticalMiles() {
       final double distance = DistanceCalculator.distance( Unit.NAUTICAL_MILES, point1, point2 );
       assertEquals( 176.23296104677613d, distance, fpDelta );
+   }
+
+   public void testDistance_usSurveyfeet() {
+      final double distance = DistanceCalculator.distance( Unit.US_SURVEY_FEET, point1, point2 );
+      assertEquals( 1070809.6820595199565d, distance, fpDelta );
+   }
+
+   public void testDistance_yards() {
+      final double distance = DistanceCalculator.distance( Unit.YARDS, point1, point2 );
+      assertEquals( 356937.2745610558d, distance, fpDelta );
    }
 
    public void testDistance_bothMethodsCalculateSameValues() {
