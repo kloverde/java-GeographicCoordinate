@@ -1,6 +1,20 @@
+## Release 2.0 (UPCOMING RELEASE)
+
+* The Latitude, Longitude and Point classes have always implemented hashCode(), so as to allow their use in HashMaps.  Despite this, the classes were mutable, which, as you might know, is incorrect.  Given the choice of either making the classes immutable or taking away hashCode(), it was decided to make them immutable.  *If you are on a previous release and are currently using setters, you will need to refactor your code.*
+* As an additional result of hiding the setters in Latitude, Longitude and Point, their no-arg constructors have been removed and the setters have been removed from the GeographicCoordinate interface.
+* The GeographicCoordinateImpl class has been renamed to AbstractGeographicCoordinate to better reflect its nature.
+* As a result of making the coordinate classes immutable, AbstractGeographicCoordinate's no-arg constructor has also been removed.  No client code should be impacted, since client code would have been instantiating the Latitude and Longitude classes only.
+* Extending AbstractGeographicCoordinate is now disallowed and is enforced by throwing an exception from its constructors.  This is not a client class.  No client code should be impacted, since client code would have been instantiating the Latitude and Longitude classes only.
+* GeographicCoordinateException has been changed from a checked exception to a runtime exception.  You can now decide for yourself whether to explicitly catch it during instantiation.
+* Added a 'name' field to the Point class
+* Added Direction.NEITHER to Latitude and Longitude to represent the Equator and Prime Meridian, since they are neither north, south, east nor west
+* Added the international foot, U.S. survey foot and yard as units of length to DistanceCalculator
+* Fixed NullPointerException in Latitude/Longitude's .equals() when null was passed
+
+
 ## Release 1.3 (February 21, 2016)
 
-This release contains several breaking changes which were necessary for code cleanliness.  To minimize impact to third-party applications, it was decided to get all of them out of the way in a single release, rather than drag the process out.  Most if not all third-party applications will be unaffected by these changes, as they deal with obscure things.  The one change worth calling particular attention to is to DistanceCalculator.distance, explained below.  No further breaking changes are planned or expected.
+This release contains several breaking changes which were necessary for code cleanliness.  To minimize impact to third-party applications, it was decided to get all of them out of the way in a single release, rather than drag the process out.  Most if not all third-party applications will be unaffected by these changes, as they deal with obscure things.  The one change worth calling particular attention to is to DistanceCalculator.distance, explained below.
 
 * Removed deprecated method DistanceCalculator.distance( point1, point2, Unit ).  Use DistanceCalculator( Unit, Point ... ) instead.
 * Changed the parameter order of DistanceCalculator.distance( Latitude, Longitude, Latitude, Longitude, Unit ).  Unit has been moved from the last parameter to the first parameter to be consistent with the vararg distance method.
@@ -11,14 +25,16 @@ This release contains several breaking changes which were necessary for code cle
 * Changed the Latitude/Longitude toString methods to return a degree/minute/second format, such as 12°34'56.789"N.  Likewise, Point's toString method now uses this format.
 * When using the Latitude(double) constructor to create a latitude of 0.0 (the Equator), the direction will be considered north.  Previously, it was considered south.  No client code should be impacted because it's never correct to examine the direction when talking about the Equator, since it is neither north nor south.
 * When using the Longitude(double) constructor to create a longitude of 0.0 (the Prime Meridian), the direction will be considered east.  Previously, it was considered west.  No client code should be impacted because it's never correct to examine the direction when talking about the Prime Meridian, since it is neither east nor west.
-* Integrated with the latest version of the BuildScripts project (https://github.com/kloverde/BuildScripts), adding findbugs integration, JUnit integration and new release packaging:  one archive contains all zips and the readme, changelog and license.
+* Integrated with the latest version of the BuildScripts project (https://github.com/kloverde/BuildScripts), adding findbugs integration, JUnit integration and new release packaging:  one archive contains all jars and the readme, changelog and license.
 * Various javadoc updates
+
 
 ## Release 1.2.1 (February 15, 2016)
 
 * Renamed the new method from today's earlier release:  DistanceCalculator.totalTravelDistance( Unit, Point ... ) method is now DistanceCalculator.distance( Unit, Point ... ).
 * Deprecated DistanceCalculator.distance( Point, Point, Unit ), as it has been rendered redundant by the vararg method above.  *This deprecated method will be removed in the near future - possibly in the next release.*
 * Updated README and javadoc
+
 
 ## Release 1.2 (February 15, 2016)
 

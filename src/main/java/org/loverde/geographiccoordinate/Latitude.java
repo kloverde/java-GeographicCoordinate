@@ -13,11 +13,27 @@ import java.util.Locale;
  * Latitude denotes whether a location is north or south of the Equator.
  * The Equator is located at latitude 0.
  */
-public class Latitude extends GeographicCoordinateImpl {
+public class Latitude extends AbstractGeographicCoordinate {
 
+   /**
+    * Indicates whether a location is north or south of the Equator, or on the Equator
+    */
    public static enum Direction {
+      /**
+       * Indicates that the location is north of the Equator
+       */
       NORTH( "N" ),
-      SOUTH( "S" );
+
+      /**
+       * Indicates that the location is south of the Equator
+       */
+      SOUTH( "S" ),
+
+      /**
+       * Indicates that the location is on the Equator
+       * (neither north nor south:  the latitude is exactly 0.0).
+       */
+      NEITHER( "NEITHER" );
 
       private String abbreviation;
 
@@ -35,56 +51,72 @@ public class Latitude extends GeographicCoordinateImpl {
    public static final int MAX_VALUE = 90;
 
 
-   public Latitude() {
-      super();
-   }
-
    /**
     * Creates a new latitude object
     *
     * @param latitude - A signed value.  Positive values are north; negative values are south.  Note that a value
-    *                   of 0.0 is the Equator, which is neither north nor south.  It is equally valid to say 0°N
-    *                   or 0°S; they are the same.  For this library's purposes, if you supply a value of 0.0,
-    *                   the direction will be initialized to {@link Direction#NORTH}, but you should ignore
-    *                   the direction.
+    *                   of 0.0 is the Equator, which is neither north nor south.  If you supply a value of 0.0,
+    *                   the {@code direction} will be initialized to {@link Direction#NEITHER}.
     *
     * @throws GeographicCoordinateException If the supplied value falls outside of +/- {@linkplain Latitude#MAX_VALUE}
     */
-   public Latitude( final double latitude ) throws GeographicCoordinateException {
+   public Latitude( final double latitude ) {
       super( latitude );
-      setDirection( latitude >= 0.0d ? Direction.NORTH : Direction.SOUTH );
+
+      try {
+         if( latitude == 0.0d ) {
+            setDirection( Direction.NEITHER );
+         } else {
+            setDirection( latitude > 0.0d ? Direction.NORTH : Direction.SOUTH );
+         }
+      } catch( final Exception e ) {
+         throw new GeographicCoordinateException( e );
+      }
    }
 
    /**
     * Creates a new latitude object
     *
-    * @param degrees - Accepted range [0-90]
-    * @param minutes - Accepted range [0-59] unless {@code degrees} is 90, in which case {@code minutes} must be 0
-    * @param seconds - Accepted range [0-59.9999999999999] unless {@code degrees} is 90, in which case {@code seconds} must be 0
-    * @param dir
+    * @param degrees   - Accepted range [0-90]
+    * @param minutes   - Accepted range [0-59] unless {@code degrees} is 90, in which case {@code minutes} must be 0
+    * @param seconds   - Accepted range [0-59.9999999999999] unless {@code degrees} is 90, in which case {@code seconds} must be 0
+    * @param direction - A {@linkplain Latitude.Direction}
     *
-    * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges
+    * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges, or if degrees/minutes/seconds
+    *                                       are all 0 with a {@code direction} other than {@linkplain Direction#NEITHER}
     */
-   public Latitude( final int degrees, final int minutes, final double seconds, final Latitude.Direction dir ) throws GeographicCoordinateException {
+   public Latitude( final int degrees, final int minutes, final double seconds, final Latitude.Direction direction ) {
       super( degrees, minutes, seconds );
-      setDirection( dir );
+
+      try {
+         setDirection( direction );
+      } catch( final Exception e ) {
+         throw new GeographicCoordinateException( e );
+      }
    }
 
    /**
-    * @param direction Must be a member of {@code Latitude.Direction}
+    * @param direction - A member of {@linkplain Latitude.Direction}
+    *
+    * @throws GeographicCoordinateException In the following situations:
+    * <ul>
+    *    <li>{@code direction} is null</li>
+    *    <li>{@code direction} is {@linkplain Direction#NORTH} or {@linkplain Direction#SOUTH}, but the latitude is not exactly 0.0</li>
+    * </ul>
     */
-   public void setDirection( final Latitude.Direction direction ) {
+   private void setDirection( final Latitude.Direction direction ) {
       if( direction == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
+
+      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
 
       this.direction = direction;
    }
 
    /**
-    * Indicates whether your location is north or south of the Equator.  The Equator (0.0) is neither north nor south.
-    * If you want to know if you're on the Equator, check the value returned by {@link #toDouble()} and ignore the
-    * value returned by this method.
+    * Indicates whether the location is north or south of the Equator, or on the Equator.
+    * When on the Equator, the direction is {@linkplain Direction#NEITHER}.
     *
-    * @return North/south indicator
+    * @return Orientation with respect to the Equator
     */
    public Latitude.Direction getDirection() {
       return direction;
@@ -92,7 +124,8 @@ public class Latitude extends GeographicCoordinateImpl {
 
    @Override
    public double toDouble() {
-      if( getDirection() == null ) throw new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
+      // Sanity check for an impossible scenario
+      if( getDirection() == null ) throw new GeographicCoordinateException( new IllegalStateException(GeographicCoordinateException.Messages.DIRECTION_NULL) );
 
       final double decimal = getDegrees() + (getMinutes() / 60.0d) + (getSeconds() / 3600.0d);
 
@@ -110,7 +143,9 @@ public class Latitude extends GeographicCoordinateImpl {
    }
 
    /**
-    * Compares this {@code Latitude} to another object
+    * Compares this object to an {@code instanceof} Latitude.  All Latitude fields are compared.
+    *
+    * @param compareTo - The object to compare to
     *
     * @return {@code true} if equal, {@code false} if not
     */
@@ -119,6 +154,7 @@ public class Latitude extends GeographicCoordinateImpl {
       final Latitude other;
 
       if( this == compareTo ) return true;
+      if( compareTo == null ) return false;
 
       if( !(compareTo instanceof Latitude) ) return false;
 
@@ -139,6 +175,6 @@ public class Latitude extends GeographicCoordinateImpl {
       return String.format( Locale.US,
                             "%s%s",
                             super.toString(),
-                            getDirection().getAbbreviation() );
+                            getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
    }
 }

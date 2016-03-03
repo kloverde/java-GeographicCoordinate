@@ -13,11 +13,27 @@ import java.util.Locale;
  * Longitude denotes whether a location is east or west of the Prime Meridian.
  * The Prime Meridian is located at longitude 0.
  */
-public class Longitude extends GeographicCoordinateImpl {
+public class Longitude extends AbstractGeographicCoordinate {
 
+   /**
+    * Indicates whether a location is north or south of the Prime Meridian, or on the Prime Meridian
+    */
    public static enum Direction {
+      /**
+       * Indicates that the location is east of the Prime Meridian
+       */
       EAST( "E" ),
-      WEST( "W" );
+
+      /**
+       * Indicates that the location is west of the Prime Meridian
+       */
+      WEST( "W" ),
+
+      /**
+       * Indicates that the location is on the Prime Meridian
+       * (neither east not west:  the longitude is exactly 0.0).
+       */
+      NEITHER( "NEITHER" );
 
       private String abbreviation;
 
@@ -35,24 +51,27 @@ public class Longitude extends GeographicCoordinateImpl {
    public static final int MAX_VALUE = 180;
 
 
-   public Longitude() {
-      super();
-   }
-
    /**
     * Creates a new longitude object
     *
     * @param longitude - A signed value.  Positive values are east; negative values are west.  Note that a value
-    *                    of 0.0 is the Prime Meridian, which is neither east nor west.  It is equally valid to
-    *                    say 0°E or 0°W; they are the same.  For this library's purposes, if you supply a value
-    *                    of 0.0, the direction will be initialized to {@link Direction#EAST}, but you should
-    *                    ignore the direction.
+    *                    of 0.0 is the Prime Meridian, which is neither east nor west.  If you supply a value of
+    *                    0.0, the {@code direction} will be initialized to {@link Direction#NEITHER}.
     *
     * @throws GeographicCoordinateException If the supplied value falls outside of +/- {@linkplain Longitude#MAX_VALUE}
     */
-   public Longitude( final double longitude ) throws GeographicCoordinateException {
+   public Longitude( final double longitude ) {
       super( longitude );
-      setDirection( longitude >= 0.0d ? Direction.EAST : Direction.WEST );
+
+      try {
+         if( longitude == 0.0d ) {
+            setDirection( Direction.NEITHER );
+         } else {
+            setDirection( longitude > 0.0d ? Direction.EAST : Direction.WEST );
+         }
+      } catch( final Exception e ) {
+         throw new GeographicCoordinateException( e );
+      }
    }
 
    /**
@@ -63,28 +82,41 @@ public class Longitude extends GeographicCoordinateImpl {
     * @param seconds - Accepted range [0-59.9999999999999] unless {@code degrees} is 180, in which case {@code seconds} must be 0
     * @param dir
     *
-    * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges
+    * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges, or if degrees/minutes/seconds
+    *                                       are all 0 with a {@code direction} other than {@linkplain Direction#NEITHER}
     */
-   public Longitude( final int degrees, final int minutes, final double seconds, final Longitude.Direction dir ) throws GeographicCoordinateException {
+   public Longitude( final int degrees, final int minutes, final double seconds, final Longitude.Direction dir ) {
       super( degrees, minutes, seconds );
-      setDirection( dir );
+
+      try {
+         setDirection( dir );
+      } catch( final Exception e ) {
+         throw new GeographicCoordinateException( e );
+      }
    }
 
    /**
-    * @param direction Must be a member of {@code Longitude.Direction}
+    * @param direction - A member of {@code Longitude.Direction}
+    *
+    * @throws GeographicCoordinateException In the following situations:
+    * <ul>
+    *    <li>{@code direction} is null</li>
+    *    <li>{@code direction} is {@linkplain Direction#NORTH} or {@linkplain Direction#SOUTH}, but the latitude is not exactly 0.0</li>
+    * </ul>
     */
-   public void setDirection( final Longitude.Direction direction ) {
+   private void setDirection( final Longitude.Direction direction ) {
       if( direction == null )  throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
+
+      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
 
       this.direction = direction;
    }
 
    /**
-    * Indicates whether your location is east or west of the Prime Meridian.  The Prime Meridian (0.0) is neither east nor west.
-    * If you want to know if you're on the Prime Meridian, check the value returned by {@link #toDouble()} and ignore the value
-    * returned by this method.
+    * Indicates whether the location is east or west of the Prime Meridian, or on the Prime Meridian.
+    * When on the Prime Meridian, the direction is {@linkplain Direction#NEITHER}.
     *
-    * @return East/west indicator
+    * @return Orientation with respect to the Prime Meridian
     */
    public Longitude.Direction getDirection() {
       return direction;
@@ -92,7 +124,8 @@ public class Longitude extends GeographicCoordinateImpl {
 
    @Override
    public double toDouble() {
-      if( getDirection() == null )  throw new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
+      // Sanity check for an impossible scenario
+      if( getDirection() == null ) throw new GeographicCoordinateException( new IllegalStateException(GeographicCoordinateException.Messages.DIRECTION_NULL) );
 
       final double decimal = getDegrees() + (getMinutes() / 60.0d) + (getSeconds() / 3600.0d);
 
@@ -110,7 +143,9 @@ public class Longitude extends GeographicCoordinateImpl {
    }
 
    /**
-    * Compares this {@code Longitude} to another object
+    * Compares this object to an {@code instanceof} Longitude.  All Longitude fields are compared.
+    *
+    * @param compareTo - The object to compare to
     *
     * @return {@code true} if equal, {@code false} if not
     */
@@ -119,6 +154,7 @@ public class Longitude extends GeographicCoordinateImpl {
       final Longitude other;
 
       if( this == compareTo ) return true;
+      if( compareTo == null ) return false;
 
       if( !(compareTo instanceof Longitude) ) return false;
 
@@ -139,6 +175,6 @@ public class Longitude extends GeographicCoordinateImpl {
       return String.format( Locale.US,
                             "%s%s",
                             super.toString(),
-                            getDirection().getAbbreviation() );
+                            getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
    }
 }
