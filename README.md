@@ -10,4 +10,4 @@ Features:
 * Provides the ability to calculate the distance between two points, or for the total travel distance between an unlimited number of points.
 * Backed by more than 140 unit tests
 
-It's always gratifying to know that other people find your work useful.  If you like this library, consider letting me know at github@loverde.org.
+It's always nice to know that other people find your work useful.  If you like this library, consider letting me know at github@loverde.org.

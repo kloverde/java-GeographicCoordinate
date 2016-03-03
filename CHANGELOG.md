@@ -1,4 +1,4 @@
-## Release 2.0 (UPCOMING RELEASE)
+## Release 2.0 (March 2, 2016)
 
 * The Latitude, Longitude and Point classes have always implemented hashCode(), so as to allow their use in HashMaps.  Despite this, the classes were mutable, which, as you might know, is incorrect.  Given the choice of either making the classes immutable or taking away hashCode(), it was decided to make them immutable.  *If you are on a previous release and are currently using setters, you will need to refactor your code.*
 * As an additional result of hiding the setters in Latitude, Longitude and Point, their no-arg constructors have been removed and the setters have been removed from the GeographicCoordinate interface.
