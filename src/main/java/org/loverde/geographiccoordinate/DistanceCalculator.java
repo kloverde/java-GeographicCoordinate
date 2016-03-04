@@ -85,7 +85,7 @@ public class DistanceCalculator {
        * <p>
        * For those of you living in the U.S., the U.S. Survey Foot is NOT the foot
        * you think of when you think of feet.  That is the
-       * {@link Unit#INTERNATIONAL_FEET international foot}.  The survey foot is
+       * {@link Unit#FEET international foot}.  The survey foot is
        * used in geodetic surveys.  As defined by the National Bureau of Standards
        * in 1959:
        * </p>
@@ -117,7 +117,7 @@ public class DistanceCalculator {
     * Gets the total distance between an unlimited number of {@linkplain Point}s.  For example, if the
     * distance from point A to point B is 3, and the distance from point B to point C is 2, the total
     * distance traveled will be (3 + 2) = 5.  Just pass {@code Point}s in the order in which they're
-    * visited.  This is equivalent to repeatedly calling {@link DistanceCalculator#distance(Latitude, Longitude, Latitude, Longitude, Unit)}.
+    * visited.  This is equivalent to repeatedly calling {@link DistanceCalculator#distance(Unit, Latitude, Longitude, Latitude, Longitude)}.
     * </p>
     *
     * <p><strong>
@@ -160,7 +160,7 @@ public class DistanceCalculator {
    /**
     * <p>
     * Gets the distance between two sets of coordinates.  Functionally equivalent to
-    * {@linkplain DistanceCalculator#distance(Unit, Point ...)}
+    * {@linkplain DistanceCalculator#distance(Unit, Point...)}
     * <p>
     *
     * <p><strong>

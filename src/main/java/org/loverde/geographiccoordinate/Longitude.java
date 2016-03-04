@@ -98,10 +98,10 @@ public class Longitude extends AbstractGeographicCoordinate {
    /**
     * @param direction - A member of {@code Longitude.Direction}
     *
-    * @throws GeographicCoordinateException In the following situations:
+    * @throws IllegalArgumentException In the following situations:
     * <ul>
     *    <li>{@code direction} is null</li>
-    *    <li>{@code direction} is {@linkplain Direction#NORTH} or {@linkplain Direction#SOUTH}, but the latitude is not exactly 0.0</li>
+    *    <li>{@code direction} is {@linkplain Direction#NEITHER} but the latitude is not 0.0
     * </ul>
     */
    private void setDirection( final Longitude.Direction direction ) {

@@ -98,16 +98,16 @@ public class Latitude extends AbstractGeographicCoordinate {
    /**
     * @param direction - A member of {@linkplain Latitude.Direction}
     *
-    * @throws GeographicCoordinateException In the following situations:
+    * @throws IllegalArgumentException In the following situations:
     * <ul>
     *    <li>{@code direction} is null</li>
-    *    <li>{@code direction} is {@linkplain Direction#NORTH} or {@linkplain Direction#SOUTH}, but the latitude is not exactly 0.0</li>
+    *    <li>{@code direction} is {@linkplain Direction#NEITHER} but the latitude is not 0.0
     * </ul>
     */
    private void setDirection( final Latitude.Direction direction ) {
       if( direction == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
 
-      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
+      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
 
       this.direction = direction;
    }
