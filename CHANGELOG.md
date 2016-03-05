@@ -1,6 +1,7 @@
 ## Release 2.0.2 (UPCOMING RELEASE)
 
-* Internal changes to how exception messages are constructed - values are unchanged.
+* Updated Latitude and Longitude's toString() to format seconds according to the default locale
+* Added toString(Locale) to Latitude and Longitude accommodate region-specific decimal formatting
 
 
 ## Release 2.0.1 (March 4, 2016)

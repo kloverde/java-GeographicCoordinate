@@ -8,6 +8,7 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
+
 /**
  * Lines of longitude run parallel to the Prime Meridian (perpendicular to the Equator).
  * Longitude denotes whether a location is east or west of the Prime Meridian.
@@ -168,13 +169,49 @@ public class Longitude extends AbstractGeographicCoordinate {
    }
 
    /**
-    * Returns a degree-minute-seconds formatted longitude.  For example:  30°40'50.123"E
+    * Returns a degrees-minutes-seconds formatted longitude for the default locale.
+    * For example,
+    *
+    * <ul>
+    *    <li>In the United States:  30°40'50.123"E</li>
+    *    <li>In France:  30°40'50,123"E</li>
+    * </ul>
+    *
+    * @see #toString(Locale)
     */
    @Override
    public String toString() {
-      return String.format( Locale.US,
-                            "%s%s",
-                            super.toString(),
-                            getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
+      return toString( Locale.getDefault() );
+   }
+
+   /**
+    * Returns a degrees-minutes-seconds formatted longitude for the specified locale.
+    * For example,
+    *
+    * <ul>
+    *    <li>For {@linkplain Locale#US}:  30°40'50.123"E</li>
+    *    <li>For {@linkplain Locale#FRANCE}:  30°40'50,123"E</li>
+    * </ul>
+    *
+    * @param locale - The locale to localize the output for
+    *
+    * @see #toString()
+    */
+   @Override
+   public String toString( final Locale locale ) {
+      String str = null;
+
+      try {
+         str = super.toString( locale );
+      } catch( final Exception e ) {
+         throw new GeographicCoordinateException( e );
+      }
+
+      str = String.format( locale,
+                           "%s%s",
+                           str,
+                           getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
+
+      return str;
    }
 }

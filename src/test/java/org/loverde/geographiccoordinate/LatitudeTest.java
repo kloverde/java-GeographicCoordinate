@@ -5,6 +5,8 @@
 
 package org.loverde.geographiccoordinate;
 
+import java.util.Locale;
+
 import junit.framework.TestCase;
 
 
@@ -379,13 +381,22 @@ public class LatitudeTest extends TestCase {
       assertEquals( Math.toRadians(lat1.toDouble()), lat1.toRadians() );
    }
 
-   public void testToString_success_north() {
-      assertEquals( "12°16'23.45\"N", lat1.toString() );
+   public void testToString_success_north_localeWithPeriods() {
+      assertEquals( "12°16'23.45\"N", lat1.toString(Locale.US) );
    }
 
-   public void testToString_success_south() {
+   public void testToString_success_south_localeWithPeriods() {
       final Latitude l = new Latitude( 12, 16, 23.45d, Latitude.Direction.SOUTH );
-      assertEquals( "12°16'23.45\"S", l.toString() );
+      assertEquals( "12°16'23.45\"S", l.toString(Locale.US) );
+   }
+
+   public void testToString_success_north_localeWithCommas() {
+      assertEquals( "12°16'23,45\"N", lat1.toString(Locale.FRANCE) );
+   }
+
+   public void testToString_success_south_localeWithCommas() {
+      final Latitude l = new Latitude( 12, 16, 23.45d, Latitude.Direction.SOUTH );
+      assertEquals( "12°16'23,45\"S", l.toString(Locale.FRANCE) );
    }
 
    public void testToString_success_noDirectionOnEquator() {

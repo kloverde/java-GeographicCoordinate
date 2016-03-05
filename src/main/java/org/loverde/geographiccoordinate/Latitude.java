@@ -8,6 +8,7 @@ package org.loverde.geographiccoordinate;
 import java.util.Locale;
 
 
+
 /**
  * Lines of latitude run parallel to the Equator (perpendicular to the Prime Meridian).
  * Latitude denotes whether a location is north or south of the Equator.
@@ -168,13 +169,49 @@ public class Latitude extends AbstractGeographicCoordinate {
    }
 
    /**
-    * Returns a degree-minute-seconds formatted latitude.  For example:  30°60'40.912"N
+    * Returns a degrees-minutes-seconds formatted latitude for the default locale.
+    * For example,
+    *
+    * <ul>
+    *    <li>In the United States:  30°60'40.912"N</li>
+    *    <li>In France:  30°60'40,912"N</li>
+    * </ul>
+    *
+    * @see #toString(Locale)
     */
    @Override
    public String toString() {
-      return String.format( Locale.US,
-                            "%s%s",
-                            super.toString(),
-                            getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
+      return toString( Locale.getDefault() );
+   }
+
+   /**
+    * Returns a degrees-minutes-seconds formatted latitude for the specified locale.
+    * For example,
+    *
+    * <ul>
+    *    <li>For {@linkplain Locale#US}:  30°60'40.912"N</li>
+    *    <li>For {@linkplain Locale#FRANCE}:  30°60'40,912"N</li>
+    * </ul>
+    *
+    * @param locale - The locale to localize the output for
+    *
+    * @see #toString()
+    */
+   @Override
+   public String toString( final Locale locale ) {
+      String str = null;
+
+      try {
+         str = super.toString( locale );
+      } catch( final Exception e ) {
+         throw new GeographicCoordinateException( e );
+      }
+
+      str = String.format( locale,
+                           "%s%s",
+                           str,
+                           getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
+
+      return str;
    }
 }

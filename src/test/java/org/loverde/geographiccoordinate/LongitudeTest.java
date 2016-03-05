@@ -5,6 +5,8 @@
 
 package org.loverde.geographiccoordinate;
 
+import java.util.Locale;
+
 import junit.framework.TestCase;
 
 
@@ -379,13 +381,22 @@ public class LongitudeTest extends TestCase {
       assertEquals( Math.toRadians(lon1.toDouble()), lon1.toRadians() );
    }
 
-   public void testToString_success_east() {
-      assertEquals( "12°16'23.45\"E", lon1.toString() );
+   public void testToString_success_east_localeWithPeriods() {
+      assertEquals( "12°16'23.45\"E", lon1.toString(Locale.US) );
    }
 
-   public void testToString_success_west() {
+   public void testToString_success_west_localeWithPeriods() {
       final Longitude l = new Longitude( 12, 16, 23.45d, Longitude.Direction.WEST );
-      assertEquals( "12°16'23.45\"W", l.toString() );
+      assertEquals( "12°16'23.45\"W", l.toString(Locale.US) );
+   }
+
+   public void testToString_success_east_localeWithCommas() {
+      assertEquals( "12°16'23,45\"E", lon1.toString(Locale.FRANCE) );
+   }
+
+   public void testToString_success_west_localeWithCommas() {
+      final Longitude l = new Longitude( 12, 16, 23.45d, Longitude.Direction.WEST );
+      assertEquals( "12°16'23,45\"W", l.toString(Locale.FRANCE) );
    }
 
    public void testToString_success_noDirectionOnPrimeMeridian() {

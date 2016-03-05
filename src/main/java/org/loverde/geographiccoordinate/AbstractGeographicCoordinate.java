@@ -27,12 +27,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
    private static final int MAX_VALUE_MINUTES = 59;
    private static final double MAX_VALUE_SECONDS = 59.9999999999999d;
 
-   private static final DecimalFormat decimalFormat;
+   private static final int DECIMAL_FORMAT_MAX_FACTION_DIGITS = 15;
 
-   static {
-      decimalFormat = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(Locale.ENGLISH) );
-      decimalFormat.setMaximumFractionDigits( 15 );
-   }
 
    /**
     * @throws GeographicCoordinateException If you extend this class yourself
@@ -122,13 +118,19 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
       return true;
    }
 
-   @Override
-   public String toString() {
-      return String.format( Locale.US,
+   public String toString( final Locale locale ) {
+      final DecimalFormat fmt;
+
+      if( locale == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LOCALE_NULL );
+
+      fmt = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(locale) );
+      fmt.setMaximumFractionDigits( DECIMAL_FORMAT_MAX_FACTION_DIGITS );
+
+      return String.format( locale,
                             "%d°%d'%s\"",
                             getDegrees(),
                             getMinutes(),
-                            decimalFormat.format(getSeconds()) );
+                            fmt.format(getSeconds()) );
    }
 
    private void setMaxValueDegrees( final int max ) {

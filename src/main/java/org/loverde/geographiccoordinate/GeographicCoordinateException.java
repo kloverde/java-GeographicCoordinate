@@ -26,6 +26,7 @@ public class GeographicCoordinateException extends RuntimeException {
                                  DIRECTION_NULL     = "Direction is null",
                                  DISALLOWED_EXTENDS = "This class may only be extended by Latitude or Longitude",
                                  LATITUDE_NULL      = "Latitude is null",
+                                 LOCALE_NULL        = "Locale is null",
                                  LONGITUDE_NULL     = "Longitude is null",
                                  NAME_NULL          = "Name is null";
    }
