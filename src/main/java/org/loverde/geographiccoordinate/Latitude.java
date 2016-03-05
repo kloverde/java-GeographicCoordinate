@@ -195,6 +195,8 @@ public class Latitude extends AbstractGeographicCoordinate {
     *
     * @param locale - The locale to localize the output for
     *
+    * @throws GeographicCoordinateException If {@code locale} is null
+    *
     * @see #toString()
     */
    @Override
