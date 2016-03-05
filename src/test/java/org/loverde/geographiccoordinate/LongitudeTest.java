@@ -11,6 +11,11 @@ import junit.framework.TestCase;
 public class LongitudeTest extends TestCase {
    private Longitude lon1;
 
+   private static final String DEGREES_RANGE = Longitude.class.getSimpleName() + GeographicCoordinateException.Messages.DEGREES_RANGE + Longitude.MAX_VALUE,
+                               MINUTES_RANGE = Longitude.class.getSimpleName() + GeographicCoordinateException.Messages.MINUTES_RANGE,
+                               MINUTES_AND_SECONDS_MUST_BE_ZERO = Longitude.class.getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + Longitude.MAX_VALUE,
+                               SECONDS_RANGE = Longitude.class.getSimpleName() + GeographicCoordinateException.Messages.SECONDS_RANGE;
+
    @Override
    public void setUp() throws GeographicCoordinateException {
       lon1 = new Longitude( 12, 16, 23.45d, Longitude.Direction.EAST );
@@ -101,7 +106,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( Longitude.MAX_VALUE + 1 );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE) );
+         assertTrue( e.getMessage().endsWith(DEGREES_RANGE) );
       }
    }
 
@@ -110,7 +115,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( Longitude.MAX_VALUE + .000000001d );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+         assertTrue( e.getMessage().endsWith(MINUTES_AND_SECONDS_MUST_BE_ZERO) );
       }
    }
 
@@ -129,7 +134,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( -(Longitude.MAX_VALUE + 1) );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE) );
+         assertTrue( e.getMessage().endsWith(DEGREES_RANGE) );
       }
    }
 
@@ -138,7 +143,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( -(Longitude.MAX_VALUE + .000000001d) );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+         assertTrue( e.getMessage().endsWith(MINUTES_AND_SECONDS_MUST_BE_ZERO) );
       }
    }
 
@@ -169,7 +174,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( -1, 10, 20, Longitude.Direction.EAST );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE) );
+         assertTrue( e.getMessage().endsWith(DEGREES_RANGE) );
       }
    }
 
@@ -182,7 +187,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( Longitude.MAX_VALUE + 1, 0, 0, Longitude.Direction.EAST );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE) );
+         assertTrue( e.getMessage().endsWith(DEGREES_RANGE) );
       }
    }
 
@@ -204,7 +209,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( 10, -1, 10, Longitude.Direction.EAST );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE) );
+         assertTrue( e.getMessage().endsWith(MINUTES_RANGE) );
       }
    }
 
@@ -217,7 +222,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( 10, 60, 1, Longitude.Direction.EAST );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE) );
+         assertTrue( e.getMessage().endsWith(MINUTES_RANGE) );
       }
    }
 
@@ -226,7 +231,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( Longitude.MAX_VALUE, 1, 0, Longitude.Direction.EAST );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+         assertTrue( e.getMessage().endsWith(MINUTES_AND_SECONDS_MUST_BE_ZERO) );
       }
    }
 
@@ -239,7 +244,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( 20, 10, -.0000001d, Longitude.Direction.EAST );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE) );
+         assertTrue( e.getMessage().endsWith(SECONDS_RANGE) );
       }
    }
 
@@ -252,7 +257,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( 10, 10, 60, Longitude.Direction.EAST );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE) );
+         assertTrue( e.getMessage().endsWith(SECONDS_RANGE) );
       }
    }
 
@@ -261,7 +266,7 @@ public class LongitudeTest extends TestCase {
          new Longitude( Longitude.MAX_VALUE, 0, 1, Longitude.Direction.EAST );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+         assertTrue( e.getMessage().endsWith(MINUTES_AND_SECONDS_MUST_BE_ZERO) );
       }
    }
 

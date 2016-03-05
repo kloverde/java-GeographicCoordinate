@@ -1,3 +1,8 @@
+## Release 2.0.2 (UPCOMING RELEASE)
+
+* Internal changes to how exception messages are constructed - values are unchanged.
+
+
 ## Release 2.0.1 (March 4, 2016)
 
 * Some javadoc fixes

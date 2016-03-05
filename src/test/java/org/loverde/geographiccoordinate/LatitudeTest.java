@@ -11,6 +11,11 @@ import junit.framework.TestCase;
 public class LatitudeTest extends TestCase {
    private Latitude lat1;
 
+   private static final String DEGREES_RANGE = "Latitude" + GeographicCoordinateException.Messages.DEGREES_RANGE + Latitude.MAX_VALUE,
+                               MINUTES_RANGE = "Latitude" + GeographicCoordinateException.Messages.MINUTES_RANGE,
+                               MINUTES_AND_SECONDS_MUST_BE_ZERO = "Latitude" + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + Latitude.MAX_VALUE,
+                               SECONDS_RANGE = "Latitude" + GeographicCoordinateException.Messages.SECONDS_RANGE;
+
    @Override
    public void setUp() throws GeographicCoordinateException {
       lat1 = new Latitude( 12, 16, 23.45d, Latitude.Direction.NORTH );
@@ -101,7 +106,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( 91 );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE) );
+         assertTrue( e.getMessage().endsWith(DEGREES_RANGE) );
       }
    }
 
@@ -110,7 +115,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( 90.000000001d );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+         assertTrue( e.getMessage().endsWith(MINUTES_AND_SECONDS_MUST_BE_ZERO) );
       }
    }
 
@@ -129,7 +134,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( -91 );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE) );
+         assertTrue( e.getMessage().endsWith(DEGREES_RANGE) );
       }
    }
 
@@ -138,7 +143,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( -90.000000001d );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+         assertTrue( e.getMessage().endsWith(MINUTES_AND_SECONDS_MUST_BE_ZERO) );
       }
    }
 
@@ -169,7 +174,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( -1, 10, 20, Latitude.Direction.NORTH );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE) );
+         assertTrue( e.getMessage().endsWith(DEGREES_RANGE) );
       }
    }
 
@@ -182,7 +187,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( Latitude.MAX_VALUE + 1, 0, 0, Latitude.Direction.NORTH );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE) );
+         assertTrue( e.getMessage().endsWith(DEGREES_RANGE) );
       }
    }
 
@@ -204,7 +209,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( 10, -1, 10, Latitude.Direction.NORTH );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_MINUTES_RANGE) );
+         assertTrue( e.getMessage().endsWith(MINUTES_RANGE) );
       }
    }
 
@@ -217,7 +222,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( 10, 60, 1, Latitude.Direction.NORTH );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_MINUTES_RANGE) );
+         assertTrue( e.getMessage().endsWith(MINUTES_RANGE) );
       }
    }
 
@@ -226,7 +231,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( 90, 1, 0, Latitude.Direction.NORTH );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+         assertTrue( e.getMessage().endsWith(MINUTES_AND_SECONDS_MUST_BE_ZERO) );
       }
    }
 
@@ -239,7 +244,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( 20, 10, -.0000001d, Latitude.Direction.NORTH );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_SECONDS_RANGE) );
+         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.SECONDS_RANGE) );
       }
    }
 
@@ -252,7 +257,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( 10, 10, 60, Latitude.Direction.NORTH );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_SECONDS_RANGE) );
+         assertTrue( e.getMessage().endsWith(SECONDS_RANGE) );
       }
    }
 
@@ -261,7 +266,7 @@ public class LatitudeTest extends TestCase {
          new Latitude( 90, 0, 1, Latitude.Direction.NORTH );
          fail( "Expected exception" );
       } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO) );
+         assertTrue( e.getMessage().endsWith(MINUTES_AND_SECONDS_MUST_BE_ZERO) );
       }
    }
 

@@ -141,15 +141,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setDegrees( final int degrees ) {
       if( degrees < 0 || degrees > getMaxValueDegrees() ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE
-                                           : GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.DEGREES_RANGE + getMaxValueDegrees() );
       }
 
       if( degrees == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
-                                           : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.degrees = degrees;
@@ -157,15 +153,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setMinutes( final int mins ) {
       if( mins < 0 || mins > MAX_VALUE_MINUTES ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_RANGE
-                                           : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_RANGE );
       }
 
       if( getDegrees() == getMaxValueDegrees() && mins != 0 ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
-                                           : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.minutes = mins;
@@ -173,15 +165,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setSeconds( final double seconds ) {
       if( seconds < 0.0d || seconds > MAX_VALUE_SECONDS ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_SECONDS_RANGE
-                                           : GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.SECONDS_RANGE );
       }
 
       if( getDegrees() == getMaxValueDegrees() && seconds != 0.0d ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
-                                           : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.seconds = seconds;
