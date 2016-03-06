@@ -70,14 +70,10 @@ public class Latitude extends AbstractGeographicCoordinate {
    public Latitude( final double latitude ) {
       super( latitude );
 
-      try {
-         if( latitude == 0.0d ) {
-            setDirection( Direction.NEITHER );
-         } else {
-            setDirection( latitude > 0.0d ? Direction.NORTH : Direction.SOUTH );
-         }
-      } catch( final IllegalArgumentException e ) {
-         throw new GeographicCoordinateException( e.getMessage(), e );
+      if( latitude == 0.0d ) {
+         setDirection( Direction.NEITHER );
+      } else {
+         setDirection( latitude > 0.0d ? Direction.NORTH : Direction.SOUTH );
       }
    }
 
@@ -95,26 +91,22 @@ public class Latitude extends AbstractGeographicCoordinate {
    public Latitude( final int degrees, final int minutes, final double seconds, final Latitude.Direction direction ) {
       super( degrees, minutes, seconds );
 
-      try {
-         setDirection( direction );
-      } catch( final IllegalArgumentException e ) {
-         throw new GeographicCoordinateException( e.getMessage(), e );
-      }
+      setDirection( direction );
    }
 
    /**
     * @param direction - A member of {@linkplain Latitude.Direction}
     *
-    * @throws IllegalArgumentException In the following situations:
+    * @throws GeographicCoordinateException In the following situations:
     * <ul>
     *    <li>{@code direction} is null</li>
     *    <li>{@code direction} is {@linkplain Direction#NEITHER} but the latitude is not 0.0
     * </ul>
     */
    private void setDirection( final Latitude.Direction direction ) {
-      if( direction == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
+      if( direction == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
 
-      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
+      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
 
       this.direction = direction;
    }

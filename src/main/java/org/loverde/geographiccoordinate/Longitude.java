@@ -70,51 +70,43 @@ public class Longitude extends AbstractGeographicCoordinate {
    public Longitude( final double longitude ) {
       super( longitude );
 
-      try {
-         if( longitude == 0.0d ) {
-            setDirection( Direction.NEITHER );
-         } else {
-            setDirection( longitude > 0.0d ? Direction.EAST : Direction.WEST );
-         }
-      } catch( final IllegalArgumentException e ) {
-         throw new GeographicCoordinateException( e.getMessage(), e );
+      if( longitude == 0.0d ) {
+         setDirection( Direction.NEITHER );
+      } else {
+         setDirection( longitude > 0.0d ? Direction.EAST : Direction.WEST );
       }
    }
 
    /**
     * Creates a new longitude object
     *
-    * @param degrees - Accepted range [0-180]
-    * @param minutes - Accepted range [0-59] unless {@code degrees} is 180, in which case {@code minutes} must be 0
-    * @param seconds - Accepted range [0-59.9999999999999] unless {@code degrees} is 180, in which case {@code seconds} must be 0
-    * @param dir
+    * @param degrees   - Accepted range [0-180]
+    * @param minutes   - Accepted range [0-59] unless {@code degrees} is 180, in which case {@code minutes} must be 0
+    * @param seconds   - Accepted range [0-59.9999999999999] unless {@code degrees} is 180, in which case {@code seconds} must be 0
+    * @param direction - A {@linkplain Latitude.Direction}
     *
     * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges, or if degrees/minutes/seconds
     *                                       are all 0 with a {@code direction} other than {@linkplain Direction#NEITHER}
     */
-   public Longitude( final int degrees, final int minutes, final double seconds, final Longitude.Direction dir ) {
+   public Longitude( final int degrees, final int minutes, final double seconds, final Longitude.Direction direction ) {
       super( degrees, minutes, seconds );
 
-      try {
-         setDirection( dir );
-      } catch( final IllegalArgumentException e ) {
-         throw new GeographicCoordinateException( e.getMessage(), e );
-      }
+      setDirection( direction );
    }
 
    /**
-    * @param direction - A member of {@code Longitude.Direction}
+    * @param direction - A member of {@linkplain Longitude.Direction}
     *
-    * @throws IllegalArgumentException In the following situations:
+    * @throws GeographicCoordinateException In the following situations:
     * <ul>
     *    <li>{@code direction} is null</li>
     *    <li>{@code direction} is {@linkplain Direction#NEITHER} but the latitude is not 0.0
     * </ul>
     */
    private void setDirection( final Longitude.Direction direction ) {
-      if( direction == null )  throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_NULL );
+      if( direction == null )  throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
 
-      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
+      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
 
       this.direction = direction;
    }

@@ -29,12 +29,8 @@ public class Point {
     * @throws GeographicCoordinateException If either parameter is null
     */
    public Point( final Latitude latitude, final Longitude longitude ) {
-      try {
-         setLatitude( latitude );
-         setLongitude( longitude );
-      } catch( final Exception e ) {
-         throw new GeographicCoordinateException( e );
-      }
+      setLatitude( latitude );
+      setLongitude( longitude );
    }
 
    /**
@@ -48,12 +44,7 @@ public class Point {
     */
    public Point( final Latitude latitude, final Longitude longitude, final String name ) {
       this( latitude, longitude );
-
-      try {
-         setName( name );
-      } catch( final Exception e ) {
-         throw new GeographicCoordinateException( e );
-      }
+      setName( name );
    }
 
    public Latitude getLatitude() {
@@ -61,7 +52,7 @@ public class Point {
    }
 
    private void setLatitude( final Latitude latitude ) {
-      if( latitude == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LATITUDE_NULL );
+      if( latitude == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.LATITUDE_NULL );
 
       this.latitude = latitude;
    }
@@ -71,7 +62,7 @@ public class Point {
    }
 
    private void setLongitude( final Longitude longitude ) {
-      if( longitude == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LONGITUDE_NULL );
+      if( longitude == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.LONGITUDE_NULL );
 
       this.longitude = longitude;
    }
@@ -84,7 +75,7 @@ public class Point {
     * @param name - Use for identification, such as displaying a label on a map
     */
    private void setName( final String name ) {
-      if( name == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.NAME_NULL );
+      if( name == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.NAME_NULL );
 
       this.name = name;
    }
