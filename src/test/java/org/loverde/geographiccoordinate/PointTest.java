@@ -20,7 +20,7 @@ public class PointTest extends TestCase {
 
 
    @Override
-   public void setUp() throws GeographicCoordinateException {
+   public void setUp() {
       latitude1 = new Latitude( 40, 42, 46.1, Latitude.Direction.NORTH );
       longitude1 = new Longitude(  74, 0, 21.1, Longitude.Direction.WEST );
 

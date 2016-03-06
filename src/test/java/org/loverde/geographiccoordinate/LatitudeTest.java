@@ -21,7 +21,7 @@ public class LatitudeTest extends TestCase {
                                SECONDS_RANGE = "Latitude" + GeographicCoordinateException.Messages.SECONDS_RANGE;
 
    @Override
-   public void setUp() throws GeographicCoordinateException {
+   public void setUp() {
       lat1 = new Latitude( 12, 16, 23.45d, Latitude.Direction.NORTH );
    }
 
@@ -95,7 +95,7 @@ public class LatitudeTest extends TestCase {
       assertEquals( Latitude.Direction.NEITHER, l.getDirection() );
    }
 
-   public void testDoubleConstructor_success_maxValue() throws GeographicCoordinateException {
+   public void testDoubleConstructor_success_maxValue() {
       final Latitude l = new Latitude( 90 );
 
       assertEquals( 90, l.getDegrees() );
@@ -123,7 +123,7 @@ public class LatitudeTest extends TestCase {
       }
    }
 
-   public void testDoubleConstructor_success_minValue() throws GeographicCoordinateException {
+   public void testDoubleConstructor_success_minValue() {
       final Latitude l = new Latitude( -90 );
 
       assertEquals( 90, l.getDegrees() );  // degrees are not negative - direction indicates sign
@@ -182,7 +182,7 @@ public class LatitudeTest extends TestCase {
       }
    }
 
-   public void testConstructor_success_degreesAtMaxValue() throws GeographicCoordinateException {
+   public void testConstructor_success_degreesAtMaxValue() {
       new Latitude( 90, 0, 0, Latitude.Direction.NORTH );
    }
 
@@ -204,7 +204,7 @@ public class LatitudeTest extends TestCase {
       }
    }
 
-   public void testConstructor_success_minutesAtMinValue() throws GeographicCoordinateException {
+   public void testConstructor_success_minutesAtMinValue() {
       new Latitude( 10, 0, 10, Latitude.Direction.NORTH );
    }
 

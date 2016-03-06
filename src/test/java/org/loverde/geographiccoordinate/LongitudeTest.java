@@ -21,7 +21,7 @@ public class LongitudeTest extends TestCase {
                                SECONDS_RANGE = Longitude.class.getSimpleName() + GeographicCoordinateException.Messages.SECONDS_RANGE;
 
    @Override
-   public void setUp() throws GeographicCoordinateException {
+   public void setUp() {
       lon1 = new Longitude( 12, 16, 23.45d, Longitude.Direction.EAST );
    }
 
@@ -95,7 +95,7 @@ public class LongitudeTest extends TestCase {
       assertEquals( Longitude.Direction.NEITHER, l.getDirection() );
    }
 
-   public void testDoubleConstructor_success_maxValue() throws GeographicCoordinateException {
+   public void testDoubleConstructor_success_maxValue() {
       final Longitude l = new Longitude( Longitude.MAX_VALUE );
 
       assertEquals( Longitude.MAX_VALUE, l.getDegrees() );
@@ -123,7 +123,7 @@ public class LongitudeTest extends TestCase {
       }
    }
 
-   public void testDoubleConstructor_success_minValue() throws GeographicCoordinateException {
+   public void testDoubleConstructor_success_minValue() {
       final Longitude l = new Longitude( -Longitude.MAX_VALUE );
 
       assertEquals( Longitude.MAX_VALUE, l.getDegrees() );  // degrees are not negative - direction indicates sign
@@ -182,7 +182,7 @@ public class LongitudeTest extends TestCase {
       }
    }
 
-   public void testConstructor_success_degreesAtMaxValue() throws GeographicCoordinateException {
+   public void testConstructor_success_degreesAtMaxValue() {
       new Longitude( Longitude.MAX_VALUE, 0, 0, Longitude.Direction.EAST );
    }
 
@@ -204,7 +204,7 @@ public class LongitudeTest extends TestCase {
       }
    }
 
-   public void testConstructor_success_minutesAtMinValue() throws GeographicCoordinateException {
+   public void testConstructor_success_minutesAtMinValue() {
       new Longitude( 10, 0, 10, Longitude.Direction.EAST );
    }
 

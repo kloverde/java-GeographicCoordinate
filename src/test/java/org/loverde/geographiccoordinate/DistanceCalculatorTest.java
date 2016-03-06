@@ -30,7 +30,7 @@ public class DistanceCalculatorTest extends TestCase {
 
 
    @Override
-   public void setUp() throws GeographicCoordinateException {
+   public void setUp() {
       latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
       longitude1 = new Longitude(  74, 0, 21, Longitude.Direction.WEST );
 
@@ -194,12 +194,10 @@ public class DistanceCalculatorTest extends TestCase {
     * for a plane or something, <strong>you're a complete fool.</strong>  Don't even think about doing this.
     * </p>
     *
-    * @throws GeographicCoordinateException
-    *
     * @see <a href="http://binged.it/1SPhHjq">Shortened trip URL</a>  - Who knows how long this will exist before Bing deletes it...
     * @see <a href="http://www.bing.com/mapspreview?&ty=0&rtp=pos.35.048992_-118.987968_I-5%20N%2c%20Bakersfield%2c%20CA%2093307_I-5%20N%2c%20Bakersfield%2c%20CA%2093307__e_~pos.36.078312_-120.103737_I-5%20N%2c%20Huron%2c%20CA%2093234_I-5%20N%2c%20Huron%2c%20CA%2093234__e_&mode=d&u=0&tt=I-5%20N%2c%20Bakersfield%2c%20CA%2093307%20to%20I-5%20N%2c%20Huron%2c%20CA%2093234&tsts2=%2526ty%253d18%2526q%253d35.04899226103765%25252c-118.98797131369996%2526mb%253d36.379826~-121.444888~34.715083~-117.418399&tstt2=I-5%20N%2c%20Bakersfield%2c%20CA%2093307&tsts1=%2526ty%253d0%2526rtp%253dpos.35.048992_-118.987968_I-5%252520N%25252c%252520Bakersfield%25252c%252520CA%25252093307_I-5%252520N%25252c%252520Bakersfield%25252c%252520CA%25252093307__e_~pos.36.078312_-120.103737_I-5%252520N%25252c%252520Huron%25252c%252520CA%25252093234_I-5%252520N%25252c%252520Huron%25252c%252520CA%25252093234__e_%2526mode%253dd%2526u%253d0&tstt1=I-5%20N%2c%20Bakersfield%2c%20CA%2093307%20to%20I-5%20N%2c%20Huron%2c%20CA%2093234&tsts0=%2526ty%253d18%2526q%253d36.07831163070724%25252c-120.1037394074518%2526mb%253d36.084772~-120.119465~36.071852~-120.088008&tstt0=I-5%20N%2c%20Huron%2c%20CA%2093234&cp=36.078659~-120.107106&lvl=16&ftst=1&ftics=True&v=2&sV=1&form=S00027">Full trip URL</a> - Use this if the shortened URL doesn't work.  This URL is so ridiculous, there's no telling how long it will actually work before Bing changes the URL format.
     */
-   public void testDistance_interpolateActualTrip() throws GeographicCoordinateException {
+   public void testDistance_interpolateActualTrip() {
       Point points[] = new Point[20];
       int idx = 0;
 
