@@ -151,7 +151,6 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     */
    public String toString( final Locale locale ) {
       final DecimalFormat fmt;
-      final AbstractDirection direction = getDirection();
 
       String str = null;
 
@@ -164,8 +163,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
                            "%d°%d'%s\"%s",
                            getDegrees(),
                            getMinutes(),
-                           fmt.format(getSeconds()),
-                           direction.getAbbreviation() );
+                           fmt.format( getSeconds() ),
+                           getDirection() != null ? getDirection().getAbbreviation() : "" );
 
       return str;
    }
