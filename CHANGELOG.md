@@ -1,8 +1,8 @@
 ## Release 2.1 (UPCOMING RELEASE)
 
+* Note:  getAbbreviation() for Latitude.Direction.NEITHER and Longitude.Direction.NEITHER now returns empty string instead of "NEITHER".
 * Updated Latitude and Longitude's toString() to format seconds according to the default locale
 * Added toString(Locale) to Latitude and Longitude to accommodate region-specific decimal formatting
-* getAbbreviation() for Latitude.Direction.NEITHER and Longitude.Direction.NEITHER now returns empty string instead of "NEITHER".
 
 
 ## Release 2.0.1 (March 4, 2016)
