@@ -1,4 +1,4 @@
-## Release 2.0.2 (UPCOMING RELEASE)
+## Release 2.1 (UPCOMING RELEASE)
 
 * Updated Latitude and Longitude's toString() to format seconds according to the default locale
 * Added toString(Locale) to Latitude and Longitude to accommodate region-specific decimal formatting
