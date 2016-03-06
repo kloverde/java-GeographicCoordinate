@@ -44,8 +44,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
          setDegrees( degrees );
          setMinutes( minutes );
          setSeconds( seconds );
-      } catch( final Exception e ) {
-         throw new GeographicCoordinateException( e );
+      } catch( final IllegalArgumentException e ) {
+         throw new GeographicCoordinateException( e.getMessage(), e );
       }
    }
 
@@ -159,8 +159,15 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
       String str = null;
 
-      if( locale == null ) throw new GeographicCoordinateException( new IllegalArgumentException(GeographicCoordinateException.Messages.LOCALE_NULL) );
-      if( direction == null ) throw new GeographicCoordinateException( new IllegalStateException(GeographicCoordinateException.Messages.DIRECTION_NULL) );
+      if( locale == null ) {
+         final IllegalArgumentException iae = new IllegalArgumentException( GeographicCoordinateException.Messages.LOCALE_NULL );
+         throw new GeographicCoordinateException( iae.getMessage(), iae );
+      }
+
+      if( direction == null ) {
+         final IllegalStateException ise = new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
+         throw new GeographicCoordinateException( ise.getMessage(), ise );
+      }
 
       fmt = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(locale) );
       fmt.setMaximumFractionDigits( DECIMAL_FORMAT_MAX_FACTION_DIGITS );
