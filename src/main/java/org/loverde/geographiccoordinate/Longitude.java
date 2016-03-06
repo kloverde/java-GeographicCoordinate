@@ -76,8 +76,8 @@ public class Longitude extends AbstractGeographicCoordinate {
          } else {
             setDirection( longitude > 0.0d ? Direction.EAST : Direction.WEST );
          }
-      } catch( final Exception e ) {
-         throw new GeographicCoordinateException( e );
+      } catch( final IllegalArgumentException e ) {
+         throw new GeographicCoordinateException( e.getMessage(), e );
       }
    }
 
@@ -97,8 +97,8 @@ public class Longitude extends AbstractGeographicCoordinate {
 
       try {
          setDirection( dir );
-      } catch( final Exception e ) {
-         throw new GeographicCoordinateException( e );
+      } catch( final IllegalArgumentException e ) {
+         throw new GeographicCoordinateException( e.getMessage(), e );
       }
    }
 
@@ -133,7 +133,10 @@ public class Longitude extends AbstractGeographicCoordinate {
    @Override
    public double toDouble() {
       // Sanity check for an impossible scenario
-      if( getDirection() == null ) throw new GeographicCoordinateException( new IllegalStateException(GeographicCoordinateException.Messages.DIRECTION_NULL) );
+      if( getDirection() == null ) {
+         final IllegalStateException stateEx = new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
+         throw new GeographicCoordinateException( stateEx.getMessage(), stateEx );
+      }
 
       final double decimal = getDegrees() + (getMinutes() / 60.0d) + (getSeconds() / 3600.0d);
 

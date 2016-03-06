@@ -1,3 +1,8 @@
+## Release 2.1.1 (March 6, 2016)
+
+* Tweaked exception re-throwing
+
+
 ## Release 2.1 (March 6, 2016)
 
 * Note:  getAbbreviation() for Latitude.Direction.NEITHER and Longitude.Direction.NEITHER now returns empty string instead of "NEITHER".
