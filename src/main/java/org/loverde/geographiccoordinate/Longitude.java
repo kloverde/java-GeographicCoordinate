@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2013 Kurtis LoVerde
  * All rights reserved
+ *
+ * https://github.com/kloverde/GeographicCoordinate
  */
 
 package org.loverde.geographiccoordinate;
-
-import java.util.Locale;
 
 
 /**
@@ -18,7 +18,7 @@ public class Longitude extends AbstractGeographicCoordinate {
    /**
     * Indicates whether a location is north or south of the Prime Meridian, or on the Prime Meridian
     */
-   public static enum Direction {
+   public static enum Direction implements AbstractDirection {
       /**
        * Indicates that the location is east of the Prime Meridian
        */
@@ -33,7 +33,7 @@ public class Longitude extends AbstractGeographicCoordinate {
        * Indicates that the location is on the Prime Meridian
        * (neither east not west:  the longitude is exactly 0.0).
        */
-      NEITHER( "NEITHER" );
+      NEITHER( "" );
 
       private String abbreviation;
 
@@ -41,13 +41,20 @@ public class Longitude extends AbstractGeographicCoordinate {
          this.abbreviation = abbr;
       }
 
+      @Override
       public String getAbbreviation() {
          return abbreviation;
       }
    };
 
-   private Direction direction;
+   private Longitude.Direction direction;
 
+   /**
+    * When expressed as a floating-point number, valid longitudes sit in a
+    * range of +/- 180.0.  When expressed as degrees/minutes/seconds, the
+    * valid range for degrees is 0-180, with minutes and seconds equal to
+    * 0 when degrees is 180.
+    */
    public static final int MAX_VALUE = 180;
 
 
@@ -118,6 +125,7 @@ public class Longitude extends AbstractGeographicCoordinate {
     *
     * @return Orientation with respect to the Prime Meridian
     */
+   @Override
    public Longitude.Direction getDirection() {
       return direction;
    }
@@ -165,16 +173,5 @@ public class Longitude extends AbstractGeographicCoordinate {
       if( !getDirection().equals(other.getDirection()) ) return false;
 
       return super.equals( other );
-   }
-
-   /**
-    * Returns a degree-minute-seconds formatted longitude.  For example:  30°40'50.123"E
-    */
-   @Override
-   public String toString() {
-      return String.format( Locale.US,
-                            "%s%s",
-                            super.toString(),
-                            getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
    }
 }

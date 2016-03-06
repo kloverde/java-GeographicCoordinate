@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2015 Kurtis LoVerde
  * All rights reserved
+ *
+ * https://github.com/kloverde/GeographicCoordinate
  */
 
 package org.loverde.geographiccoordinate;
@@ -11,6 +13,7 @@ public interface GeographicCoordinate {
    public int getDegrees();
    public int getMinutes();
    public double getSeconds();
+   public AbstractDirection getDirection();
 
    public double toDouble();
    public double toRadians();

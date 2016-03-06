@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2013 Kurtis LoVerde
  * All rights reserved
+ *
+ * https://github.com/kloverde/GeographicCoordinate
  */
 
 package org.loverde.geographiccoordinate;
-
-import java.util.Locale;
 
 
 /**
@@ -18,7 +18,7 @@ public class Latitude extends AbstractGeographicCoordinate {
    /**
     * Indicates whether a location is north or south of the Equator, or on the Equator
     */
-   public static enum Direction {
+   public static enum Direction implements AbstractDirection {
       /**
        * Indicates that the location is north of the Equator
        */
@@ -33,7 +33,7 @@ public class Latitude extends AbstractGeographicCoordinate {
        * Indicates that the location is on the Equator
        * (neither north nor south:  the latitude is exactly 0.0).
        */
-      NEITHER( "NEITHER" );
+      NEITHER( "" );
 
       private String abbreviation;
 
@@ -41,6 +41,7 @@ public class Latitude extends AbstractGeographicCoordinate {
          this.abbreviation = abbr;
       }
 
+      @Override
       public String getAbbreviation() {
          return abbreviation;
       }
@@ -48,6 +49,12 @@ public class Latitude extends AbstractGeographicCoordinate {
 
    private Latitude.Direction direction;
 
+   /**
+    * When expressed as a floating-point number, valid latitudes sit in a
+    * range of +/- 90.0.  When expressed as degrees/minutes/seconds, the
+    * valid range for degrees is 0-90, with minutes and seconds equal to
+    * 0 when degrees is 90.
+    */
    public static final int MAX_VALUE = 90;
 
 
@@ -118,6 +125,7 @@ public class Latitude extends AbstractGeographicCoordinate {
     *
     * @return Orientation with respect to the Equator
     */
+   @Override
    public Latitude.Direction getDirection() {
       return direction;
    }
@@ -165,16 +173,5 @@ public class Latitude extends AbstractGeographicCoordinate {
       if( !getDirection().equals(other.getDirection()) ) return false;
 
       return super.equals( other );
-   }
-
-   /**
-    * Returns a degree-minute-seconds formatted latitude.  For example:  30°60'40.912"N
-    */
-   @Override
-   public String toString() {
-      return String.format( Locale.US,
-                            "%s%s",
-                            super.toString(),
-                            getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
    }
 }

@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2013 Kurtis LoVerde
  * All rights reserved
+ *
+ * https://github.com/kloverde/GeographicCoordinate
  */
 
 package org.loverde.geographiccoordinate;
@@ -27,12 +29,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
    private static final int MAX_VALUE_MINUTES = 59;
    private static final double MAX_VALUE_SECONDS = 59.9999999999999d;
 
-   private static final DecimalFormat decimalFormat;
+   private static final int DECIMAL_FORMAT_MAX_FACTION_DIGITS = 15;
 
-   static {
-      decimalFormat = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(Locale.ENGLISH) );
-      decimalFormat.setMaximumFractionDigits( 15 );
-   }
 
    /**
     * @throws GeographicCoordinateException If you extend this class yourself
@@ -122,13 +120,59 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
       return true;
    }
 
+   /**
+    * Returns a degrees-minutes-seconds formatted string for the default locale.
+    * For example,
+    *
+    * <ul>
+    *    <li>In the United States:  30°60'40.912"N</li>
+    *    <li>In France:  30°60'40,912"N</li>
+    * </ul>
+    *
+    * @throws GeographicCoordinateException If {@linkplain #getDirection()} returs null
+    *
+    * @see #toString(Locale)
+    */
    @Override
    public String toString() {
-      return String.format( Locale.US,
-                            "%d°%d'%s\"",
-                            getDegrees(),
-                            getMinutes(),
-                            decimalFormat.format(getSeconds()) );
+      return toString( Locale.getDefault() );
+   }
+
+   /**
+    * Returns a degrees-minutes-seconds formatted string for the specified locale.
+    * For example,
+    *
+    * <ul>
+    *    <li>For {@linkplain Locale#US}:  30°60'40.912"N</li>
+    *    <li>For {@linkplain Locale#FRANCE}:  30°60'40,912"N</li>
+    * </ul>
+    *
+    * @param locale - The locale to localize to
+    *
+    * @throws GeographicCoordinateException If {@code locale} is null or {@linkplain #getDirection()} returns null
+    *
+    * @see #toString()
+    */
+   public String toString( final Locale locale ) {
+      final DecimalFormat fmt;
+      final AbstractDirection direction = getDirection();
+
+      String str = null;
+
+      if( locale == null ) throw new GeographicCoordinateException( new IllegalArgumentException(GeographicCoordinateException.Messages.LOCALE_NULL) );
+      if( direction == null ) throw new GeographicCoordinateException( new IllegalStateException(GeographicCoordinateException.Messages.DIRECTION_NULL) );
+
+      fmt = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(locale) );
+      fmt.setMaximumFractionDigits( DECIMAL_FORMAT_MAX_FACTION_DIGITS );
+
+      str = String.format( locale,
+                           "%d°%d'%s\"%s",
+                           getDegrees(),
+                           getMinutes(),
+                           fmt.format( getSeconds() ),
+                           direction.getAbbreviation() );
+
+      return str;
    }
 
    private void setMaxValueDegrees( final int max ) {
@@ -141,15 +185,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setDegrees( final int degrees ) {
       if( degrees < 0 || degrees > getMaxValueDegrees() ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_DEGREES_RANGE
-                                           : GeographicCoordinateException.Messages.LONGITUDE_DEGREES_RANGE );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.DEGREES_RANGE + getMaxValueDegrees() );
       }
 
       if( degrees == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
-                                           : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.degrees = degrees;
@@ -157,15 +197,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setMinutes( final int mins ) {
       if( mins < 0 || mins > MAX_VALUE_MINUTES ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_RANGE
-                                           : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_RANGE );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_RANGE );
       }
 
       if( getDegrees() == getMaxValueDegrees() && mins != 0 ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
-                                           : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.minutes = mins;
@@ -173,15 +209,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setSeconds( final double seconds ) {
       if( seconds < 0.0d || seconds > MAX_VALUE_SECONDS ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_SECONDS_RANGE
-                                           : GeographicCoordinateException.Messages.LONGITUDE_SECONDS_RANGE );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.SECONDS_RANGE );
       }
 
       if( getDegrees() == getMaxValueDegrees() && seconds != 0.0d ) {
-         throw new IllegalArgumentException( this instanceof Latitude
-                                           ? GeographicCoordinateException.Messages.LATITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO
-                                           : GeographicCoordinateException.Messages.LONGITUDE_MINUTES_AND_SECONDS_MUST_BE_ZERO );
+         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.seconds = seconds;
