@@ -40,13 +40,9 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
       setMaxValueDegrees( this instanceof Latitude ? Latitude.MAX_VALUE : Longitude.MAX_VALUE );
 
-      try {
-         setDegrees( degrees );
-         setMinutes( minutes );
-         setSeconds( seconds );
-      } catch( final IllegalArgumentException e ) {
-         throw new GeographicCoordinateException( e.getMessage(), e );
-      }
+      setDegrees( degrees );
+      setMinutes( minutes );
+      setSeconds( seconds );
    }
 
    /**
@@ -159,10 +155,7 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
       String str = null;
 
-      if( locale == null ) {
-         final IllegalArgumentException iae = new IllegalArgumentException( GeographicCoordinateException.Messages.LOCALE_NULL );
-         throw new GeographicCoordinateException( iae.getMessage(), iae );
-      }
+      if( locale == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.LOCALE_NULL );
 
       if( direction == null ) {
          final IllegalStateException ise = new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
@@ -192,11 +185,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setDegrees( final int degrees ) {
       if( degrees < 0 || degrees > getMaxValueDegrees() ) {
-         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.DEGREES_RANGE + getMaxValueDegrees() );
+         throw new GeographicCoordinateException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.DEGREES_RANGE + getMaxValueDegrees() );
       }
 
       if( degrees == getMaxValueDegrees() && (getMinutes() != 0 || getSeconds() != 0) ) {
-         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
+         throw new GeographicCoordinateException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.degrees = degrees;
@@ -204,11 +197,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setMinutes( final int mins ) {
       if( mins < 0 || mins > MAX_VALUE_MINUTES ) {
-         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_RANGE );
+         throw new GeographicCoordinateException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_RANGE );
       }
 
       if( getDegrees() == getMaxValueDegrees() && mins != 0 ) {
-         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
+         throw new GeographicCoordinateException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.minutes = mins;
@@ -216,11 +209,11 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
    private void setSeconds( final double seconds ) {
       if( seconds < 0.0d || seconds > MAX_VALUE_SECONDS ) {
-         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.SECONDS_RANGE );
+         throw new GeographicCoordinateException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.SECONDS_RANGE );
       }
 
       if( getDegrees() == getMaxValueDegrees() && seconds != 0.0d ) {
-         throw new IllegalArgumentException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
+         throw new GeographicCoordinateException( this.getClass().getSimpleName() + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + getMaxValueDegrees() );
       }
 
       this.seconds = seconds;
