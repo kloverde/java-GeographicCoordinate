@@ -3,7 +3,6 @@
  * All rights reserved
  */
 
-
 package org.loverde.geographiccoordinate;
 
 
