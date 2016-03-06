@@ -127,6 +127,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     *    <li>In France:  30°60'40,912"N</li>
     * </ul>
     *
+    * @throws GeographicCoordinateException If {@linkplain #getDirection()} returs null
+    *
     * @see #toString(Locale)
     */
    @Override
