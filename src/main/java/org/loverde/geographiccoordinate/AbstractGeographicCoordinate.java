@@ -145,7 +145,7 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     *
     * @param locale - The locale to localize to
     *
-    * @throws GeographicCoordinateException If {@code locale} is null
+    * @throws GeographicCoordinateException If {@code locale} is null or {@linkplain #getDirection()} returns null
     *
     * @see #toString()
     */
