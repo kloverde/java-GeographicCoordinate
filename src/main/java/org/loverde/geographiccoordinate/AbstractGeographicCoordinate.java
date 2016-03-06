@@ -151,10 +151,12 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     */
    public String toString( final Locale locale ) {
       final DecimalFormat fmt;
+      final AbstractDirection direction = getDirection();
 
       String str = null;
 
       if( locale == null ) throw new GeographicCoordinateException( new IllegalArgumentException(GeographicCoordinateException.Messages.LOCALE_NULL) );
+      if( direction == null ) throw new GeographicCoordinateException( new IllegalStateException(GeographicCoordinateException.Messages.DIRECTION_NULL) );
 
       fmt = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(locale) );
       fmt.setMaximumFractionDigits( DECIMAL_FORMAT_MAX_FACTION_DIGITS );
@@ -164,7 +166,7 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
                            getDegrees(),
                            getMinutes(),
                            fmt.format( getSeconds() ),
-                           getDirection() != null ? getDirection().getAbbreviation() : "" );
+                           direction.getAbbreviation() );
 
       return str;
    }
