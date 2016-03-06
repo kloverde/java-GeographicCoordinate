@@ -15,7 +15,7 @@ public class AbstractGeographicCoordinateTest extends TestCase {
       }
 
       @Override
-      public IDirection getDirection() {
+      public AbstractDirection getDirection() {
          return null;
       }
    }

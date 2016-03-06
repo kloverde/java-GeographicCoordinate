@@ -16,7 +16,7 @@ public class Longitude extends AbstractGeographicCoordinate {
    /**
     * Indicates whether a location is north or south of the Prime Meridian, or on the Prime Meridian
     */
-   public static enum Direction implements IDirection {
+   public static enum Direction implements AbstractDirection {
       /**
        * Indicates that the location is east of the Prime Meridian
        */

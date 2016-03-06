@@ -16,7 +16,7 @@ public class Latitude extends AbstractGeographicCoordinate {
    /**
     * Indicates whether a location is north or south of the Equator, or on the Equator
     */
-   public static enum Direction implements IDirection {
+   public static enum Direction implements AbstractDirection {
       /**
        * Indicates that the location is north of the Equator
        */

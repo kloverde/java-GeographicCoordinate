@@ -7,7 +7,7 @@
 package org.loverde.geographiccoordinate;
 
 
-public interface IDirection {
+public interface AbstractDirection {
 
    public String getAbbreviation();
 }

@@ -151,7 +151,7 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     */
    public String toString( final Locale locale ) {
       final DecimalFormat fmt;
-      final IDirection direction = getDirection();
+      final AbstractDirection direction = getDirection();
 
       String str = null;
 
