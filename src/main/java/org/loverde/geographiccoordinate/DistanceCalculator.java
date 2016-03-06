@@ -35,7 +35,7 @@ package org.loverde.geographiccoordinate;
  * @see <a href="http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html">NASA's Earth radius figures</a>
  */
 public class DistanceCalculator {
-
+/*
    public static void main( String args[] ) {
       Latitude latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
       Longitude longitude1 = new Longitude(  74, 0, 21, Longitude.Direction.WEST );
@@ -51,7 +51,7 @@ public class DistanceCalculator {
       System.out.println( distance(Unit.MILES, point1, point2) );
       System.out.println( distance(Unit.NAUTICAL_MILES, point1, point2) );
    }
-
+*/
    /**
     * Units of distance - use this with the {@code distance} methods in this class.
     */
