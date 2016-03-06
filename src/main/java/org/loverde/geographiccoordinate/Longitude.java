@@ -47,6 +47,12 @@ public class Longitude extends AbstractGeographicCoordinate {
 
    private Longitude.Direction direction;
 
+   /**
+    * When expressed as a floating-point number, valid longitudes sit in a
+    * range of +/- 180.0.  When expressed as degrees/minutes/seconds, the
+    * valid range for degrees is 0-180, with minutes and seconds equal to
+    * 0 when degrees is 180.
+    */
    public static final int MAX_VALUE = 180;
 
 

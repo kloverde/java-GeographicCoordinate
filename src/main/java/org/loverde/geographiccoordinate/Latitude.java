@@ -47,6 +47,12 @@ public class Latitude extends AbstractGeographicCoordinate {
 
    private Latitude.Direction direction;
 
+   /**
+    * When expressed as a floating-point number, valid latitudes sit in a
+    * range of +/- 90.0.  When expressed as degrees/minutes/seconds, the
+    * valid range for degrees is 0-90, with minutes and seconds equal to
+    * 0 when degrees is 90.
+    */
    public static final int MAX_VALUE = 90;
 
 
