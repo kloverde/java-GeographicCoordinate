@@ -2,7 +2,7 @@
 
 * Note:  getAbbreviation() for Latitude.Direction.NEITHER and Longitude.Direction.NEITHER now returns empty string instead of "NEITHER".
 * Updated Latitude and Longitude's toString() to format seconds according to the default locale
-* Added toString(Locale) to Latitude and Longitude to accommodate region-specific decimal formatting
+* Added toString(Locale) to Latitude and Longitude to accommodate locale-specific decimal formatting
 
 
 ## Release 2.0.1 (March 4, 2016)
@@ -28,8 +28,8 @@
 
 This release contains several breaking changes which were necessary for code cleanliness.  To minimize impact to third-party applications, it was decided to get all of them out of the way in a single release, rather than drag the process out.  Most if not all third-party applications will be unaffected by these changes, as they deal with obscure things.  The one change worth calling particular attention to is to DistanceCalculator.distance, explained below.
 
-* Removed deprecated method DistanceCalculator.distance( point1, point2, Unit ).  Use DistanceCalculator( Unit, Point ... ) instead.
-* Changed the parameter order of DistanceCalculator.distance( Latitude, Longitude, Latitude, Longitude, Unit ).  Unit has been moved from the last parameter to the first parameter to be consistent with the vararg distance method.
+* Removed deprecated method DistanceCalculator.distance(point1, point2, Unit).  Use DistanceCalculator(Unit, Point ...) instead.
+* Changed the parameter order of DistanceCalculator.distance(Latitude, Longitude, Latitude, Longitude, Unit).  Unit has been moved from the last parameter to the first parameter to be consistent with the vararg distance method.
 * Removed the GeographicCoordinate.Type enum, as it was unnecessary.  No client code should be impacted, since client code would have been working with the Latitude and Longitude classes directly.
 * Removed GeographicCoordinate.Type from all GeographicCoordinate constructors.  No client code should be impacted, since client code would have been working with the Latitude and Longitude classes directly.
 * Removed GeographicCoordinateException.Messages.COORDINATE_TYPE_NULL, as it can no longer be thrown
@@ -43,8 +43,8 @@ This release contains several breaking changes which were necessary for code cle
 
 ## Release 1.2.1 (February 15, 2016)
 
-* Renamed the new method from today's earlier release:  DistanceCalculator.totalTravelDistance( Unit, Point ... ) method is now DistanceCalculator.distance( Unit, Point ... ).
-* Deprecated DistanceCalculator.distance( Point, Point, Unit ), as it has been rendered redundant by the vararg method above.  *This deprecated method will be removed in the near future - possibly in the next release.*
+* Renamed the new method from today's earlier release:  DistanceCalculator.totalTravelDistance(Unit, Point ...) method is now DistanceCalculator.distance(Unit, Point ...).
+* Deprecated DistanceCalculator.distance(Point, Point, Unit), as it has been rendered redundant by the vararg method above.  *This deprecated method will be removed in the near future - possibly in the next release.*
 * Updated README and javadoc
 
 
