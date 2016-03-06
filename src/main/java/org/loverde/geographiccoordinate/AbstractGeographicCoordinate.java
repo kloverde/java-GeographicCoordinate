@@ -118,19 +118,56 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
       return true;
    }
 
+   /**
+    * Returns a degrees-minutes-seconds formatted string for the default locale.
+    * For example,
+    *
+    * <ul>
+    *    <li>In the United States:  30°60'40.912"N</li>
+    *    <li>In France:  30°60'40,912"N</li>
+    * </ul>
+    *
+    * @see #toString(Locale)
+    */
+   @Override
+   public String toString() {
+      return toString( Locale.getDefault() );
+   }
+
+   /**
+    * Returns a degrees-minutes-seconds formatted string for the specified locale.
+    * For example,
+    *
+    * <ul>
+    *    <li>For {@linkplain Locale#US}:  30°60'40.912"N</li>
+    *    <li>For {@linkplain Locale#FRANCE}:  30°60'40,912"N</li>
+    * </ul>
+    *
+    * @param locale - The locale to localize to
+    *
+    * @throws GeographicCoordinateException If {@code locale} is null
+    *
+    * @see #toString()
+    */
    public String toString( final Locale locale ) {
       final DecimalFormat fmt;
+      final IDirection direction = getDirection();
 
-      if( locale == null ) throw new IllegalArgumentException( GeographicCoordinateException.Messages.LOCALE_NULL );
+      String str = null;
+
+      if( locale == null ) throw new GeographicCoordinateException( new IllegalArgumentException(GeographicCoordinateException.Messages.LOCALE_NULL) );
 
       fmt = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(locale) );
       fmt.setMaximumFractionDigits( DECIMAL_FORMAT_MAX_FACTION_DIGITS );
 
-      return String.format( locale,
-                            "%d°%d'%s\"",
-                            getDegrees(),
-                            getMinutes(),
-                            fmt.format(getSeconds()) );
+      str = String.format( locale,
+                           "%d°%d'%s\"%s",
+                           getDegrees(),
+                           getMinutes(),
+                           fmt.format(getSeconds()),
+                           direction.getAbbreviation() );
+
+      return str;
    }
 
    private void setMaxValueDegrees( final int max ) {

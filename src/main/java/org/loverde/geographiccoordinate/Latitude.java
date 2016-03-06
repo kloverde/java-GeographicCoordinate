@@ -5,9 +5,6 @@
 
 package org.loverde.geographiccoordinate;
 
-import java.util.Locale;
-
-
 
 /**
  * Lines of latitude run parallel to the Equator (perpendicular to the Prime Meridian).
@@ -19,7 +16,7 @@ public class Latitude extends AbstractGeographicCoordinate {
    /**
     * Indicates whether a location is north or south of the Equator, or on the Equator
     */
-   public static enum Direction {
+   public static enum Direction implements IDirection {
       /**
        * Indicates that the location is north of the Equator
        */
@@ -34,7 +31,7 @@ public class Latitude extends AbstractGeographicCoordinate {
        * Indicates that the location is on the Equator
        * (neither north nor south:  the latitude is exactly 0.0).
        */
-      NEITHER( "NEITHER" );
+      NEITHER( "" );
 
       private String abbreviation;
 
@@ -42,6 +39,7 @@ public class Latitude extends AbstractGeographicCoordinate {
          this.abbreviation = abbr;
       }
 
+      @Override
       public String getAbbreviation() {
          return abbreviation;
       }
@@ -119,6 +117,7 @@ public class Latitude extends AbstractGeographicCoordinate {
     *
     * @return Orientation with respect to the Equator
     */
+   @Override
    public Latitude.Direction getDirection() {
       return direction;
    }
@@ -166,54 +165,5 @@ public class Latitude extends AbstractGeographicCoordinate {
       if( !getDirection().equals(other.getDirection()) ) return false;
 
       return super.equals( other );
-   }
-
-   /**
-    * Returns a degrees-minutes-seconds formatted latitude for the default locale.
-    * For example,
-    *
-    * <ul>
-    *    <li>In the United States:  30°60'40.912"N</li>
-    *    <li>In France:  30°60'40,912"N</li>
-    * </ul>
-    *
-    * @see #toString(Locale)
-    */
-   @Override
-   public String toString() {
-      return toString( Locale.getDefault() );
-   }
-
-   /**
-    * Returns a degrees-minutes-seconds formatted latitude for the specified locale.
-    * For example,
-    *
-    * <ul>
-    *    <li>For {@linkplain Locale#US}:  30°60'40.912"N</li>
-    *    <li>For {@linkplain Locale#FRANCE}:  30°60'40,912"N</li>
-    * </ul>
-    *
-    * @param locale - The locale to localize the output for
-    *
-    * @throws GeographicCoordinateException If {@code locale} is null
-    *
-    * @see #toString()
-    */
-   @Override
-   public String toString( final Locale locale ) {
-      String str = null;
-
-      try {
-         str = super.toString( locale );
-      } catch( final Exception e ) {
-         throw new GeographicCoordinateException( e );
-      }
-
-      str = String.format( locale,
-                           "%s%s",
-                           str,
-                           getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
-
-      return str;
    }
 }

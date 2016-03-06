@@ -5,9 +5,6 @@
 
 package org.loverde.geographiccoordinate;
 
-import java.util.Locale;
-
-
 
 /**
  * Lines of longitude run parallel to the Prime Meridian (perpendicular to the Equator).
@@ -19,7 +16,7 @@ public class Longitude extends AbstractGeographicCoordinate {
    /**
     * Indicates whether a location is north or south of the Prime Meridian, or on the Prime Meridian
     */
-   public static enum Direction {
+   public static enum Direction implements IDirection {
       /**
        * Indicates that the location is east of the Prime Meridian
        */
@@ -34,7 +31,7 @@ public class Longitude extends AbstractGeographicCoordinate {
        * Indicates that the location is on the Prime Meridian
        * (neither east not west:  the longitude is exactly 0.0).
        */
-      NEITHER( "NEITHER" );
+      NEITHER( "" );
 
       private String abbreviation;
 
@@ -42,12 +39,13 @@ public class Longitude extends AbstractGeographicCoordinate {
          this.abbreviation = abbr;
       }
 
+      @Override
       public String getAbbreviation() {
          return abbreviation;
       }
    };
 
-   private Direction direction;
+   private Longitude.Direction direction;
 
    public static final int MAX_VALUE = 180;
 
@@ -119,6 +117,7 @@ public class Longitude extends AbstractGeographicCoordinate {
     *
     * @return Orientation with respect to the Prime Meridian
     */
+   @Override
    public Longitude.Direction getDirection() {
       return direction;
    }
@@ -166,54 +165,5 @@ public class Longitude extends AbstractGeographicCoordinate {
       if( !getDirection().equals(other.getDirection()) ) return false;
 
       return super.equals( other );
-   }
-
-   /**
-    * Returns a degrees-minutes-seconds formatted longitude for the default locale.
-    * For example,
-    *
-    * <ul>
-    *    <li>In the United States:  30°40'50.123"E</li>
-    *    <li>In France:  30°40'50,123"E</li>
-    * </ul>
-    *
-    * @see #toString(Locale)
-    */
-   @Override
-   public String toString() {
-      return toString( Locale.getDefault() );
-   }
-
-   /**
-    * Returns a degrees-minutes-seconds formatted longitude for the specified locale.
-    * For example,
-    *
-    * <ul>
-    *    <li>For {@linkplain Locale#US}:  30°40'50.123"E</li>
-    *    <li>For {@linkplain Locale#FRANCE}:  30°40'50,123"E</li>
-    * </ul>
-    *
-    * @param locale - The locale to localize the output for
-    *
-    * @throws GeographicCoordinateException If {@code locale} is null
-    *
-    * @see #toString()
-    */
-   @Override
-   public String toString( final Locale locale ) {
-      String str = null;
-
-      try {
-         str = super.toString( locale );
-      } catch( final Exception e ) {
-         throw new GeographicCoordinateException( e );
-      }
-
-      str = String.format( locale,
-                           "%s%s",
-                           str,
-                           getDirection() != Direction.NEITHER ? getDirection().getAbbreviation() : "" );
-
-      return str;
    }
 }

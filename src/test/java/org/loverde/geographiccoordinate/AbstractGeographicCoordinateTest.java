@@ -13,6 +13,11 @@ public class AbstractGeographicCoordinateTest extends TestCase {
       public double toDouble() {
          return 0;
       }
+
+      @Override
+      public IDirection getDirection() {
+         return null;
+      }
    }
 
    public void testSubclassPrevention() {
