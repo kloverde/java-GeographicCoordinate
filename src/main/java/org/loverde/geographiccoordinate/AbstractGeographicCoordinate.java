@@ -29,7 +29,7 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
    private static final int MAX_VALUE_MINUTES = 59;
    private static final double MAX_VALUE_SECONDS = 59.9999999999999d;
 
-   private static final int DECIMAL_FORMAT_MAX_FACTION_DIGITS = 15;
+   private static final int DECIMAL_FORMAT_MAX_FRACTION_DIGITS = 15;
 
 
    /**
@@ -163,7 +163,7 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
       }
 
       fmt = new DecimalFormat( "0", DecimalFormatSymbols.getInstance(locale) );
-      fmt.setMaximumFractionDigits( DECIMAL_FORMAT_MAX_FACTION_DIGITS );
+      fmt.setMaximumFractionDigits( DECIMAL_FORMAT_MAX_FRACTION_DIGITS );
 
       str = String.format( locale,
                            "%d°%d'%s\"%s",
