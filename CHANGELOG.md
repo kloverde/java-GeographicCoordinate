@@ -1,3 +1,8 @@
+# Release 2.1.2 (March 16, 2016)
+
+* Only the README has been updated
+
+
 ## Release 2.1.1 (March 6, 2016)
 
 * Eliminated most exception wrapping.  Previously, IllegalArgumentException would be thrown for invalid input, which would then be wrapped in a GeographicCoordinateException and re-thrown.  After some consideration, it was decided that this served no useful purpose, and so GeographicCoordinateException is the lowest-level exception.  Exception wrapping is still performed in limited scenarios where the type of wrapped exception conveys additional meaningful information, such as IllegalStateException.
