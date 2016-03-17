@@ -1,6 +1,8 @@
 GeographicCoordinate
 ====================
 
+See LICENSE for this software's licensing terms.
+
 GeographicCoordinate is a simple Java library for representing latitude and longitude, and for calculating distances.
 
 ## Features
