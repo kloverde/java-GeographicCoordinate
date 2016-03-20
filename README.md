@@ -14,4 +14,4 @@ GeographicCoordinate is a simple Java library for representing latitude and long
 
 ## Thanks
 
-Do you like this library? Want to toss a few bucks my way to say thanks? I accept donations at https://paypal.me/KurtisLoVerde/5. Or, a simple e-mail saying thanks works just as well (I can be reached at github@loverde.org). Happy coding!
+Do you like this library? Want to toss a few bucks my way to say thanks? I accept donations at https://paypal.me/KurtisLoVerde/5.  Thank you for your support!
