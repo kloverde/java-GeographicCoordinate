@@ -162,8 +162,12 @@ public class CompassDirectionTest {
 
    /** Spot checking EnumHelper */
    @Test
-   public void getDirectionByAbbreviation() {
-      assertEquals( CompassDirection.EAST_BY_NORTH, CompassDirection.getDirectionByAbbreviation("EbN") );
-      assertEquals( CompassDirection.WEST_SOUTHWEST, CompassDirection.getDirectionByAbbreviation("WSW") );
+   public void getByAbbreviation() {
+      assertEquals( CompassDirection.EAST_BY_NORTH, CompassDirection.getByAbbreviation("EbN") );
+      assertEquals( CompassDirection.WEST_SOUTHWEST, CompassDirection.getByAbbreviation("WSW") );
+   }
+
+   public void getByBearing() {
+
    }
 }

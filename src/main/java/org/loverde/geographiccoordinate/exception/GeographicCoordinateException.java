@@ -31,7 +31,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.loverde.geographiccoordinate;
+package org.loverde.geographiccoordinate.exception;
 
 
 public class GeographicCoordinateException extends RuntimeException {

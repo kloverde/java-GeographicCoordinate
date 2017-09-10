@@ -35,7 +35,7 @@ package org.loverde.geographiccoordinate.compass;
 
 import java.util.Map;
 
-import org.loverde.geographiccoordinate.GeographicCoordinateException;
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 import org.loverde.geographiccoordinate.internal.EnumHelper;
 
 
@@ -133,22 +133,25 @@ public enum CompassDirection {
    }
 
    /**
-    * Use a compass direction abbreviation to get its corresponding enum member
-    *
-    * @param abbr The direction abbreviation ("NWbN", etc.)
+    * @param abbr A 32-point compass direction abbreviation ("NWbN", etc.)
     *
     * @return The compass direction corresponding to its abbreviation
     */
-   public static CompassDirection getDirectionByAbbreviation( final String abbr ) {
+   public static CompassDirection getByAbbreviation( final String abbr ) {
       return map.get( abbr );
    }
 
-   public static CompassDirection getDirectionByAngle( final double angleInDegrees ) throws GeographicCoordinateException{
-      if( angleInDegrees < 0 || angleInDegrees >= 360 ) throw new GeographicCoordinateException( "Angle must be 0 <= angle < 360" );
+   /**
+    * @param bearing Bearing (degrees)
+    *
+    * @return The compass direction closest to the specified bearing
+    */
+   public static CompassDirection getByBearing( final double bearing ) {
+      if( bearing < 0 || bearing >= 360 ) throw new GeographicCoordinateException( "Bearing x must be 0 <= x < 360" );
 
       final double step = 11.25;
       final double start = 360 - (step / 2);  // minimum bound for north
 
-      return values()[ (int)(angleInDegrees / step) ];
+      return values()[ (int)(bearing / step) ];
    }
 }

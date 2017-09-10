@@ -37,9 +37,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import org.loverde.geographiccoordinate.GeographicCoordinateException;
 import org.loverde.geographiccoordinate.Latitude;
 import org.loverde.geographiccoordinate.Longitude;
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 
 /**

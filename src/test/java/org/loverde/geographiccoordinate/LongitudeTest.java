@@ -35,6 +35,8 @@ package org.loverde.geographiccoordinate;
 
 import java.util.Locale;
 
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+
 import junit.framework.TestCase;
 
 

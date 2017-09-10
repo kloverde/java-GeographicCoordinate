@@ -33,6 +33,8 @@
 
 package org.loverde.geographiccoordinate;
 
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+
 
 /**
  * This class is a thin wrapper of a {@linkplain Latitude} and {@linkplain Longitude}.

@@ -33,6 +33,7 @@
 
 package org.loverde.geographiccoordinate;
 
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 import org.loverde.geographiccoordinate.internal.AbstractDirection;
 import org.loverde.geographiccoordinate.internal.AbstractGeographicCoordinate;
 

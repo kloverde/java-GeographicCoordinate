@@ -33,6 +33,8 @@
 
 package org.loverde.geographiccoordinate;
 
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+
 import junit.framework.TestCase;
 
 

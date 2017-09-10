@@ -33,10 +33,10 @@
 
 package org.loverde.geographiccoordinate.calculator;
 
-import org.loverde.geographiccoordinate.GeographicCoordinateException;
 import org.loverde.geographiccoordinate.Latitude;
 import org.loverde.geographiccoordinate.Longitude;
 import org.loverde.geographiccoordinate.Point;
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 
 /**
