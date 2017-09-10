@@ -5,15 +5,18 @@
  * https://github.com/kloverde/GeographicCoordinate
  */
 
-package org.loverde.geographiccoordinate;
+package org.loverde.geographiccoordinate.calculator;
 
 import junit.framework.TestCase;
 
+import org.loverde.geographiccoordinate.GeographicCoordinateException;
+import org.loverde.geographiccoordinate.Latitude;
+import org.loverde.geographiccoordinate.Longitude;
+import org.loverde.geographiccoordinate.Point;
+import org.loverde.geographiccoordinate.calculator.DistanceCalculator.Unit;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import org.loverde.geographiccoordinate.DistanceCalculator.Unit;
 
 
 public class DistanceCalculatorTest extends TestCase {
@@ -169,11 +172,6 @@ public class DistanceCalculatorTest extends TestCase {
    public void testDistance_yards() {
       final double distance = DistanceCalculator.distance( Unit.YARDS, point1, point2 );
       assertEquals( 356937.2745610558d, distance, fpDelta );
-   }
-
-   public void testDistance_bothMethodsCalculateSameValues() {
-      assertEquals( DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 ),
-                    DistanceCalculator.distance( Unit.KILOMETERS, latitude1, longitude1, latitude2, longitude2) );
    }
 
    /**

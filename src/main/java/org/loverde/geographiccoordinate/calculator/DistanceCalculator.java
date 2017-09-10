@@ -1,11 +1,42 @@
 /*
- * Copyright (C) 2015 Kurtis LoVerde
+ * GeographicCoordinate
+ * https://github.com/kloverde/GeographicCoordinate
+ *
+ * Copyright (c) 2013 Kurtis LoVerde
  * All rights reserved
  *
- * https://github.com/kloverde/GeographicCoordinate
+ * Donations:  https://paypal.me/KurtisLoVerde/5
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *     3. Neither the name of the copyright holder nor the names of its
+ *        contributors may be used to endorse or promote products derived from
+ *        this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.loverde.geographiccoordinate;
+package org.loverde.geographiccoordinate.calculator;
+
+import org.loverde.geographiccoordinate.GeographicCoordinateException;
+import org.loverde.geographiccoordinate.Latitude;
+import org.loverde.geographiccoordinate.Longitude;
+import org.loverde.geographiccoordinate.Point;
 
 
 /**
@@ -59,6 +90,10 @@ public class DistanceCalculator {
     */
    public enum Unit {
       // Members are initialized with a conversion factor expressed in terms of 1 kilometer.
+
+      CENTIMETERS( 1.0d / 100000.0d ),
+
+      INCHES( 1.0d / 39370.1d ),
 
       /**
        * This is the international foot.  For those in the U.S., yes, that is the
@@ -140,6 +175,7 @@ public class DistanceCalculator {
     * @return The total distance traveled, expressed in terms of {@code unit}
     */
    public static double distance( final Unit unit, final Point ... points ) {
+      if( unit == null ) throw new GeographicCoordinateException( "Unit is null" );
       if( points == null ) throw new GeographicCoordinateException( "Points are null" );
       if( points.length < 2 ) throw new GeographicCoordinateException( "Need to provide at least 2 points" );
 
@@ -152,53 +188,31 @@ public class DistanceCalculator {
          if( previous == null ) throw new GeographicCoordinateException( "points " + (i - 1) + " is null" );
          if( current == null ) throw new GeographicCoordinateException( "points " + i + " is null" );
 
-         distance += distance( unit, previous.getLatitude(), previous.getLongitude(), current.getLatitude(), current.getLongitude() );
+         final Latitude latitude1 = previous.getLatitude(),
+                        latitude2 = current.getLatitude();
+
+         final Longitude longitude1 = previous.getLongitude(),
+                         longitude2 = current.getLongitude();
+
+         if( latitude1 == null ) throw new GeographicCoordinateException( "Latitude 1 is null" );
+         if( latitude2 == null ) throw new GeographicCoordinateException( "Latitude 2 is null" );
+         if( longitude1 == null ) throw new GeographicCoordinateException( "Longitude 1 is null" );
+         if( longitude2 == null ) throw new GeographicCoordinateException( "Longitude 2 is null" );
+
+         final double lat1 = latitude1.toRadians(),
+                      lat2 = latitude2.toRadians(),
+                      lon1 = longitude1.toRadians(),
+                      lon2 = longitude2.toRadians(),
+                      deltaLat = lat2 - lat1,
+                      deltaLon = lon2 - lon1;
+
+         final double d = (2.0d * EARTH_RADIUS_KILOMETERS) * Math.asin( Math.sqrt( Math.pow(Math.sin(deltaLat / 2.0d), 2.0d)
+                        + ( Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2.0d), 2.0d) ) ) );
+
+         distance += d * unit.perKilometer;
          previous = current;
       }
 
       return distance;
-   }
-
-   /**
-    * <p>
-    * Gets the distance between two sets of coordinates.  Functionally equivalent to
-    * {@linkplain DistanceCalculator#distance(Unit, Point...)}
-    * <p>
-    *
-    * <p><strong>
-    * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
-    * UNDERSTANDING OF, GEODESY; I MERELY IMPLEMENTED A FORMULA I
-    * FOUND ON WIKIPEDIA.  YOU WOULDN'T ENTRUST A WIKIPEDIA PAGE WITH
-    * YOUR SAFETY, SO DON'T ENTRUST IT TO THIS SOFTWARE.  THIS WOULD
-    * BE A GOOD TIME FOR YOU TO READ AND UNDERSTAND THE WAIVER PRESENT
-    * IN THIS SOFTWARE'S LICENSE.
-    * </strong></p>
-    *
-    * @param unit       The unit of distance
-    * @param latitude1  Point 1 latitude
-    * @param longitude1 Point 1 longitude
-    * @param latitude2  Point 2 latitude
-    * @param longitude2 Point 2 longitude
-    *
-    * @return The distance from point 1 to point 2, expressed in terms of {@code unit}
-    */
-   public static double distance( final Unit unit, final Latitude latitude1, final Longitude longitude1, final Latitude latitude2, final Longitude longitude2 ) {
-      if( latitude1 == null ) throw new GeographicCoordinateException( "Latitude 1 is null" );
-      if( longitude1 == null ) throw new GeographicCoordinateException( "Longitude 1 is null" );
-      if( latitude2 == null ) throw new GeographicCoordinateException( "Latitude 2 is null" );
-      if( longitude2 == null ) throw new GeographicCoordinateException( "Longitude 2 is null" );
-      if( unit == null ) throw new GeographicCoordinateException( "Unit is null" );
-
-      final double lat1 = latitude1.toRadians(),
-                   lat2 = latitude2.toRadians(),
-                   lon1 = longitude1.toRadians(),
-                   lon2 = longitude2.toRadians(),
-                   deltaLat = lat2 - lat1,
-                   deltaLon = lon2 - lon1;
-
-      final double d = (2.0d * EARTH_RADIUS_KILOMETERS) * Math.asin( Math.sqrt( Math.pow(Math.sin(deltaLat / 2.0d), 2.0d)
-                        + ( Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2.0d), 2.0d) ) ) );
-
-      return d * unit.perKilometer;
    }
 }

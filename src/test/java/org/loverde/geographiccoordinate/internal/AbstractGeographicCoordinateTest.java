@@ -5,7 +5,11 @@
  * https://github.com/kloverde/GeographicCoordinate
  */
 
-package org.loverde.geographiccoordinate;
+package org.loverde.geographiccoordinate.internal;
+
+import org.loverde.geographiccoordinate.GeographicCoordinateException;
+import org.loverde.geographiccoordinate.internal.AbstractDirection;
+import org.loverde.geographiccoordinate.internal.AbstractGeographicCoordinate;
 
 import junit.framework.TestCase;
 

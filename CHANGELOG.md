@@ -1,3 +1,23 @@
+# Release 3.0 (September 9, 2017)
+
+This release contains breaking and non-breaking changes.
+
+Breaking changes:
+
+* The source and binary distributions now target Java 8.  If you need compatibility with an older version of Java, you'll find the required source changes to be minimal.
+* New package structure.  Things you weren't meant to use in the first place (and which you probably aren't using) have been moved to a new 'internal' package.  You shouldn't need to refactor code resulting from this change unless you were doing something odd.
+* DistanceCalculator has been moved to a new 'calculator' package
+* DistanceCalculator.distance(Unit, Latitude, Longitude, Latitude, Longitude) has been removed.  Use the existing vararg method distance(Unit, Point ...) instead.
+
+Non-breaking changes:
+
+* TODO:  Added BearingCalculator, which calculates the heading and direction of travel (north, northeast, etc.) given two coordinates
+* Added a compass enumeration which represents the directions on a 32-point compass (north, northeast-by-north, etc.).  Provides the standard abbreviations as well as lookup by abbreviation and angle.
+* Added support for centimeters and inches to DistanceCalculator
+* TODO:  JUnit tests refactored to move them from JUnit 3.8 to JUnit 4
+* The Eclipse project files have been migrated to Buildship, so they no longer have hardcoded paths to my filesystem.  This will make it easier to import a working project, but you do need to install the Buildship plugin  if you don't already have it.
+
+
 # Release 2.1.2 (March 16, 2016)
 
 * Only the README has been updated
