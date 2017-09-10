@@ -118,7 +118,14 @@ public enum CompassDirection {
       return (ordinal() * STEP) + (STEP / 2.0);
    }
 
-   public CompassDirection getNextDirection() {
+   public CompassDirection getPrevious() {
+      final int ordinal = ordinal();
+      final CompassDirection values[] = values();
+
+      return values[ ordinal == 0 ? values.length - 1 : ordinal - 1 ];
+   }
+
+   public CompassDirection getNext() {
       final int ordinal = ordinal();
       final CompassDirection values[] = values();
 

@@ -38,7 +38,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 
-public class Compass32DirectionTest {
+public class CompassDirectionTest {
 
    @Test
    public void getMin() {
@@ -149,9 +149,15 @@ public class Compass32DirectionTest {
    }
 
    @Test
-   public void getNextDirection() {
-     assertEquals( CompassDirection.NORTH_BY_EAST, CompassDirection.NORTH.getNextDirection() );  // verify that getNextDirection iterates by 1
-     assertEquals( CompassDirection.NORTH, CompassDirection.NORTH_BY_WEST.getNextDirection());   // verify loop-around
+   public void getPrevious() {
+      assertEquals( CompassDirection.EAST, CompassDirection.EAST_BY_SOUTH.getPrevious() );   // verify that getPrevious iterates backward by 1
+      assertEquals( CompassDirection.NORTH_BY_WEST, CompassDirection.NORTH.getPrevious() );  // verify loop-around
+   }
+
+   @Test
+   public void getNext() {
+     assertEquals( CompassDirection.NORTH_BY_EAST, CompassDirection.NORTH.getNext() );  // verify that getNext iterates forward by 1
+     assertEquals( CompassDirection.NORTH, CompassDirection.NORTH_BY_WEST.getNext());   // verify loop-around
    }
 
    /** Spot checking EnumHelper */
