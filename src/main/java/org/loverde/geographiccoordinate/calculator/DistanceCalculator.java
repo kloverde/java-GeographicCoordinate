@@ -86,7 +86,7 @@ public class DistanceCalculator {
    }
 */
    /**
-    * Units of distance - use this with the {@code distance} methods in this class.
+    * Units of distance - use this with the {@code distance} method in this class.
     */
    public enum Unit {
       // Members are initialized with a conversion factor expressed in terms of 1 kilometer.
@@ -120,11 +120,9 @@ public class DistanceCalculator {
 
       /**
        * <p>
-       * For those of you living in the U.S., the U.S. Survey Foot is NOT the foot
-       * you think of when you think of feet.  That is the
-       * {@link Unit#FEET international foot}.  The survey foot is
-       * used in geodetic surveys.  As defined by the National Bureau of Standards
-       * in 1959:
+       * For those of you living in the U.S., the U.S. Survey Foot is NOT the foot you think of
+       * when you think of feet.  That is the {@link Unit#FEET international foot}.  The survey
+       * foot is used in geodetic surveys.  As defined by the National Bureau of Standards in 1959:
        * </p>
        *
        * <p>

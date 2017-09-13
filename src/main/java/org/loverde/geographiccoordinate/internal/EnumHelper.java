@@ -73,7 +73,7 @@ public class EnumHelper {
          }
 
          try {
-            for( E enumObj : enumClass.getEnumConstants() ) {
+            for( final E enumObj : enumClass.getEnumConstants() ) {
                map.put( (String) method.invoke(enumObj, (Object[]) null), enumObj );
             }
          } catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
