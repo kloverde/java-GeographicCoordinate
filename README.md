@@ -34,4 +34,6 @@ Putting together the last three items, this library enables you to say, for inst
 
 ## Donations
 
-https://paypal.me/KurtisLoVerde/5.  Thank you for your support!
+https://paypal.me/KurtisLoVerde/5
+
+Thank you for your support!
