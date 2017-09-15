@@ -37,10 +37,17 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 
 public class CompassDirectionTest {
+
+   @Rule
+   public ExpectedException thrown = ExpectedException.none();
+
 
    @Test
    public void getPrevious() {
@@ -94,136 +101,125 @@ public class CompassDirectionTest {
    public void getByBearing_minMiddleMax() {
       assertEquals( CompassDirection.NORTH, CompassDirection.getByBearing(CompassDirection.NORTH.getMinimum()) );
       assertEquals( CompassDirection.NORTH, CompassDirection.getByBearing(CompassDirection.NORTH.getMaximum()) );
-      assertEquals( CompassDirection.NORTH, CompassDirection.getByBearing(CompassDirection.NORTH.getMiddle()) );
 
       assertEquals( CompassDirection.NORTH_BY_EAST, CompassDirection.getByBearing(CompassDirection.NORTH_BY_EAST.getMinimum()) );
       assertEquals( CompassDirection.NORTH_BY_EAST, CompassDirection.getByBearing(CompassDirection.NORTH_BY_EAST.getMaximum()) );
-      assertEquals( CompassDirection.NORTH_BY_EAST, CompassDirection.getByBearing(CompassDirection.NORTH_BY_EAST.getMiddle()) );
 
       assertEquals( CompassDirection.NORTH_NORTHEAST, CompassDirection.getByBearing(CompassDirection.NORTH_NORTHEAST.getMinimum()) );
       assertEquals( CompassDirection.NORTH_NORTHEAST, CompassDirection.getByBearing(CompassDirection.NORTH_NORTHEAST.getMaximum()) );
-      assertEquals( CompassDirection.NORTH_NORTHEAST, CompassDirection.getByBearing(CompassDirection.NORTH_NORTHEAST.getMiddle()) );
 
       assertEquals( CompassDirection.NORTHEAST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.NORTHEAST_BY_NORTH.getMinimum()) );
       assertEquals( CompassDirection.NORTHEAST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.NORTHEAST_BY_NORTH.getMaximum()) );
-      assertEquals( CompassDirection.NORTHEAST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.NORTHEAST_BY_NORTH.getMiddle()) );
 
       assertEquals( CompassDirection.NORTHEAST, CompassDirection.getByBearing(CompassDirection.NORTHEAST.getMinimum()) );
       assertEquals( CompassDirection.NORTHEAST, CompassDirection.getByBearing(CompassDirection.NORTHEAST.getMaximum()) );
-      assertEquals( CompassDirection.NORTHEAST, CompassDirection.getByBearing(CompassDirection.NORTHEAST.getMiddle()) );
 
       assertEquals( CompassDirection.NORTHEAST_BY_EAST, CompassDirection.getByBearing(CompassDirection.NORTHEAST_BY_EAST.getMinimum()) );
       assertEquals( CompassDirection.NORTHEAST_BY_EAST, CompassDirection.getByBearing(CompassDirection.NORTHEAST_BY_EAST.getMaximum()) );
-      assertEquals( CompassDirection.NORTHEAST_BY_EAST, CompassDirection.getByBearing(CompassDirection.NORTHEAST_BY_EAST.getMiddle()) );
 
       assertEquals( CompassDirection.EAST_NORTHEAST, CompassDirection.getByBearing(CompassDirection.EAST_NORTHEAST.getMinimum()) );
       assertEquals( CompassDirection.EAST_NORTHEAST, CompassDirection.getByBearing(CompassDirection.EAST_NORTHEAST.getMaximum()) );
-      assertEquals( CompassDirection.EAST_NORTHEAST, CompassDirection.getByBearing(CompassDirection.EAST_NORTHEAST.getMiddle()) );
 
       assertEquals( CompassDirection.EAST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.EAST_BY_NORTH.getMinimum()) );
       assertEquals( CompassDirection.EAST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.EAST_BY_NORTH.getMaximum()) );
-      assertEquals( CompassDirection.EAST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.EAST_BY_NORTH.getMiddle()) );
 
       assertEquals( CompassDirection.EAST, CompassDirection.getByBearing(CompassDirection.EAST.getMinimum()) );
       assertEquals( CompassDirection.EAST, CompassDirection.getByBearing(CompassDirection.EAST.getMaximum()) );
-      assertEquals( CompassDirection.EAST, CompassDirection.getByBearing(CompassDirection.EAST.getMiddle()) );
 
       assertEquals( CompassDirection.EAST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.EAST_BY_SOUTH.getMinimum()) );
       assertEquals( CompassDirection.EAST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.EAST_BY_SOUTH.getMaximum()) );
-      assertEquals( CompassDirection.EAST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.EAST_BY_SOUTH.getMiddle()) );
 
       assertEquals( CompassDirection.EAST_SOUTHEAST, CompassDirection.getByBearing(CompassDirection.EAST_SOUTHEAST.getMinimum()) );
       assertEquals( CompassDirection.EAST_SOUTHEAST, CompassDirection.getByBearing(CompassDirection.EAST_SOUTHEAST.getMaximum()) );
-      assertEquals( CompassDirection.EAST_SOUTHEAST, CompassDirection.getByBearing(CompassDirection.EAST_SOUTHEAST.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTHEAST_BY_EAST, CompassDirection.getByBearing(CompassDirection.SOUTHEAST_BY_EAST.getMinimum()) );
       assertEquals( CompassDirection.SOUTHEAST_BY_EAST, CompassDirection.getByBearing(CompassDirection.SOUTHEAST_BY_EAST.getMaximum()) );
-      assertEquals( CompassDirection.SOUTHEAST_BY_EAST, CompassDirection.getByBearing(CompassDirection.SOUTHEAST_BY_EAST.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTHEAST, CompassDirection.getByBearing(CompassDirection.SOUTHEAST.getMinimum()) );
       assertEquals( CompassDirection.SOUTHEAST, CompassDirection.getByBearing(CompassDirection.SOUTHEAST.getMaximum()) );
-      assertEquals( CompassDirection.SOUTHEAST, CompassDirection.getByBearing(CompassDirection.SOUTHEAST.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTHEAST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTHEAST_BY_SOUTH.getMinimum()) );
       assertEquals( CompassDirection.SOUTHEAST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTHEAST_BY_SOUTH.getMaximum()) );
-      assertEquals( CompassDirection.SOUTHEAST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTHEAST_BY_SOUTH.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTH_SOUTHEAST, CompassDirection.getByBearing(CompassDirection.SOUTH_SOUTHEAST.getMinimum()) );
       assertEquals( CompassDirection.SOUTH_SOUTHEAST, CompassDirection.getByBearing(CompassDirection.SOUTH_SOUTHEAST.getMaximum()) );
-      assertEquals( CompassDirection.SOUTH_SOUTHEAST, CompassDirection.getByBearing(CompassDirection.SOUTH_SOUTHEAST.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTH_BY_EAST, CompassDirection.getByBearing(CompassDirection.SOUTH_BY_EAST.getMinimum()) );
       assertEquals( CompassDirection.SOUTH_BY_EAST, CompassDirection.getByBearing(CompassDirection.SOUTH_BY_EAST.getMaximum()) );
-      assertEquals( CompassDirection.SOUTH_BY_EAST, CompassDirection.getByBearing(CompassDirection.SOUTH_BY_EAST.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTH.getMinimum()) );
       assertEquals( CompassDirection.SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTH.getMaximum()) );
-      assertEquals( CompassDirection.SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTH.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTH_BY_WEST, CompassDirection.getByBearing(CompassDirection.SOUTH_BY_WEST.getMinimum()) );
       assertEquals( CompassDirection.SOUTH_BY_WEST, CompassDirection.getByBearing(CompassDirection.SOUTH_BY_WEST.getMaximum()) );
-      assertEquals( CompassDirection.SOUTH_BY_WEST, CompassDirection.getByBearing(CompassDirection.SOUTH_BY_WEST.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTH_SOUTHWEST, CompassDirection.getByBearing(CompassDirection.SOUTH_SOUTHWEST.getMinimum()) );
       assertEquals( CompassDirection.SOUTH_SOUTHWEST, CompassDirection.getByBearing(CompassDirection.SOUTH_SOUTHWEST.getMaximum()) );
-      assertEquals( CompassDirection.SOUTH_SOUTHWEST, CompassDirection.getByBearing(CompassDirection.SOUTH_SOUTHWEST.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTHWEST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTHWEST_BY_SOUTH.getMinimum()) );
       assertEquals( CompassDirection.SOUTHWEST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTHWEST_BY_SOUTH.getMaximum()) );
-      assertEquals( CompassDirection.SOUTHWEST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.SOUTHWEST_BY_SOUTH.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTHWEST, CompassDirection.getByBearing(CompassDirection.SOUTHWEST.getMinimum()) );
       assertEquals( CompassDirection.SOUTHWEST, CompassDirection.getByBearing(CompassDirection.SOUTHWEST.getMaximum()) );
-      assertEquals( CompassDirection.SOUTHWEST, CompassDirection.getByBearing(CompassDirection.SOUTHWEST.getMiddle()) );
 
       assertEquals( CompassDirection.SOUTHWEST_BY_WEST, CompassDirection.getByBearing(CompassDirection.SOUTHWEST_BY_WEST.getMinimum()) );
       assertEquals( CompassDirection.SOUTHWEST_BY_WEST, CompassDirection.getByBearing(CompassDirection.SOUTHWEST_BY_WEST.getMaximum()) );
-      assertEquals( CompassDirection.SOUTHWEST_BY_WEST, CompassDirection.getByBearing(CompassDirection.SOUTHWEST_BY_WEST.getMiddle()) );
 
       assertEquals( CompassDirection.WEST_SOUTHWEST, CompassDirection.getByBearing(CompassDirection.WEST_SOUTHWEST.getMinimum()) );
       assertEquals( CompassDirection.WEST_SOUTHWEST, CompassDirection.getByBearing(CompassDirection.WEST_SOUTHWEST.getMaximum()) );
-      assertEquals( CompassDirection.WEST_SOUTHWEST, CompassDirection.getByBearing(CompassDirection.WEST_SOUTHWEST.getMiddle()) );
 
       assertEquals( CompassDirection.WEST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.WEST_BY_SOUTH.getMinimum()) );
       assertEquals( CompassDirection.WEST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.WEST_BY_SOUTH.getMaximum()) );
-      assertEquals( CompassDirection.WEST_BY_SOUTH, CompassDirection.getByBearing(CompassDirection.WEST_BY_SOUTH.getMiddle()) );
 
       assertEquals( CompassDirection.WEST, CompassDirection.getByBearing(CompassDirection.WEST.getMinimum()) );
       assertEquals( CompassDirection.WEST, CompassDirection.getByBearing(CompassDirection.WEST.getMaximum()) );
-      assertEquals( CompassDirection.WEST, CompassDirection.getByBearing(CompassDirection.WEST.getMiddle()) );
 
       assertEquals( CompassDirection.WEST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.WEST_BY_NORTH.getMinimum()) );
       assertEquals( CompassDirection.WEST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.WEST_BY_NORTH.getMaximum()) );
-      assertEquals( CompassDirection.WEST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.WEST_BY_NORTH.getMiddle()) );
 
       assertEquals( CompassDirection.WEST_NORTHWEST, CompassDirection.getByBearing(CompassDirection.WEST_NORTHWEST.getMinimum()) );
       assertEquals( CompassDirection.WEST_NORTHWEST, CompassDirection.getByBearing(CompassDirection.WEST_NORTHWEST.getMaximum()) );
-      assertEquals( CompassDirection.WEST_NORTHWEST, CompassDirection.getByBearing(CompassDirection.WEST_NORTHWEST.getMiddle()) );
 
       assertEquals( CompassDirection.NORTHWEST_BY_WEST, CompassDirection.getByBearing(CompassDirection.NORTHWEST_BY_WEST.getMinimum()) );
       assertEquals( CompassDirection.NORTHWEST_BY_WEST, CompassDirection.getByBearing(CompassDirection.NORTHWEST_BY_WEST.getMaximum()) );
-      assertEquals( CompassDirection.NORTHWEST_BY_WEST, CompassDirection.getByBearing(CompassDirection.NORTHWEST_BY_WEST.getMiddle()) );
 
       assertEquals( CompassDirection.NORTHWEST, CompassDirection.getByBearing(CompassDirection.NORTHWEST.getMinimum()) );
       assertEquals( CompassDirection.NORTHWEST, CompassDirection.getByBearing(CompassDirection.NORTHWEST.getMaximum()) );
-      assertEquals( CompassDirection.NORTHWEST, CompassDirection.getByBearing(CompassDirection.NORTHWEST.getMiddle()) );
 
       assertEquals( CompassDirection.NORTHWEST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.NORTHWEST_BY_NORTH.getMinimum()) );
       assertEquals( CompassDirection.NORTHWEST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.NORTHWEST_BY_NORTH.getMaximum()) );
-      assertEquals( CompassDirection.NORTHWEST_BY_NORTH, CompassDirection.getByBearing(CompassDirection.NORTHWEST_BY_NORTH.getMiddle()) );
 
       assertEquals( CompassDirection.NORTH_NORTHWEST, CompassDirection.getByBearing(CompassDirection.NORTH_NORTHWEST.getMinimum()) );
       assertEquals( CompassDirection.NORTH_NORTHWEST, CompassDirection.getByBearing(CompassDirection.NORTH_NORTHWEST.getMaximum()) );
-      assertEquals( CompassDirection.NORTH_NORTHWEST, CompassDirection.getByBearing(CompassDirection.NORTH_NORTHWEST.getMiddle()) );
 
       assertEquals( CompassDirection.NORTH_BY_WEST, CompassDirection.getByBearing(CompassDirection.NORTH_BY_WEST.getMinimum()) );
       assertEquals( CompassDirection.NORTH_BY_WEST, CompassDirection.getByBearing(CompassDirection.NORTH_BY_WEST.getMaximum()) );
-      assertEquals( CompassDirection.NORTH_BY_WEST, CompassDirection.getByBearing(CompassDirection.NORTH_BY_WEST.getMiddle()) );
    }
 
    @Test
    public void getByBearing_testRounding() {
       assertEquals( CompassDirection.NORTH_BY_WEST, CompassDirection.getByBearing(new BigDecimal("354.37499999999999")) );
       assertEquals( CompassDirection.NORTH, CompassDirection.getByBearing(new BigDecimal("354.375")) );
+   }
+
+   @Test
+   public void getByBearing_north() {
+      assertEquals( CompassDirection.NORTH, CompassDirection.getByBearing(BigDecimal.ZERO) );
+      assertEquals( CompassDirection.NORTH, CompassDirection.getByBearing(new BigDecimal("359.9")) );
+      assertEquals( CompassDirection.NORTH, CompassDirection.getByBearing(new BigDecimal(360)) );
+   }
+
+   @Test
+   public void getByBearing_invalidMin() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "Bearing must be 0 <= x <= 360" );
+      CompassDirection.getByBearing( new BigDecimal("-0.000000000001") );
+   }
+
+   @Test
+   public void getByBearing_invalidMax() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "Bearing must be 0 <= x <= 360" );
+      CompassDirection.getByBearing( new BigDecimal("360.000000000001") );
    }
 }
