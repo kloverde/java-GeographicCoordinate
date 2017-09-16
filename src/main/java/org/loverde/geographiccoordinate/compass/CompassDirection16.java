@@ -43,65 +43,49 @@ import org.loverde.util.number.bigdecimal.BigDecimalCompare;
 
 
 /**
- * Represents the directions on a 32-point compass, where points are 11.25 degrees apart
+ * Represents the directions on a 16-point compass, where points are 22.5 degrees apart
  *
  * @see <a href="https://en.wikipedia.org/wiki/Points_of_the_compass">https://en.wikipedia.org/wiki/Points_of_the_compass</a>
  */
-public enum CompassDirection {
-   NORTH             ( "N",     "354.38",  "5.62" ),
-   NORTH_BY_EAST     ( "NbE",   "5.63",    "16.87" ),
-   NORTH_NORTHEAST   ( "NNE",   "16.88",   "28.12" ),
-   NORTHEAST_BY_NORTH( "NEbN",  "28.13",   "39.37" ),
-   NORTHEAST         ( "NE",    "39.38",   "50.62" ),
-   NORTHEAST_BY_EAST ( "NEbE",  "50.63",   "61.87" ),
-   EAST_NORTHEAST    ( "ENE",   "61.88",   "73.12" ),
-   EAST_BY_NORTH     ( "EbN",   "73.13",   "84.37" ),
-   EAST              ( "E",     "84.38",   "95.62" ),
-   EAST_BY_SOUTH     ( "EbS",   "95.63",   "106.87" ),
-   EAST_SOUTHEAST    ( "ESE",   "106.88",  "118.12" ),
-   SOUTHEAST_BY_EAST ( "SEbE",  "118.13",  "129.37" ),
-   SOUTHEAST         ( "SE",    "129.38",  "140.62" ),
-   SOUTHEAST_BY_SOUTH( "SEbS",  "140.63",  "151.87" ),
-   SOUTH_SOUTHEAST   ( "SSE",   "151.88",  "163.12" ),
-   SOUTH_BY_EAST     ( "SbE",   "163.13",  "174.37" ),
-   SOUTH             ( "S",     "174.38",  "185.62" ),
-   SOUTH_BY_WEST     ( "SbW",   "185.63",  "196.87" ),
-   SOUTH_SOUTHWEST   ( "SSW",   "196.88",  "208.12" ),
-   SOUTHWEST_BY_SOUTH( "SWbS",  "208.13",  "219.37" ),
-   SOUTHWEST         ( "SW",    "219.38",  "230.62" ),
-   SOUTHWEST_BY_WEST ( "SWbW",  "230.63",  "241.87" ),
-   WEST_SOUTHWEST    ( "WSW",   "241.88",  "253.12" ),
-   WEST_BY_SOUTH     ( "WbS",   "253.13",  "264.37" ),
-   WEST              ( "W",     "264.38",  "275.62" ),
-   WEST_BY_NORTH     ( "WbN",   "275.63",  "286.87" ),
-   WEST_NORTHWEST    ( "WNW",   "286.88",  "298.12" ),
-   NORTHWEST_BY_WEST ( "NWbW",  "298.13",  "309.37" ),
-   NORTHWEST         ( "NW",    "309.38",  "320.62" ),
-   NORTHWEST_BY_NORTH( "NWbN",  "320.63",  "331.87" ),
-   NORTH_NORTHWEST   ( "NNW",   "331.88",  "343.12" ),
-   NORTH_BY_WEST     ( "NbW",   "343.13",  "354.37" );
+public enum CompassDirection16 {
+   NORTH            ( "N",     "348.75",  "11.24" ),
+   NORTH_NORTHEAST  ( "NNE",   "11.25",   "33.74" ),
+   NORTHEAST        ( "NE",    "33.75",   "56.24" ),
+   EAST_NORTHEAST   ( "ENE",   "56.25",   "78.74" ),
+   EAST             ( "E",     "78.75",   "101.24" ),
+   EAST_SOUTHEAST   ( "ESE",   "101.25",  "123.74" ),
+   SOUTHEAST        ( "SE",    "123.75",  "146.24" ),
+   SOUTH_SOUTHEAST  ( "SSE",   "146.25",  "168.74" ),
+   SOUTH            ( "S",     "168.75",  "191.24" ),
+   SOUTH_SOUTHWEST  ( "SSW",   "191.25",  "213.74" ),
+   SOUTHWEST        ( "SW",    "213.75",  "236.24" ),
+   WEST_SOUTHWEST   ( "WSW",   "236.25",  "258.74" ),
+   WEST             ( "W",     "258.75",  "281.24" ),
+   WEST_NORTHWEST   ( "WNW",   "281.25",  "303.74" ),
+   NORTHWEST        ( "NW",    "303.75",  "326.24" ),
+   NORTH_NORTHWEST  ( "NNW",   "326.25",  "348.74" );
 
    private String abbreviation;
 
    private BigDecimal minimum, maximum;
 
    private static final BigDecimal BD360 = new BigDecimal( 360 ),
-                                   STEP  = new BigDecimal( "11.25" );
+                                   STEP  = new BigDecimal( "22.5" );
 
-   private static final Map<String, CompassDirection> map = EnumHelper.populateEnumMap_stringKey( CompassDirection.class, "getAbbreviation" );
+   private static final Map<String, CompassDirection16> map = EnumHelper.populateEnumMap_stringKey( CompassDirection16.class, "getAbbreviation" );
 
 
-   private CompassDirection( final String abbr, final String min, final String max ) {
+   private CompassDirection16( final String abbr, final String min, final String max ) {
       abbreviation = abbr;
       minimum = new BigDecimal( min );
       maximum = new BigDecimal( max );
 
       assert( BigDecimalCompare.isGreaterThanOrEqualTo(getMinimum(), BigDecimal.ZERO) );
-      assert( BigDecimalCompare.isLessThanOrEqualTo( getMaximum(), new BigDecimal(360)) );
+      assert( BigDecimalCompare.isLessThanOrEqualTo(getMaximum(), new BigDecimal(360)) );
    }
 
    /**
-    * @return The direction abbreviation (southeast = SE, southeast by south = SEbS, etc.)
+    * @return The direction abbreviation (southeast = SE, west-southwest = WSW, etc.)
     */
    public String getAbbreviation() {
       return abbreviation;
@@ -121,42 +105,42 @@ public enum CompassDirection {
       return maximum;
    }
 
-   public CompassDirection getPrevious() {
+   public CompassDirection16 getPrevious() {
       final int ordinal = ordinal();
-      final CompassDirection values[] = values();
+      final CompassDirection16 values[] = values();
 
       return values[ ordinal == 0 ? values.length - 1 : ordinal - 1 ];
    }
 
-   public CompassDirection getNext() {
+   public CompassDirection16 getNext() {
       final int ordinal = ordinal();
-      final CompassDirection values[] = values();
+      final CompassDirection16 values[] = values();
 
       return values[ ordinal == values.length - 1 ? 0 : ordinal + 1 ];
    }
 
    /**
-    * @param abbr A 32-point compass direction abbreviation ("NWbN", etc.)
+    * @param abbr A 16-point compass direction abbreviation ("ENE", etc.)
     *
     * @return The compass direction corresponding to its abbreviation
     */
-   public static CompassDirection getByAbbreviation( final String abbr ) {
+   public static CompassDirection16 getByAbbreviation( final String abbr ) {
       return map.get( abbr );
    }
 
    /**
-    * @param bearing Bearing (degrees).  Value must be 0 <= x <= 360 (360 is treated as 0.0)
+    * @param bearing Bearing (degrees).  Value must be 0 &lt;= x &lt;= 360 (360 is treated as 0.0)
     *
     * @return The compass direction closest to the specified bearing
     */
-   public static CompassDirection getByBearing( final BigDecimal bearing ) {
+   public static CompassDirection16 getByBearing( final BigDecimal bearing ) {
       BigDecimal newBearing;
       final int idx;
-      final CompassDirection values[];
-      CompassDirection dir;
+      final CompassDirection16 values[];
+      CompassDirection16 dir;
 
       if( BigDecimalCompare.isLessThan(bearing, BigDecimal.ZERO) || BigDecimalCompare.isGreaterThan(bearing, BD360) ) {
-         throw new GeographicCoordinateException( "Bearing must be 0 <= x <= 360" );
+         throw new GeographicCoordinateException( "Bearing must be in the range [0, 360]" );
       }
 
       values = values();
@@ -179,7 +163,7 @@ public enum CompassDirection {
       return dir;
    }
 
-   private static boolean isBearingWithinRange( final BigDecimal bearing, final CompassDirection direction ) {
+   private static boolean isBearingWithinRange( final BigDecimal bearing, final CompassDirection16 direction ) {
       if( direction != NORTH ) {
          if( BigDecimalCompare.isWithinInclusiveRange(bearing, direction.getMinimum(), direction.getMaximum()) ) {
             return true;

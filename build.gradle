@@ -16,6 +16,9 @@ task release( type : Zip ) {
       throw new GradleException( "Empty builtByName in gradle.properties" );
    }
 
+   from( "/lib/numberutil" )
+   include "*.jar"
+
    from( "/build/libs" )
    include "*.jar"
 

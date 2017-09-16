@@ -33,27 +33,27 @@
 
 package org.loverde.geographiccoordinate;
 
-import org.loverde.geographiccoordinate.compass.CompassDirection;
+import org.loverde.geographiccoordinate.compass.CompassDirection32;
 
 
-public class Bearing {
+public class Bearing32 {
 
-   private CompassDirection compassDirection;
+   private CompassDirection32 compassDirection;
    private double heading;
 
 
-   public Bearing() {}
+   public Bearing32() {}
 
-   public Bearing( final CompassDirection compassDirection, final double heading ) {
+   public Bearing32( final CompassDirection32 compassDirection, final double heading ) {
       setCompassDirection( compassDirection );
       setHeading( heading );
    }
 
-   public CompassDirection getCompassDirection() {
+   public CompassDirection32 getCompassDirection() {
       return compassDirection;
    }
 
-   public void setCompassDirection( final CompassDirection compassDirection ) {
+   public void setCompassDirection( final CompassDirection32 compassDirection ) {
       this.compassDirection = compassDirection;
    }
 

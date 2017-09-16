@@ -152,7 +152,7 @@ public class DistanceCalculator {
     * Gets the total distance between an unlimited number of {@linkplain Point}s.  For example, if the
     * distance from point A to point B is 3, and the distance from point B to point C is 2, the total
     * distance traveled will be (3 + 2) = 5.  Just pass {@code Point}s in the order in which they're
-    * visited.  This is equivalent to repeatedly calling {@link DistanceCalculator#distance(Unit, Latitude, Longitude, Latitude, Longitude)}.
+    * visited.
     * </p>
     *
     * <p><strong>

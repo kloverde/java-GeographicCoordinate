@@ -17,12 +17,18 @@ GeographicCoordinate is a simple Java library for representing latitude and long
 Putting together the last three items, this library enables you to say, for instance, that you have traveled 12 km heading north-northwest on a heading of 123 degrees.
 
 
-## Dependencies
+## Compile and Runtime Dependencies
+
+1.  [NumberUtil](https://github.com/kloverde/java-NumberUtil) (included)
+
+
+## Development Setup Dependencies
+
+You only need to bother with these if you want to build using the same setup I used (see included project and build files).
 
 1.  [BuildScripts](https://github.com/kloverde/BuildScripts)
-2.  [NumberUtil](https://github.com/kloverde/java-NumberUtil) (included if you clone or fork the GeographicCoordinate repository)
-3.  The Eclipse Buildship plugin (available on the Eclipse Marketplace) - only applicable if you plan on using the included Eclipse project files
-4.  Gradle (if you plan on building from the command line using the provided build files)
+2.  The Eclipse Buildship plugin (available on the Eclipse Marketplace)
+3.  Gradle
 
 
 ## Building

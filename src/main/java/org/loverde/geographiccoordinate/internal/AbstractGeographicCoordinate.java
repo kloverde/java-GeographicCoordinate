@@ -63,6 +63,10 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
 
    /**
+    * @param degrees degrees
+    * @param minutes minutes
+    * @param seconds seconds
+    *
     * @throws GeographicCoordinateException If you extend this class yourself
     */
    public AbstractGeographicCoordinate( final int degrees, final int minutes, final double seconds ) {
@@ -76,6 +80,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
    }
 
    /**
+    * @param value Floating point value
+    *
     * @throws GeographicCoordinateException If you extend this class yourself
     */
    public AbstractGeographicCoordinate( final double value ) {
@@ -178,6 +184,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     * @throws GeographicCoordinateException If {@code locale} is null or {@linkplain #getDirection()} returns null
     *
     * @see #toString()
+    *
+    * @return String representation of this object
     */
    public String toString( final Locale locale ) {
       final DecimalFormat fmt;
