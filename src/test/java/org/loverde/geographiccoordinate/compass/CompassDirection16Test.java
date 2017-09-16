@@ -34,6 +34,7 @@
 package org.loverde.geographiccoordinate.compass;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 
@@ -41,6 +42,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+import org.loverde.util.number.bigdecimal.BigDecimalCompare;
 
 
 public class CompassDirection16Test {
@@ -48,6 +50,22 @@ public class CompassDirection16Test {
    @Rule
    public ExpectedException thrown = ExpectedException.none();
 
+
+   @Test
+   public void getMinMidMaxIncreases() {
+      for( final CompassDirection32 dir : CompassDirection32.values() ) {
+         assertTrue( String.format("Comparing %s minimum to 0",   dir.name()), BigDecimalCompare.isGreaterThanOrEqualTo(dir.getMinimum(), BigDecimal.ZERO) );
+         assertTrue( String.format("Comparing %s middle to max",  dir.name()), BigDecimalCompare.isLessThan(dir.getMiddle(), dir.getMaximum()) );
+         assertTrue( String.format("Comparing %s maximum to 360", dir.name()), BigDecimalCompare.isLessThanOrEqualTo(dir.getMaximum(), new BigDecimal(360)) );
+         assertTrue( String.format("Comparing %s maximum to next minimum", dir.name()), BigDecimalCompare.isLessThan(dir.getMaximum(), dir.getNext().getMinimum()) );
+
+         if( dir != CompassDirection32.NORTH ) {
+            assertTrue( String.format("Comparing %s minimum to middle", dir.name()), BigDecimalCompare.isLessThan(dir.getMinimum(), dir.getMiddle()) );
+        } else {
+           assertTrue( String.format("Comparing %s minimum to middle", dir.name()), BigDecimalCompare.isGreaterThan(dir.getMinimum(), dir.getMiddle()) );
+        }
+      }
+   }
 
    @Test
    public void getPrevious() {

@@ -48,42 +48,42 @@ import org.loverde.util.number.bigdecimal.BigDecimalCompare;
  * @see <a href="https://en.wikipedia.org/wiki/Points_of_the_compass">https://en.wikipedia.org/wiki/Points_of_the_compass</a>
  */
 public enum CompassDirection32 {
-   NORTH               ( "N",     "354.38",  "5.62" ),
-   NORTH_BY_EAST       ( "NbE",   "5.63",    "16.87" ),
-   NORTH_NORTHEAST     ( "NNE",   "16.88",   "28.12" ),
-   NORTHEAST_BY_NORTH  ( "NEbN",  "28.13",   "39.37" ),
-   NORTHEAST           ( "NE",    "39.38",   "50.62" ),
-   NORTHEAST_BY_EAST   ( "NEbE",  "50.63",   "61.87" ),
-   EAST_NORTHEAST      ( "ENE",   "61.88",   "73.12" ),
-   EAST_BY_NORTH       ( "EbN",   "73.13",   "84.37" ),
-   EAST                ( "E",     "84.38",   "95.62" ),
-   EAST_BY_SOUTH       ( "EbS",   "95.63",   "106.87" ),
-   EAST_SOUTHEAST      ( "ESE",   "106.88",  "118.12" ),
-   SOUTHEAST_BY_EAST   ( "SEbE",  "118.13",  "129.37" ),
-   SOUTHEAST           ( "SE",    "129.38",  "140.62" ),
-   SOUTHEAST_BY_SOUTH  ( "SEbS",  "140.63",  "151.87" ),
-   SOUTH_SOUTHEAST     ( "SSE",   "151.88",  "163.12" ),
-   SOUTH_BY_EAST       ( "SbE",   "163.13",  "174.37" ),
-   SOUTH               ( "S",     "174.38",  "185.62" ),
-   SOUTH_BY_WEST       ( "SbW",   "185.63",  "196.87" ),
-   SOUTH_SOUTHWEST     ( "SSW",   "196.88",  "208.12" ),
-   SOUTHWEST_BY_SOUTH  ( "SWbS",  "208.13",  "219.37" ),
-   SOUTHWEST           ( "SW",    "219.38",  "230.62" ),
-   SOUTHWEST_BY_WEST   ( "SWbW",  "230.63",  "241.87" ),
-   WEST_SOUTHWEST      ( "WSW",   "241.88",  "253.12" ),
-   WEST_BY_SOUTH       ( "WbS",   "253.13",  "264.37" ),
-   WEST                ( "W",     "264.38",  "275.62" ),
-   WEST_BY_NORTH       ( "WbN",   "275.63",  "286.87" ),
-   WEST_NORTHWEST      ( "WNW",   "286.88",  "298.12" ),
-   NORTHWEST_BY_WEST   ( "NWbW",  "298.13",  "309.37" ),
-   NORTHWEST           ( "NW",    "309.38",  "320.62" ),
-   NORTHWEST_BY_NORTH  ( "NWbN",  "320.63",  "331.87" ),
-   NORTH_NORTHWEST     ( "NNW",   "331.88",  "343.12" ),
-   NORTH_BY_WEST       ( "NbW",   "343.13",  "354.37" );
+   NORTH               ( "N",     "354.38",   "0.00",     "5.62" ),
+   NORTH_BY_EAST       ( "NbE",   "5.63",     "11.25",    "16.87" ),
+   NORTH_NORTHEAST     ( "NNE",   "16.88",    "22.50",    "28.12" ),
+   NORTHEAST_BY_NORTH  ( "NEbN",  "28.13",    "33.75",    "39.37" ),
+   NORTHEAST           ( "NE",    "39.38",    "45.00",    "50.62" ),
+   NORTHEAST_BY_EAST   ( "NEbE",  "50.63",    "56.25",    "61.87" ),
+   EAST_NORTHEAST      ( "ENE",   "61.88",    "67.50",    "73.12" ),
+   EAST_BY_NORTH       ( "EbN",   "73.13",    "78.75",    "84.37" ),
+   EAST                ( "E",     "84.38",    "90.00",    "95.62" ),
+   EAST_BY_SOUTH       ( "EbS",   "95.63",    "101.25",   "106.87" ),
+   EAST_SOUTHEAST      ( "ESE",   "106.88",   "112.50",   "118.12" ),
+   SOUTHEAST_BY_EAST   ( "SEbE",  "118.13",   "123.75",   "129.37" ),
+   SOUTHEAST           ( "SE",    "129.38",   "135.00",   "140.62" ),
+   SOUTHEAST_BY_SOUTH  ( "SEbS",  "140.63",   "146.25",   "151.87" ),
+   SOUTH_SOUTHEAST     ( "SSE",   "151.88",   "157.50",   "163.12" ),
+   SOUTH_BY_EAST       ( "SbE",   "163.13",   "168.75",   "174.37" ),
+   SOUTH               ( "S",     "174.38",   "180.00",   "185.62" ),
+   SOUTH_BY_WEST       ( "SbW",   "185.63",   "191.25",   "196.87" ),
+   SOUTH_SOUTHWEST     ( "SSW",   "196.88",   "202.50",   "208.12" ),
+   SOUTHWEST_BY_SOUTH  ( "SWbS",  "208.13",   "213.75",   "219.37" ),
+   SOUTHWEST           ( "SW",    "219.38",   "225.00",   "230.62" ),
+   SOUTHWEST_BY_WEST   ( "SWbW",  "230.63",   "236.25",   "241.87" ),
+   WEST_SOUTHWEST      ( "WSW",   "241.88",   "247.50",   "253.12" ),
+   WEST_BY_SOUTH       ( "WbS",   "253.13",   "258.75",   "264.37" ),
+   WEST                ( "W",     "264.38",   "270.00",    "275.62" ),
+   WEST_BY_NORTH       ( "WbN",   "275.63",   "281.25",   "286.87" ),
+   WEST_NORTHWEST      ( "WNW",   "286.88",   "292.50",   "298.12" ),
+   NORTHWEST_BY_WEST   ( "NWbW",  "298.13",   "303.75",   "309.37" ),
+   NORTHWEST           ( "NW",    "309.38",   "315.00",   "320.62" ),
+   NORTHWEST_BY_NORTH  ( "NWbN",  "320.63",   "326.25",   "331.87" ),
+   NORTH_NORTHWEST     ( "NNW",   "331.88",   "337.50",   "343.12" ),
+   NORTH_BY_WEST       ( "NbW",   "343.13",   "348.75",   "354.37" );
 
    private String abbreviation;
 
-   private BigDecimal minimum, maximum;
+   private BigDecimal minimum, middle, maximum;
 
    private static final BigDecimal BD360 = new BigDecimal( 360 ),
                                    STEP  = new BigDecimal( "11.25" );
@@ -91,13 +91,11 @@ public enum CompassDirection32 {
    private static final Map<String, CompassDirection32> map = EnumHelper.populateEnumMap_stringKey( CompassDirection32.class, "getAbbreviation" );
 
 
-   private CompassDirection32( final String abbr, final String min, final String max ) {
+   private CompassDirection32( final String abbr, final String min, final String mid, final String max ) {
       abbreviation = abbr;
       minimum = new BigDecimal( min );
+      middle  = new BigDecimal( mid );
       maximum = new BigDecimal( max );
-
-      assert( BigDecimalCompare.isGreaterThanOrEqualTo(getMinimum(), BigDecimal.ZERO) );
-      assert( BigDecimalCompare.isLessThanOrEqualTo(getMaximum(), new BigDecimal(360)) );
    }
 
    /**
@@ -112,6 +110,13 @@ public enum CompassDirection32 {
     */
    public BigDecimal getMinimum() {
       return minimum;
+   }
+
+   /**
+    * @return The middle azimuth - this is when you're heading &quot;dead on&quot; in the given direction
+    */
+   public BigDecimal getMiddle() {
+      return middle;
    }
 
    /**

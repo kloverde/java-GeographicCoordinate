@@ -48,26 +48,26 @@ import org.loverde.util.number.bigdecimal.BigDecimalCompare;
  * @see <a href="https://en.wikipedia.org/wiki/Points_of_the_compass">https://en.wikipedia.org/wiki/Points_of_the_compass</a>
  */
 public enum CompassDirection16 {
-   NORTH            ( "N",     "348.75",  "11.24" ),
-   NORTH_NORTHEAST  ( "NNE",   "11.25",   "33.74" ),
-   NORTHEAST        ( "NE",    "33.75",   "56.24" ),
-   EAST_NORTHEAST   ( "ENE",   "56.25",   "78.74" ),
-   EAST             ( "E",     "78.75",   "101.24" ),
-   EAST_SOUTHEAST   ( "ESE",   "101.25",  "123.74" ),
-   SOUTHEAST        ( "SE",    "123.75",  "146.24" ),
-   SOUTH_SOUTHEAST  ( "SSE",   "146.25",  "168.74" ),
-   SOUTH            ( "S",     "168.75",  "191.24" ),
-   SOUTH_SOUTHWEST  ( "SSW",   "191.25",  "213.74" ),
-   SOUTHWEST        ( "SW",    "213.75",  "236.24" ),
-   WEST_SOUTHWEST   ( "WSW",   "236.25",  "258.74" ),
-   WEST             ( "W",     "258.75",  "281.24" ),
-   WEST_NORTHWEST   ( "WNW",   "281.25",  "303.74" ),
-   NORTHWEST        ( "NW",    "303.75",  "326.24" ),
-   NORTH_NORTHWEST  ( "NNW",   "326.25",  "348.74" );
+   NORTH            ( "N",     "348.75",   "0.00",     "11.24" ),
+   NORTH_NORTHEAST  ( "NNE",   "11.25",    "22.5",     "33.74" ),
+   NORTHEAST        ( "NE",    "33.75",    "45.00",    "56.24" ),
+   EAST_NORTHEAST   ( "ENE",   "56.25",    "67.50",    "78.74" ),
+   EAST             ( "E",     "78.75",    "90.00",    "101.24" ),
+   EAST_SOUTHEAST   ( "ESE",   "101.25",   "112.50",   "123.74" ),
+   SOUTHEAST        ( "SE",    "123.75",   "135.00",   "146.24" ),
+   SOUTH_SOUTHEAST  ( "SSE",   "146.25",   "157.50",   "168.74" ),
+   SOUTH            ( "S",     "168.75",   "180.00",   "191.24" ),
+   SOUTH_SOUTHWEST  ( "SSW",   "191.25",   "202.50",   "213.74" ),
+   SOUTHWEST        ( "SW",    "213.75",   "225.00",   "236.24" ),
+   WEST_SOUTHWEST   ( "WSW",   "236.25",   "247.50",   "258.74" ),
+   WEST             ( "W",     "258.75",   "270.00",   "281.24" ),
+   WEST_NORTHWEST   ( "WNW",   "281.25",   "292.50",   "303.74" ),
+   NORTHWEST        ( "NW",    "303.75",   "315.00",   "326.24" ),
+   NORTH_NORTHWEST  ( "NNW",   "326.25",   "337.50",   "348.74" );
 
    private String abbreviation;
 
-   private BigDecimal minimum, maximum;
+   private BigDecimal minimum, middle, maximum;
 
    private static final BigDecimal BD360 = new BigDecimal( 360 ),
                                    STEP  = new BigDecimal( "22.5" );
@@ -75,13 +75,11 @@ public enum CompassDirection16 {
    private static final Map<String, CompassDirection16> map = EnumHelper.populateEnumMap_stringKey( CompassDirection16.class, "getAbbreviation" );
 
 
-   private CompassDirection16( final String abbr, final String min, final String max ) {
+   private CompassDirection16( final String abbr, final String min, final String mid, final String max ) {
       abbreviation = abbr;
       minimum = new BigDecimal( min );
+      middle  = new BigDecimal( mid );
       maximum = new BigDecimal( max );
-
-      assert( BigDecimalCompare.isGreaterThanOrEqualTo(getMinimum(), BigDecimal.ZERO) );
-      assert( BigDecimalCompare.isLessThanOrEqualTo(getMaximum(), new BigDecimal(360)) );
    }
 
    /**
@@ -96,6 +94,13 @@ public enum CompassDirection16 {
     */
    public BigDecimal getMinimum() {
       return minimum;
+   }
+
+   /**
+    * @return The middle azimuth - this is when you're heading &quot;dead on&quot; in the given direction
+    */
+   public BigDecimal getMiddle() {
+      return middle;
    }
 
    /**
