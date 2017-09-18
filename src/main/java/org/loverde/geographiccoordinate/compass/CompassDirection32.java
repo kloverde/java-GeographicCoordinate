@@ -47,7 +47,7 @@ import org.loverde.util.number.bigdecimal.BigDecimalCompare;
  *
  * @see <a href="https://en.wikipedia.org/wiki/Points_of_the_compass">https://en.wikipedia.org/wiki/Points_of_the_compass</a>
  */
-public enum CompassDirection32 {
+public enum CompassDirection32 implements CompassDirection {
    NORTH               ( "N",     "354.38",   "0.00",     "5.62" ),
    NORTH_BY_EAST       ( "NbE",   "5.63",     "11.25",    "16.87" ),
    NORTH_NORTHEAST     ( "NNE",   "16.88",    "22.50",    "28.12" ),
@@ -101,6 +101,7 @@ public enum CompassDirection32 {
    /**
     * @return The direction abbreviation (southeast = SE, southeast by south = SEbS, etc.)
     */
+   @Override
    public String getAbbreviation() {
       return abbreviation;
    }
@@ -108,6 +109,7 @@ public enum CompassDirection32 {
    /**
     * @return The lower bound for a given direction
     */
+   @Override
    public BigDecimal getMinimum() {
       return minimum;
    }
@@ -115,6 +117,7 @@ public enum CompassDirection32 {
    /**
     * @return The middle azimuth - this is when you're heading &quot;dead on&quot; in the given direction
     */
+   @Override
    public BigDecimal getMiddle() {
       return middle;
    }
@@ -122,10 +125,12 @@ public enum CompassDirection32 {
    /**
     * @return The upper bound for a given direction
     */
+   @Override
    public BigDecimal getMaximum() {
       return maximum;
    }
 
+   @Override
    public CompassDirection32 getPrevious() {
       final int ordinal = ordinal();
       final CompassDirection32 values[] = values();
@@ -133,6 +138,7 @@ public enum CompassDirection32 {
       return values[ ordinal == 0 ? values.length - 1 : ordinal - 1 ];
    }
 
+   @Override
    public CompassDirection32 getNext() {
       final int ordinal = ordinal();
       final CompassDirection32 values[] = values();
@@ -145,7 +151,8 @@ public enum CompassDirection32 {
     *
     * @return The compass direction corresponding to its abbreviation
     */
-   public static CompassDirection32 getByAbbreviation( final String abbr ) {
+   @Override
+   public CompassDirection32 getByAbbreviation( final String abbr ) {
       return map.get( abbr );
    }
 
@@ -154,7 +161,8 @@ public enum CompassDirection32 {
     *
     * @return The compass direction closest to the specified bearing
     */
-   public static CompassDirection32 getByBearing( final BigDecimal bearing ) {
+   @Override
+   public CompassDirection32 getByBearing( final BigDecimal bearing ) {
       BigDecimal newBearing;
       final int idx;
       final CompassDirection32 values[];

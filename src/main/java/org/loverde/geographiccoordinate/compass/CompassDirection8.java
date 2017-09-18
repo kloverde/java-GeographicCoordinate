@@ -47,7 +47,7 @@ import org.loverde.util.number.bigdecimal.BigDecimalCompare;
  *
  * @see <a href="https://en.wikipedia.org/wiki/Points_of_the_compass">https://en.wikipedia.org/wiki/Points_of_the_compass</a>
  */
-public enum CompassDirection8 {
+public enum CompassDirection8 implements CompassDirection {
    NORTH      ( "N",    "337.80",   "0.00",     "22.49" ),
    NORTHEAST  ( "NE",   "22.50",    "45.00",    "67.49" ),
    EAST       ( "E",    "67.50",    "90.00",    "112.49" ),
@@ -77,6 +77,7 @@ public enum CompassDirection8 {
    /**
     * @return The direction abbreviation (southeast = SE, west-southwest = WSW, etc.)
     */
+   @Override
    public String getAbbreviation() {
       return abbreviation;
    }
@@ -84,6 +85,7 @@ public enum CompassDirection8 {
    /**
     * @return The lower bound for a given direction
     */
+   @Override
    public BigDecimal getMinimum() {
       return minimum;
    }
@@ -91,6 +93,7 @@ public enum CompassDirection8 {
    /**
     * @return The middle azimuth - this is when you're heading &quot;dead on&quot; in the given direction
     */
+   @Override
    public BigDecimal getMiddle() {
       return middle;
    }
@@ -98,10 +101,12 @@ public enum CompassDirection8 {
    /**
     * @return The upper bound for a given direction
     */
+   @Override
    public BigDecimal getMaximum() {
       return maximum;
    }
 
+   @Override
    public CompassDirection8 getPrevious() {
       final int ordinal = ordinal();
       final CompassDirection8 values[] = values();
@@ -109,6 +114,7 @@ public enum CompassDirection8 {
       return values[ ordinal == 0 ? values.length - 1 : ordinal - 1 ];
    }
 
+   @Override
    public CompassDirection8 getNext() {
       final int ordinal = ordinal();
       final CompassDirection8 values[] = values();
@@ -121,7 +127,8 @@ public enum CompassDirection8 {
     *
     * @return The compass direction corresponding to its abbreviation
     */
-   public static CompassDirection8 getByAbbreviation( final String abbr ) {
+   @Override
+   public CompassDirection8 getByAbbreviation( final String abbr ) {
       return map.get( abbr );
    }
 
@@ -130,7 +137,8 @@ public enum CompassDirection8 {
     *
     * @return The compass direction closest to the specified bearing
     */
-   public static CompassDirection8 getByBearing( final BigDecimal bearing ) {
+   @Override
+   public CompassDirection8 getByBearing( final BigDecimal bearing ) {
       BigDecimal newBearing;
       final int idx;
       final CompassDirection8 values[];
