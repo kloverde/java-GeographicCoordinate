@@ -1,6 +1,6 @@
 /*
  * GeographicCoordinate
- * https://github.com/kloverde/GeographicCoordinate
+ * https://github.com/kloverde/java-GeographicCoordinate
  *
  * Copyright (c) 2013 Kurtis LoVerde
  * All rights reserved
@@ -35,9 +35,9 @@ package org.loverde.geographiccoordinate;
 
 import java.util.Locale;
 
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
-
 import junit.framework.TestCase;
+
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 
 public class LongitudeTest extends TestCase {

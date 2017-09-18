@@ -1,6 +1,6 @@
 /*
  * GeographicCoordinate
- * https://github.com/kloverde/GeographicCoordinate
+ * https://github.com/kloverde/java-GeographicCoordinate
  *
  * Copyright (c) 2013 Kurtis LoVerde
  * All rights reserved

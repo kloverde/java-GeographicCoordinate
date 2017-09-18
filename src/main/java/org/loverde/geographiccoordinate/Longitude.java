@@ -1,6 +1,6 @@
 /*
  * GeographicCoordinate
- * https://github.com/kloverde/GeographicCoordinate
+ * https://github.com/kloverde/java-GeographicCoordinate
  *
  * Copyright (c) 2013 Kurtis LoVerde
  * All rights reserved
@@ -34,8 +34,8 @@
 package org.loverde.geographiccoordinate;
 
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
-import org.loverde.geographiccoordinate.internal.LatLonDirection;
 import org.loverde.geographiccoordinate.internal.AbstractGeographicCoordinate;
+import org.loverde.geographiccoordinate.internal.LatLonDirection;
 
 
 /**
