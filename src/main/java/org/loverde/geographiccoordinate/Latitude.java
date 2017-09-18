@@ -34,7 +34,7 @@
 package org.loverde.geographiccoordinate;
 
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
-import org.loverde.geographiccoordinate.internal.AbstractDirection;
+import org.loverde.geographiccoordinate.internal.LatLonDirection;
 import org.loverde.geographiccoordinate.internal.AbstractGeographicCoordinate;
 
 
@@ -48,7 +48,7 @@ public class Latitude extends AbstractGeographicCoordinate {
    /**
     * Indicates whether a location is north or south of the Equator, or on the Equator
     */
-   public static enum Direction implements AbstractDirection {
+   public static enum Direction implements LatLonDirection {
       /**
        * Indicates that the location is north of the Equator
        */

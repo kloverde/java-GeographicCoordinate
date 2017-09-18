@@ -34,13 +34,12 @@
 package org.loverde.geographiccoordinate.internal;
 
 
-
 public interface GeographicCoordinate {
 
    public int getDegrees();
    public int getMinutes();
    public double getSeconds();
-   public AbstractDirection getDirection();
+   public LatLonDirection getDirection();
 
    public double toDouble();
    public double toRadians();

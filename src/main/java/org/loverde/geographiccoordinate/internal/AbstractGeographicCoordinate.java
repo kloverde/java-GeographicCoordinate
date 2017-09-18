@@ -189,7 +189,7 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     */
    public String toString( final Locale locale ) {
       final DecimalFormat fmt;
-      final AbstractDirection direction = getDirection();
+      final LatLonDirection direction = getDirection();
 
       String str = null;
 

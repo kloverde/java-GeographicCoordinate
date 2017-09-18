@@ -8,7 +8,7 @@
 package org.loverde.geographiccoordinate.internal;
 
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
-import org.loverde.geographiccoordinate.internal.AbstractDirection;
+import org.loverde.geographiccoordinate.internal.LatLonDirection;
 import org.loverde.geographiccoordinate.internal.AbstractGeographicCoordinate;
 
 import junit.framework.TestCase;
@@ -27,7 +27,7 @@ public class AbstractGeographicCoordinateTest extends TestCase {
       }
 
       @Override
-      public AbstractDirection getDirection() {
+      public LatLonDirection getDirection() {
          return null;
       }
    }
