@@ -127,8 +127,7 @@ public enum CompassDirection8 implements CompassDirection {
     *
     * @return The compass direction corresponding to its abbreviation
     */
-   @Override
-   public CompassDirection8 getByAbbreviation( final String abbr ) {
+   public static CompassDirection8 getByAbbreviation( final String abbr ) {
       return map.get( abbr );
    }
 
@@ -137,8 +136,7 @@ public enum CompassDirection8 implements CompassDirection {
     *
     * @return The compass direction closest to the specified bearing
     */
-   @Override
-   public CompassDirection8 getByBearing( final BigDecimal bearing ) {
+   public static CompassDirection8 getByBearing( final BigDecimal bearing ) {
       BigDecimal newBearing;
       final int idx;
       final CompassDirection8 values[];

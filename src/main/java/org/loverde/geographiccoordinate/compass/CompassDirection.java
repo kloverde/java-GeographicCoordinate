@@ -44,6 +44,4 @@ public interface CompassDirection {
    public BigDecimal getMaximum();
    public CompassDirection getPrevious();
    public CompassDirection getNext();
-   public CompassDirection getByAbbreviation( String abbr );
-   public CompassDirection getByBearing( BigDecimal bearing );
 }
