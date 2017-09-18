@@ -53,13 +53,13 @@ public class CompassDirection16Test {
 
    @Test
    public void getMinMidMaxIncreases() {
-      for( final CompassDirection32 dir : CompassDirection32.values() ) {
+      for( final CompassDirection16 dir : CompassDirection16.values() ) {
          assertTrue( String.format("Comparing %s minimum to 0",   dir.name()), BigDecimalCompare.isGreaterThanOrEqualTo(dir.getMinimum(), BigDecimal.ZERO) );
          assertTrue( String.format("Comparing %s middle to max",  dir.name()), BigDecimalCompare.isLessThan(dir.getMiddle(), dir.getMaximum()) );
          assertTrue( String.format("Comparing %s maximum to 360", dir.name()), BigDecimalCompare.isLessThanOrEqualTo(dir.getMaximum(), new BigDecimal(360)) );
          assertTrue( String.format("Comparing %s maximum to next minimum", dir.name()), BigDecimalCompare.isLessThan(dir.getMaximum(), dir.getNext().getMinimum()) );
 
-         if( dir != CompassDirection32.NORTH ) {
+         if( dir != CompassDirection16.NORTH ) {
             assertTrue( String.format("Comparing %s minimum to middle", dir.name()), BigDecimalCompare.isLessThan(dir.getMinimum(), dir.getMiddle()) );
         } else {
            assertTrue( String.format("Comparing %s minimum to middle", dir.name()), BigDecimalCompare.isGreaterThan(dir.getMinimum(), dir.getMiddle()) );
@@ -81,22 +81,22 @@ public class CompassDirection16Test {
 
    @Test
    public void getByAbbreviation() {
-      assertEquals( CompassDirection16.NORTH,              CompassDirection16.getByAbbreviation(CompassDirection16.NORTH.getAbbreviation()) );
-      assertEquals( CompassDirection16.NORTH_NORTHEAST,    CompassDirection16.getByAbbreviation(CompassDirection16.NORTH_NORTHEAST.getAbbreviation()) );
-      assertEquals( CompassDirection16.NORTHEAST,          CompassDirection16.getByAbbreviation(CompassDirection16.NORTHEAST.getAbbreviation()) );
-      assertEquals( CompassDirection16.EAST_NORTHEAST,     CompassDirection16.getByAbbreviation(CompassDirection16.EAST_NORTHEAST.getAbbreviation()) );
-      assertEquals( CompassDirection16.EAST,               CompassDirection16.getByAbbreviation(CompassDirection16.EAST.getAbbreviation()) );
-      assertEquals( CompassDirection16.EAST_SOUTHEAST,     CompassDirection16.getByAbbreviation(CompassDirection16.EAST_SOUTHEAST.getAbbreviation()) );
-      assertEquals( CompassDirection16.SOUTHEAST,          CompassDirection16.getByAbbreviation(CompassDirection16.SOUTHEAST.getAbbreviation()) );
-      assertEquals( CompassDirection16.SOUTH_SOUTHEAST,    CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH_SOUTHEAST.getAbbreviation()) );
-      assertEquals( CompassDirection16.SOUTH,              CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH.getAbbreviation()) );
-      assertEquals( CompassDirection16.SOUTH_SOUTHWEST,    CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH_SOUTHWEST.getAbbreviation()) );
-      assertEquals( CompassDirection16.SOUTHWEST,          CompassDirection16.getByAbbreviation(CompassDirection16.SOUTHWEST.getAbbreviation()) );
-      assertEquals( CompassDirection16.WEST_SOUTHWEST,     CompassDirection16.getByAbbreviation(CompassDirection16.WEST_SOUTHWEST.getAbbreviation()) );
-      assertEquals( CompassDirection16.WEST,               CompassDirection16.getByAbbreviation(CompassDirection16.WEST.getAbbreviation()) );
-      assertEquals( CompassDirection16.WEST_NORTHWEST,     CompassDirection16.getByAbbreviation(CompassDirection16.WEST_NORTHWEST.getAbbreviation()) );
-      assertEquals( CompassDirection16.NORTHWEST,          CompassDirection16.getByAbbreviation(CompassDirection16.NORTHWEST.getAbbreviation()) );
-      assertEquals( CompassDirection16.NORTH_NORTHWEST,    CompassDirection16.getByAbbreviation(CompassDirection16.NORTH_NORTHWEST.getAbbreviation()) );
+      assertEquals( CompassDirection16.NORTH,           CompassDirection16.getByAbbreviation(CompassDirection16.NORTH.getAbbreviation()) );
+      assertEquals( CompassDirection16.NORTH_NORTHEAST, CompassDirection16.getByAbbreviation(CompassDirection16.NORTH_NORTHEAST.getAbbreviation()) );
+      assertEquals( CompassDirection16.NORTHEAST,       CompassDirection16.getByAbbreviation(CompassDirection16.NORTHEAST.getAbbreviation()) );
+      assertEquals( CompassDirection16.EAST_NORTHEAST,  CompassDirection16.getByAbbreviation(CompassDirection16.EAST_NORTHEAST.getAbbreviation()) );
+      assertEquals( CompassDirection16.EAST,            CompassDirection16.getByAbbreviation(CompassDirection16.EAST.getAbbreviation()) );
+      assertEquals( CompassDirection16.EAST_SOUTHEAST,  CompassDirection16.getByAbbreviation(CompassDirection16.EAST_SOUTHEAST.getAbbreviation()) );
+      assertEquals( CompassDirection16.SOUTHEAST,       CompassDirection16.getByAbbreviation(CompassDirection16.SOUTHEAST.getAbbreviation()) );
+      assertEquals( CompassDirection16.SOUTH_SOUTHEAST, CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH_SOUTHEAST.getAbbreviation()) );
+      assertEquals( CompassDirection16.SOUTH,           CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH.getAbbreviation()) );
+      assertEquals( CompassDirection16.SOUTH_SOUTHWEST, CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH_SOUTHWEST.getAbbreviation()) );
+      assertEquals( CompassDirection16.SOUTHWEST,       CompassDirection16.getByAbbreviation(CompassDirection16.SOUTHWEST.getAbbreviation()) );
+      assertEquals( CompassDirection16.WEST_SOUTHWEST,  CompassDirection16.getByAbbreviation(CompassDirection16.WEST_SOUTHWEST.getAbbreviation()) );
+      assertEquals( CompassDirection16.WEST,            CompassDirection16.getByAbbreviation(CompassDirection16.WEST.getAbbreviation()) );
+      assertEquals( CompassDirection16.WEST_NORTHWEST,  CompassDirection16.getByAbbreviation(CompassDirection16.WEST_NORTHWEST.getAbbreviation()) );
+      assertEquals( CompassDirection16.NORTHWEST,       CompassDirection16.getByAbbreviation(CompassDirection16.NORTHWEST.getAbbreviation()) );
+      assertEquals( CompassDirection16.NORTH_NORTHWEST, CompassDirection16.getByAbbreviation(CompassDirection16.NORTH_NORTHWEST.getAbbreviation()) );
    }
 
    @Test
@@ -152,8 +152,8 @@ public class CompassDirection16Test {
 
    @Test
    public void getByBearing_testRounding() {
-//      assertEquals( CompassDirection16.NORTH_BY_WEST, CompassDirection16.getByBearing(new BigDecimal("354.37499999999999")) );
-      assertEquals( CompassDirection16.NORTH, CompassDirection16.getByBearing(new BigDecimal("354.375")) );
+      assertEquals( CompassDirection16.NORTH_NORTHWEST, CompassDirection16.getByBearing(new BigDecimal("348.744999999999999")) );
+      assertEquals( CompassDirection16.NORTH, CompassDirection16.getByBearing(new BigDecimal("348.749")) );
    }
 
    @Test
