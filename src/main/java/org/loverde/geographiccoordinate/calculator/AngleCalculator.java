@@ -54,8 +54,9 @@ public class AngleCalculator {
     * @return The angle of A and B, and a mapping of the angle to a 32-point compass direction
     */
    public static Angle<CompassDirection32> angle32( final Point from, final Point to ) {
-      final BigDecimal bdAngle = new BigDecimal( calculateAngle(from, to) );
-      final Angle<CompassDirection32> angle = new Angle<>( CompassDirection32.getByAngle(bdAngle), bdAngle.doubleValue() );
+      final double angleDouble = calculateAngle( from, to );
+      final BigDecimal angleBigDec = new BigDecimal( angleDouble );
+      final Angle<CompassDirection32> angle = new Angle<>( CompassDirection32.getByAngle(angleBigDec), angleDouble );
 
       return angle;
    }
@@ -69,8 +70,9 @@ public class AngleCalculator {
     * @return The angle of A and B, and a mapping of the angle to a 16-point compass direction
     */
    public static Angle<CompassDirection16> angle16( final Point from, final Point to ) {
-      final BigDecimal bdAngle = new BigDecimal( calculateAngle(from, to) );
-      final Angle<CompassDirection16> angle = new Angle<>( CompassDirection16.getByAngle(bdAngle), bdAngle.doubleValue() );
+      final double angleDouble = calculateAngle( from, to );
+      final BigDecimal angleBigDec = new BigDecimal( angleDouble );
+      final Angle<CompassDirection16> angle = new Angle<>( CompassDirection16.getByAngle(angleBigDec), angleDouble );
 
       return angle;
    }
@@ -84,8 +86,9 @@ public class AngleCalculator {
     * @return The angle of A and B, and a mapping of the angle to an 8-point compass direction
     */
    public static Angle<CompassDirection8> angle8( final Point from, final Point to ) {
-      final BigDecimal bdAngle = new BigDecimal( calculateAngle(from, to) );
-      final Angle<CompassDirection8> angle = new Angle<>( CompassDirection8.getByAngle(bdAngle), bdAngle.doubleValue() );
+      final double angleDouble = calculateAngle( from, to );
+      final BigDecimal angleBigDec = new BigDecimal( angleDouble );
+      final Angle<CompassDirection8> angle = new Angle<>( CompassDirection8.getByAngle(angleBigDec), angleDouble );
 
       return angle;
    }
