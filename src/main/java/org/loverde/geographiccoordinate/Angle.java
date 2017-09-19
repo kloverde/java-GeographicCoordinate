@@ -36,17 +36,17 @@ package org.loverde.geographiccoordinate;
 import org.loverde.geographiccoordinate.compass.CompassDirection;
 
 
-public class Bearing<E extends CompassDirection> {
+public class Angle<E extends CompassDirection> {
 
    private E compassDirection;
-   private double heading;
+   private double angle;
 
 
-   public Bearing() {}
+   public Angle() {}
 
-   public Bearing( final E compassDirection, final double heading ) {
+   public Angle( final E compassDirection, final double angle ) {
       setCompassDirection( compassDirection );
-      setHeading( heading );
+      setAngle( angle );
    }
 
    public E getCompassDirection() {
@@ -57,11 +57,11 @@ public class Bearing<E extends CompassDirection> {
       this.compassDirection = compassDirection;
    }
 
-   public double getHeading() {
-      return heading;
+   public double getAngle() {
+      return angle;
    }
 
-   public void setHeading( final double heading ) {
-      this.heading = heading;
+   public void setAngle( final double angle ) {
+      this.angle = angle;
    }
 }
