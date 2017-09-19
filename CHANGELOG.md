@@ -4,7 +4,7 @@ This release contains breaking and non-breaking changes.
 
 Breaking changes:
 
-* The source and binary distributions now target Java 8.  If you need compatibility with an older version of Java, you'll find the required source changes to be minimal.
+* The source and binaries now target Java 8
 * New package structure.  Things you weren't meant to use in the first place (and which you probably aren't using) have been moved to a new 'internal' package.  You shouldn't need to refactor code resulting from this change unless you were doing something odd.
 * DistanceCalculator has been moved to a new 'calculator' package
 * GeographicCoordinateException has been moved to a new 'exception' package

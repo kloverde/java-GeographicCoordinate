@@ -51,11 +51,11 @@ public class AngleCalculator {
     * @param from The first set of latitude/longitude
     * @param to The second set of latitude/longitude
     *
-    * @return The angle of A and B, and a mapping of the angle to a 32-point compass
+    * @return The angle of A and B, and a mapping of the angle to a 32-point compass direction
     */
    public static Angle<CompassDirection32> angle32( final Point from, final Point to ) {
       final BigDecimal bdAngle = new BigDecimal( calculateAngle(from, to) );
-      final Angle<CompassDirection32> angle = new Angle<CompassDirection32>( CompassDirection32.getByAngle(bdAngle), bdAngle.doubleValue() );
+      final Angle<CompassDirection32> angle = new Angle<>( CompassDirection32.getByAngle(bdAngle), bdAngle.doubleValue() );
 
       return angle;
    }
@@ -66,7 +66,7 @@ public class AngleCalculator {
     * @param from The first set of latitude/longitude
     * @param to The second set of latitude/longitude
     *
-    * @return The angle of A and B, and a mapping of the angle to a 16-point compass
+    * @return The angle of A and B, and a mapping of the angle to a 16-point compass direction
     */
    public static Angle<CompassDirection16> angle16( final Point from, final Point to ) {
       final BigDecimal bdAngle = new BigDecimal( calculateAngle(from, to) );
@@ -81,7 +81,7 @@ public class AngleCalculator {
     * @param from The first set of latitude/longitude
     * @param to The second set of latitude/longitude
     *
-    * @return The angle of A and B, and a mapping of the angle to an 8-point compass
+    * @return The angle of A and B, and a mapping of the angle to an 8-point compass direction
     */
    public static Angle<CompassDirection8> angle8( final Point from, final Point to ) {
       final BigDecimal bdAngle = new BigDecimal( calculateAngle(from, to) );
@@ -90,6 +90,8 @@ public class AngleCalculator {
       return angle;
    }
 
+   // http://www.movable-type.co.uk/scripts/latlong.html
+   // see bearing section
    private static double calculateAngle( final Point from, final Point to ) {
       if( from == null ) throw new GeographicCoordinateException( "'from' is null" );
       if( to == null ) throw new GeographicCoordinateException( "'to' is null" );
