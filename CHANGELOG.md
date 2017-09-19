@@ -1,4 +1,4 @@
-# Release 3.0 (September 9, 2017)
+# Release 3.0 (September X, 2017)
 
 This release contains breaking and non-breaking changes.
 
