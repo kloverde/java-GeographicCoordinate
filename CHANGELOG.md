@@ -13,9 +13,9 @@ Breaking changes:
 Non-breaking changes:
 
 * TODO:  Added BearingCalculator, which calculates the heading and direction of travel (north, northeast, etc.) given two coordinates
-* Added a compass enumeration which represents the directions on a 32-point compass (north, northeast-by-north, etc.).  Provides the standard abbreviations as well as lookup by abbreviation and angle.
+* Added compass enumerations which represent the directions found on 32, 16 and 8-point compasses, such as north, northwest, etc.  Provides their standard abbreviations as well as lookup by abbreviation and bearing.
 * Added support for centimeters and inches to DistanceCalculator
-* TODO:  JUnit tests refactored to move them from JUnit 3.8 to JUnit 4
+* JUnit tests refactored to move them from JUnit 3.8 to JUnit 4
 * The Eclipse project files have been migrated to Buildship, so they no longer have hardcoded paths to my filesystem.  This will make it easier to import a working project, but you do need to install the Buildship plugin  if you don't already have it.
 
 
