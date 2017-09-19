@@ -33,8 +33,12 @@
 
 package org.loverde.geographiccoordinate.calculator;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.loverde.geographiccoordinate.Latitude;
 import org.loverde.geographiccoordinate.Longitude;
 import org.loverde.geographiccoordinate.Point;
@@ -45,7 +49,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 
-public class DistanceCalculatorTest extends TestCase {
+public class DistanceCalculatorTest {
+
+   @Rule
+   public ExpectedException thrown = ExpectedException.none();
 
    private Latitude latitude1, latitude2;
 
@@ -53,12 +60,13 @@ public class DistanceCalculatorTest extends TestCase {
 
    private Point point1, point2;
 
-   @Mock private Point mockPoint;
+   @Mock
+   private Point mockPoint;
 
    private double fpDelta = 1E-15;
 
 
-   @Override
+   @Before
    public void setUp() {
       latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
       longitude1 = new Longitude(  74, 0, 21, Longitude.Direction.WEST );
@@ -74,31 +82,28 @@ public class DistanceCalculatorTest extends TestCase {
       Mockito.when( mockPoint.getLongitude() ).thenReturn( longitude1 );
    }
 
-   public void testDistance_noPoints() {
-      try {
-         DistanceCalculator.distance( Unit.KILOMETERS );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith("Need to provide at least 2 points") );
-      }
+   @Test
+   public void distance_noPoints() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "Need to provide at least 2 points" );
+
+      DistanceCalculator.distance( Unit.KILOMETERS );
    }
 
-   public void testDistance_onePoint() {
-      try {
-         DistanceCalculator.distance( Unit.KILOMETERS, point1 );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith("Need to provide at least 2 points") );
-      }
+   @Test
+   public void distance_onePoint() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "Need to provide at least 2 points" );
+
+      DistanceCalculator.distance( Unit.KILOMETERS, point1 );
    }
 
-   public void testDistance_nullPoint() {
-      try {
-         DistanceCalculator.distance( Unit.KILOMETERS, null, point2 );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith("points 0 is null") );
-      }
+   @Test
+   public void distance_nullPoint() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "points 0 is null" );
+
+      DistanceCalculator.distance( Unit.KILOMETERS, null, point2 );
    }
 
    /**
@@ -106,15 +111,14 @@ public class DistanceCalculatorTest extends TestCase {
     * and the class is immutable.  If that were to change, we need to know that DistanceCalculator detects
     * nulls, so this test uses Mockito to force Point to return a null.
     */
-   public void testDistance_nullLatitudePoint1() {
+   @Test
+   public void distance_nullLatitudePoint1() {
       Mockito.when( mockPoint.getLatitude() ).thenReturn( null );
 
-      try {
-         DistanceCalculator.distance( Unit.KILOMETERS, mockPoint, point2 );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith("Latitude 1 is null") );
-      }
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "Latitude 1 is null" );
+
+      DistanceCalculator.distance( Unit.KILOMETERS, mockPoint, point2 );
    }
 
    /**
@@ -122,15 +126,14 @@ public class DistanceCalculatorTest extends TestCase {
     * and the class is immutable.  If that were to change, we need to know that DistanceCalculator detects
     * nulls, so this test uses Mockito to force a null to force Point to return a null.
     */
-   public void testDistance_nullLatitudePoint2() {
+   @Test
+   public void distance_nullLatitudePoint2() {
       Mockito.when( mockPoint.getLatitude() ).thenReturn( null );
 
-      try {
-         DistanceCalculator.distance( Unit.KILOMETERS, point1, mockPoint );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith("Latitude 2 is null") );
-      }
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "Latitude 2 is null" );
+
+      DistanceCalculator.distance( Unit.KILOMETERS, point1, mockPoint );
    }
 
    /**
@@ -138,15 +141,14 @@ public class DistanceCalculatorTest extends TestCase {
     * and the class is immutable.  If that were to change, we need to know that DistanceCalculator detects
     * nulls, so this test uses Mockito to force a null to force Point to return a null.
     */
-   public void testDistance_nullLongitudePoint1() {
+   @Test
+   public void distance_nullLongitudePoint1() {
       Mockito.when( mockPoint.getLongitude() ).thenReturn( null );
 
-      try {
-         DistanceCalculator.distance( Unit.KILOMETERS, mockPoint, point2 );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith("Longitude 1 is null") );
-      }
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "Longitude 1 is null" );
+
+      DistanceCalculator.distance( Unit.KILOMETERS, mockPoint, point2 );
    }
 
    /**
@@ -154,48 +156,54 @@ public class DistanceCalculatorTest extends TestCase {
     * and the class is immutable.  If that were to change, we need to know that DistanceCalculator detects
     * nulls, so this test uses Mockito to force a null to force Point to return a null.
     */
-   public void testDistance_nullLongitudePoint2() {
+   @Test
+   public void distance_nullLongitudePoint2() {
       Mockito.when( mockPoint.getLongitude() ).thenReturn( null );
 
-      try {
-         DistanceCalculator.distance( Unit.KILOMETERS, point1, mockPoint );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith("Longitude 2 is null") );
-      }
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( "Longitude 2 is null" );
+
+      DistanceCalculator.distance( Unit.KILOMETERS, point1, mockPoint );
    }
 
-   public void testDistance_feet() {
+   @Test
+   public void distance_feet() {
       final double distance = DistanceCalculator.distance( Unit.FEET, point1, point2 );
       assertEquals( 1070811.8236831673228346456692913d, distance, fpDelta );
    }
 
-   public void testDistance_kilometers() {
+   @Test
+   public void distance_kilometers() {
       final double distance = DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
       assertEquals( 326.3834438586294d, distance, fpDelta );
    }
 
-   public void testDistance_meters() {
+   @Test
+   public void distance_meters() {
       final double distance = DistanceCalculator.distance( Unit.METERS, point1, point2 );
       assertEquals( 326383.4438586294d, distance, fpDelta );
    }
 
-   public void testDistance_miles() {
+   @Test
+   public void distance_miles() {
       final double distance = DistanceCalculator.distance( Unit.MILES, point1, point2 );
       assertEquals( 202.8052696369635d, distance, fpDelta );
    }
 
-   public void testDistance_nauticalMiles() {
+   @Test
+   public void distance_nauticalMiles() {
       final double distance = DistanceCalculator.distance( Unit.NAUTICAL_MILES, point1, point2 );
       assertEquals( 176.23296104677613d, distance, fpDelta );
    }
 
-   public void testDistance_usSurveyfeet() {
+   @Test
+   public void distance_usSurveyfeet() {
       final double distance = DistanceCalculator.distance( Unit.US_SURVEY_FEET, point1, point2 );
       assertEquals( 1070809.6820595199565d, distance, fpDelta );
    }
 
-   public void testDistance_yards() {
+   @Test
+   public void distance_yards() {
       final double distance = DistanceCalculator.distance( Unit.YARDS, point1, point2 );
       assertEquals( 356937.2745610558d, distance, fpDelta );
    }
@@ -221,7 +229,8 @@ public class DistanceCalculatorTest extends TestCase {
     * @see <a href="http://binged.it/1SPhHjq">Shortened trip URL</a>  - Who knows how long this will exist before Bing deletes it...
     * @see <a href="http://www.bing.com/mapspreview?&ty=0&rtp=pos.35.048992_-118.987968_I-5%20N%2c%20Bakersfield%2c%20CA%2093307_I-5%20N%2c%20Bakersfield%2c%20CA%2093307__e_~pos.36.078312_-120.103737_I-5%20N%2c%20Huron%2c%20CA%2093234_I-5%20N%2c%20Huron%2c%20CA%2093234__e_&mode=d&u=0&tt=I-5%20N%2c%20Bakersfield%2c%20CA%2093307%20to%20I-5%20N%2c%20Huron%2c%20CA%2093234&tsts2=%2526ty%253d18%2526q%253d35.04899226103765%25252c-118.98797131369996%2526mb%253d36.379826~-121.444888~34.715083~-117.418399&tstt2=I-5%20N%2c%20Bakersfield%2c%20CA%2093307&tsts1=%2526ty%253d0%2526rtp%253dpos.35.048992_-118.987968_I-5%252520N%25252c%252520Bakersfield%25252c%252520CA%25252093307_I-5%252520N%25252c%252520Bakersfield%25252c%252520CA%25252093307__e_~pos.36.078312_-120.103737_I-5%252520N%25252c%252520Huron%25252c%252520CA%25252093234_I-5%252520N%25252c%252520Huron%25252c%252520CA%25252093234__e_%2526mode%253dd%2526u%253d0&tstt1=I-5%20N%2c%20Bakersfield%2c%20CA%2093307%20to%20I-5%20N%2c%20Huron%2c%20CA%2093234&tsts0=%2526ty%253d18%2526q%253d36.07831163070724%25252c-120.1037394074518%2526mb%253d36.084772~-120.119465~36.071852~-120.088008&tstt0=I-5%20N%2c%20Huron%2c%20CA%2093234&cp=36.078659~-120.107106&lvl=16&ftst=1&ftics=True&v=2&sV=1&form=S00027">Full trip URL</a> - Use this if the shortened URL doesn't work.  This URL is so ridiculous, there's no telling how long it will actually work before Bing changes the URL format.
     */
-   public void testDistance_interpolateActualTrip() {
+   @Test
+   public void distance_interpolateActualTrip() {
       Point points[] = new Point[20];
       int idx = 0;
 

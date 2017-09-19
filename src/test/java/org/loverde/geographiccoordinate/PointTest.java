@@ -33,12 +33,21 @@
 
 package org.loverde.geographiccoordinate;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+import org.mockito.Matchers;
 
+public class PointTest {
 
-public class PointTest extends TestCase {
+   @Rule
+   public ExpectedException thrown = ExpectedException.none();
 
    private Latitude latitude1;
 
@@ -47,7 +56,7 @@ public class PointTest extends TestCase {
    private Point point1;
 
 
-   @Override
+   @Before
    public void setUp() {
       latitude1 = new Latitude( 40, 42, 46.1, Latitude.Direction.NORTH );
       longitude1 = new Longitude(  74, 0, 21.1, Longitude.Direction.WEST );
@@ -55,57 +64,60 @@ public class PointTest extends TestCase {
       point1 = new Point( latitude1, longitude1, "name" );
    }
 
-   public void test2argConstructor_actuallySetsStuffCorrectly() {
+   @Test
+   public void constructor2arg_actuallySetsStuffCorrectly() {
       assertSame( latitude1, point1.getLatitude() );
       assertSame( longitude1, point1.getLongitude() );
       assertSame( "name", point1.getName() );
    }
 
-   public void test2argConstructor_fail_nullLatitude() {
-      try {
-         new Point( null, longitude1 );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_NULL) );
-      }
+   @Test
+   public void constructor2arg_fail_nullLatitude() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LATITUDE_NULL );
+
+      new Point( null, longitude1 );
    }
 
-   public void test2argConstructor_fail_nullLongitude() {
-      try {
-         new Point( latitude1, null );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_NULL) );
-      }
+   @Test
+   public void constructor2arg_fail_nullLongitude() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LONGITUDE_NULL );
+
+      new Point( latitude1, null );
    }
 
-   public void test3argConstructor_fail_nullLatitude() {
-      try {
-         new Point( null, longitude1, "name" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LATITUDE_NULL) );
-      }
+   @Test
+   public void constructor3arg_fail_nullLatitude() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LATITUDE_NULL );
+
+      new Point( null, longitude1, "name" );
    }
 
-   public void test3argConstructor_fail_nullLongitude() {
-      try {
-         new Point( latitude1, null, "name" );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.LONGITUDE_NULL) );
-      }
+   @Test
+   public void constructor3arg_fail_nullLongitude() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LONGITUDE_NULL );
+
+      new Point( latitude1, null, "name" );
    }
 
-   public void test3argConstructor_fail_nullName() {
-      try {
-         new Point( latitude1, longitude1, null );
-      } catch( final GeographicCoordinateException e ) {
-         assertTrue( e.getMessage().endsWith(GeographicCoordinateException.Messages.NAME_NULL) );
-      }
+   @Test
+   public void constructor3arg_fail_nullName() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( Matchers.endsWith(GeographicCoordinateException.Messages.NAME_NULL) );
+
+      new Point( latitude1, longitude1, null );
    }
 
-   public void testEquals_equal_sameAddress() {
+   @Test
+   public void equals_equal_sameAddress() {
       assertEquals( point1, point1 );
    }
 
-   public void testEquals_equal_differentAddresses() {
+   @Test
+   public void equals_equal_differentAddresses() {
       final Latitude lat  = new Latitude( point1.getLatitude().getDegrees(), point1.getLatitude().getMinutes(),
                                           point1.getLatitude().getSeconds(), point1.getLatitude().getDirection() );
 
@@ -115,27 +127,31 @@ public class PointTest extends TestCase {
       assertEquals( point1, new Point(lat, lon, new String("name")) );
    }
 
-   public void testEquals_notEqual_differentLatitude() {
+   @Test
+   public void equals_notEqual_differentLatitude() {
       final Latitude lat = new Latitude( latitude1.getDegrees() + 1, latitude1.getMinutes(), latitude1.getSeconds(), latitude1.getDirection() );
       final Point newPoint = new Point( lat, point1.getLongitude() );
 
       assertFalse( point1.equals(newPoint) );
    }
 
-   public void testEquals_notEqual_differentLongitude() {
+   @Test
+   public void equals_notEqual_differentLongitude() {
       final Longitude lon = new Longitude( longitude1.getDegrees() + 1, longitude1.getMinutes(), longitude1.getSeconds(), longitude1.getDirection() );
       final Point newPoint = new Point( point1.getLatitude(), lon );
 
       assertFalse( point1.equals(newPoint) );
    }
 
-   public void testEquals_notEqual_differentName() {
+   @Test
+   public void equals_notEqual_differentName() {
       final Point newPoint = new Point( point1.getLatitude(), point1.getLongitude(), point1.getName() + "different" );
 
       assertFalse( point1.equals(newPoint) );
    }
 
-   public void testHashCode_notEqual_differentLatitude() {
+   @Test
+   public void hashCode_notEqual_differentLatitude() {
       final Latitude lat  = new Latitude( point1.getLatitude().getDegrees(), point1.getLatitude().getMinutes(),
                                           point1.getLatitude().getSeconds() + 1, point1.getLatitude().getDirection() );
 
@@ -147,7 +163,8 @@ public class PointTest extends TestCase {
       assertFalse( point1.hashCode() == newPoint.hashCode() );
    }
 
-   public void testHashCode_notEqual_differentLongitude() {
+   @Test
+   public void hashCode_notEqual_differentLongitude() {
       final Latitude lat  = new Latitude( point1.getLatitude().getDegrees(), point1.getLatitude().getMinutes(),
                                           point1.getLatitude().getSeconds(), point1.getLatitude().getDirection() );
 
@@ -159,7 +176,8 @@ public class PointTest extends TestCase {
       assertFalse( point1.hashCode() == newPoint.hashCode() );
    }
 
-   public void testHashCode_notEqual_differentName() {
+   @Test
+   public void hashCode_notEqual_differentName() {
       final Point newPoint = new Point( point1.getLatitude(), point1.getLongitude(), point1.getName() + "different" );
 
       assertFalse( point1.hashCode() == newPoint.hashCode() );
