@@ -72,7 +72,7 @@ public enum CompassDirection32 implements CompassDirection {
    SOUTHWEST_BY_WEST   ( "SWbW",  "230.63",   "236.25",   "241.87" ),
    WEST_SOUTHWEST      ( "WSW",   "241.88",   "247.50",   "253.12" ),
    WEST_BY_SOUTH       ( "WbS",   "253.13",   "258.75",   "264.37" ),
-   WEST                ( "W",     "264.38",   "270.00",    "275.62" ),
+   WEST                ( "W",     "264.38",   "270.00",   "275.62" ),
    WEST_BY_NORTH       ( "WbN",   "275.63",   "281.25",   "286.87" ),
    WEST_NORTHWEST      ( "WNW",   "286.88",   "292.50",   "298.12" ),
    NORTHWEST_BY_WEST   ( "NWbW",  "298.13",   "303.75",   "309.37" ),
@@ -156,33 +156,33 @@ public enum CompassDirection32 implements CompassDirection {
    }
 
    /**
-    * @param angle Angle in degrees.  Value must be 0 &lt;= x &lt;= 360 (360 is treated as 0.0)
+    * @param bearing Bearing in degrees.  Value must be 0 &lt;= x &lt;= 360 (360 is treated as 0.0)
     *
-    * @return The compass direction closest to the specified angle
+    * @return The compass direction closest to the specified bearing
     */
-   public static CompassDirection32 getByAngle( final BigDecimal angle ) {
-      BigDecimal newAngle;
+   public static CompassDirection32 getByBearing( final BigDecimal bearing ) {
+      BigDecimal newBearing;
       final int idx;
       final CompassDirection32 values[];
       CompassDirection32 dir;
 
-      if( BigDecimalCompare.isLessThan(angle, BigDecimal.ZERO) || BigDecimalCompare.isGreaterThan(angle, BD360) ) {
-         throw new GeographicCoordinateException( "Angle must be in the range [0, 360]" );
+      if( BigDecimalCompare.isLessThan(bearing, BigDecimal.ZERO) || BigDecimalCompare.isGreaterThan(bearing, BD360) ) {
+         throw new GeographicCoordinateException( String.format("Bearing %f is not in range [0, 360]", bearing) );
       }
 
       values = values();
-      newAngle = BigDecimalCompare.isEqualTo( angle, BD360 ) ? BigDecimal.ZERO : angle;
-      newAngle = angle.setScale( 2,  RoundingMode.HALF_UP );
-      idx = Math.min( newAngle.divide(STEP, 2, RoundingMode.HALF_UP).setScale(0, RoundingMode.HALF_UP).toBigInteger().intValue(), values.length - 1 );
+      newBearing = BigDecimalCompare.isEqualTo( bearing, BD360 ) ? BigDecimal.ZERO : bearing;
+      newBearing = bearing.setScale( 2,  RoundingMode.HALF_UP );
+      idx = Math.min( newBearing.divide(STEP, 2, RoundingMode.HALF_UP).setScale(0, RoundingMode.HALF_UP).toBigInteger().intValue(), values.length - 1 );
       dir = values[ idx ];
 
-      // If the angle is greater than the direction's max, we need to go to the next one.
-      // If the angle is less than the min, we need to go the previous one.
+      // If the bearing is greater than the direction's max, we need to go to the next one.
+      // If the bearing is less than the min, we need to go the previous one.
 
-      if( !isAngleWithinRange(newAngle, dir) ) {
-         if( BigDecimalCompare.isGreaterThan(newAngle, dir.getMaximum()) ) {
+      if( !isBearingWithinRange(newBearing, dir) ) {
+         if( BigDecimalCompare.isGreaterThan(newBearing, dir.getMaximum()) ) {
             dir = dir.getNext();
-         } else if( BigDecimalCompare.isLessThan(angle, dir.getMinimum()) ) {
+         } else if( BigDecimalCompare.isLessThan(bearing, dir.getMinimum()) ) {
             dir = dir.getPrevious();
          }
       }
@@ -190,15 +190,15 @@ public enum CompassDirection32 implements CompassDirection {
       return dir;
    }
 
-   private static boolean isAngleWithinRange( final BigDecimal angle, final CompassDirection32 direction ) {
+   private static boolean isBearingWithinRange( final BigDecimal bearing, final CompassDirection32 direction ) {
       if( direction != NORTH ) {
-         if( BigDecimalCompare.isWithinInclusiveRange(angle, direction.getMinimum(), direction.getMaximum()) ) {
+         if( BigDecimalCompare.isWithinInclusiveRange(bearing, direction.getMinimum(), direction.getMaximum()) ) {
             return true;
          }
       } else {
          // North is a special case where the minimum is greater than the maximum
-         if( BigDecimalCompare.isWithinInclusiveRange(angle, NORTH.getMinimum(), BD360) ||
-             BigDecimalCompare.isWithinInclusiveRange(angle, BigDecimal.ZERO, NORTH.getMaximum()) ) {
+         if( BigDecimalCompare.isWithinInclusiveRange(bearing, NORTH.getMinimum(), BD360) ||
+             BigDecimalCompare.isWithinInclusiveRange(bearing, BigDecimal.ZERO, NORTH.getMaximum()) ) {
             return true;
          }
       }

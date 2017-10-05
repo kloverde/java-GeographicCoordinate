@@ -68,23 +68,7 @@ import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
  * @see <a href="http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html">NASA's Earth radius figures</a>
  */
 public class DistanceCalculator {
-/*
-   public static void main( String args[] ) {
-      Latitude latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
-      Longitude longitude1 = new Longitude(  74, 0, 21, Longitude.Direction.WEST );
 
-      Latitude latitude2 = new Latitude( 38, 54, 17, Latitude.Direction.NORTH );
-      Longitude longitude2 = new Longitude( 77, 0, 59, Longitude.Direction.WEST );
-
-      Point point1 = new Point( latitude1, longitude1 );
-      Point point2 = new Point( latitude2, longitude2 );
-
-      System.out.println( distance(Unit.KILOMETERS, point1, point2) );
-      System.out.println( distance(Unit.METERS, point1, point2) );
-      System.out.println( distance(Unit.MILES, point1, point2) );
-      System.out.println( distance(Unit.NAUTICAL_MILES, point1, point2) );
-   }
-*/
    /**
     * Units of distance - use this with the {@code distance} method in this class.
     */

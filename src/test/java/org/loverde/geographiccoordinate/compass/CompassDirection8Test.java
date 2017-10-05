@@ -92,56 +92,56 @@ public class CompassDirection8Test {
    }
 
    @Test
-   public void getByAngle_minMax() {
-      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByAngle(CompassDirection8.NORTH.getMinimum()) );
-      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByAngle(CompassDirection8.NORTH.getMaximum()) );
+   public void getByBearing_minMax() {
+      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByBearing(CompassDirection8.NORTH.getMinimum()) );
+      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByBearing(CompassDirection8.NORTH.getMaximum()) );
 
-      assertEquals( CompassDirection8.NORTHEAST, CompassDirection8.getByAngle(CompassDirection8.NORTHEAST.getMinimum()) );
-      assertEquals( CompassDirection8.NORTHEAST, CompassDirection8.getByAngle(CompassDirection8.NORTHEAST.getMaximum()) );
+      assertEquals( CompassDirection8.NORTHEAST, CompassDirection8.getByBearing(CompassDirection8.NORTHEAST.getMinimum()) );
+      assertEquals( CompassDirection8.NORTHEAST, CompassDirection8.getByBearing(CompassDirection8.NORTHEAST.getMaximum()) );
 
-      assertEquals( CompassDirection8.EAST, CompassDirection8.getByAngle(CompassDirection8.EAST.getMinimum()) );
-      assertEquals( CompassDirection8.EAST, CompassDirection8.getByAngle(CompassDirection8.EAST.getMaximum()) );
+      assertEquals( CompassDirection8.EAST, CompassDirection8.getByBearing(CompassDirection8.EAST.getMinimum()) );
+      assertEquals( CompassDirection8.EAST, CompassDirection8.getByBearing(CompassDirection8.EAST.getMaximum()) );
 
-      assertEquals( CompassDirection8.SOUTHEAST, CompassDirection8.getByAngle(CompassDirection8.SOUTHEAST.getMinimum()) );
-      assertEquals( CompassDirection8.SOUTHEAST, CompassDirection8.getByAngle(CompassDirection8.SOUTHEAST.getMaximum()) );
+      assertEquals( CompassDirection8.SOUTHEAST, CompassDirection8.getByBearing(CompassDirection8.SOUTHEAST.getMinimum()) );
+      assertEquals( CompassDirection8.SOUTHEAST, CompassDirection8.getByBearing(CompassDirection8.SOUTHEAST.getMaximum()) );
 
-      assertEquals( CompassDirection8.SOUTH, CompassDirection8.getByAngle(CompassDirection8.SOUTH.getMinimum()) );
-      assertEquals( CompassDirection8.SOUTH, CompassDirection8.getByAngle(CompassDirection8.SOUTH.getMaximum()) );
+      assertEquals( CompassDirection8.SOUTH, CompassDirection8.getByBearing(CompassDirection8.SOUTH.getMinimum()) );
+      assertEquals( CompassDirection8.SOUTH, CompassDirection8.getByBearing(CompassDirection8.SOUTH.getMaximum()) );
 
-      assertEquals( CompassDirection8.SOUTHWEST, CompassDirection8.getByAngle(CompassDirection8.SOUTHWEST.getMinimum()) );
-      assertEquals( CompassDirection8.SOUTHWEST, CompassDirection8.getByAngle(CompassDirection8.SOUTHWEST.getMaximum()) );
+      assertEquals( CompassDirection8.SOUTHWEST, CompassDirection8.getByBearing(CompassDirection8.SOUTHWEST.getMinimum()) );
+      assertEquals( CompassDirection8.SOUTHWEST, CompassDirection8.getByBearing(CompassDirection8.SOUTHWEST.getMaximum()) );
 
-      assertEquals( CompassDirection8.WEST, CompassDirection8.getByAngle(CompassDirection8.WEST.getMinimum()) );
-      assertEquals( CompassDirection8.WEST, CompassDirection8.getByAngle(CompassDirection8.WEST.getMaximum()) );
+      assertEquals( CompassDirection8.WEST, CompassDirection8.getByBearing(CompassDirection8.WEST.getMinimum()) );
+      assertEquals( CompassDirection8.WEST, CompassDirection8.getByBearing(CompassDirection8.WEST.getMaximum()) );
 
-      assertEquals( CompassDirection8.NORTHWEST, CompassDirection8.getByAngle(CompassDirection8.NORTHWEST.getMinimum()) );
-      assertEquals( CompassDirection8.NORTHWEST, CompassDirection8.getByAngle(CompassDirection8.NORTHWEST.getMaximum()) );
+      assertEquals( CompassDirection8.NORTHWEST, CompassDirection8.getByBearing(CompassDirection8.NORTHWEST.getMinimum()) );
+      assertEquals( CompassDirection8.NORTHWEST, CompassDirection8.getByBearing(CompassDirection8.NORTHWEST.getMaximum()) );
    }
 
    @Test
-   public void getByAngle_testRounding() {
-      assertEquals( CompassDirection8.NORTHWEST, CompassDirection8.getByAngle(new BigDecimal("337.494999999999999999")) );
-      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByAngle(new BigDecimal("337.495")) );
+   public void getByBearing_testRounding() {
+      assertEquals( CompassDirection8.NORTHWEST, CompassDirection8.getByBearing(new BigDecimal("337.494999999999999999")) );
+      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByBearing(new BigDecimal("337.495")) );
    }
 
    @Test
-   public void getByAngle_north() {
-      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByAngle(BigDecimal.ZERO) );
-      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByAngle(new BigDecimal("359.9")) );
-      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByAngle(new BigDecimal(360)) );
+   public void getByBearing_north() {
+      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByBearing(BigDecimal.ZERO) );
+      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByBearing(new BigDecimal("359.9")) );
+      assertEquals( CompassDirection8.NORTH, CompassDirection8.getByBearing(new BigDecimal(360)) );
    }
 
    @Test
-   public void getByAngle_invalidMin() {
+   public void getByBearing_invalidMin() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( "Angle must be in the range [0, 360]" );
-      CompassDirection8.getByAngle( new BigDecimal("-0.000000000001") );
+      thrown.expectMessage( "Bearing must be in the range [0, 360]" );
+      CompassDirection8.getByBearing( new BigDecimal("-0.000000000001") );
    }
 
    @Test
-   public void getByAngle_invalidMax() {
+   public void getByBearing_invalidMax() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( "Angle must be in the range [0, 360]" );
-      CompassDirection8.getByAngle( new BigDecimal("360.000000000001") );
+      thrown.expectMessage( "Bearing must be in the range [0, 360]" );
+      CompassDirection8.getByBearing( new BigDecimal("360.000000000001") );
    }
 }
