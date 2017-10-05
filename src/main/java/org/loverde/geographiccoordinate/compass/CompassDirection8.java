@@ -143,7 +143,7 @@ public enum CompassDirection8 implements CompassDirection {
       CompassDirection8 dir;
 
       if( BigDecimalCompare.isLessThan(bearing, BigDecimal.ZERO) || BigDecimalCompare.isGreaterThan(bearing, BD360) ) {
-         throw new GeographicCoordinateException( String.format("Bearing %f is not in range [0, 360]", bearing) );
+         throw new GeographicCoordinateException( String.format("Bearing %s is not in range [0, 360]", bearing.toPlainString()) );
       }
 
       values = values();

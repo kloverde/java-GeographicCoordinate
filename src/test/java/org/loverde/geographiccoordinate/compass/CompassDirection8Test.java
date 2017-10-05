@@ -134,14 +134,14 @@ public class CompassDirection8Test {
    @Test
    public void getByBearing_invalidMin() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( "Bearing must be in the range [0, 360]" );
+      thrown.expectMessage( "Bearing -0.000000000001 is not in range [0, 360]" );
       CompassDirection8.getByBearing( new BigDecimal("-0.000000000001") );
    }
 
    @Test
    public void getByBearing_invalidMax() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( "Bearing must be in the range [0, 360]" );
+      thrown.expectMessage( "Bearing 360.000000000001 is not in range [0, 360]" );
       CompassDirection8.getByBearing( new BigDecimal("360.000000000001") );
    }
 }
