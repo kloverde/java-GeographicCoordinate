@@ -33,18 +33,25 @@
 
 package org.loverde.geographiccoordinate;
 
+import java.math.BigDecimal;
+
 import org.loverde.geographiccoordinate.compass.CompassDirection;
 
 
+/**
+ * A class containing an exact bearing and a mapping of the bearing to a general compass direction
+ *
+ * @param <E> An implementation of {@linkplain CompassDirection}
+ */
 public class Bearing<E extends CompassDirection> {
 
    private E compassDirection;
-   private double bearing;
+   private BigDecimal bearing;
 
 
    public Bearing() {}
 
-   public Bearing( final E compassDirection, final double bearing ) {
+   public Bearing( final E compassDirection, final BigDecimal bearing ) {
       setCompassDirection( compassDirection );
       setBearing( bearing );
    }
@@ -57,11 +64,11 @@ public class Bearing<E extends CompassDirection> {
       this.compassDirection = compassDirection;
    }
 
-   public double getBearing() {
+   public BigDecimal getBearing() {
       return bearing;
    }
 
-   public void setBearing( final double bearing ) {
+   public void setBearing( final BigDecimal bearing ) {
       this.bearing = bearing;
    }
 }

@@ -44,70 +44,67 @@ import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 
 /**
- * This class calculates the bearing between two points in reference to magnetic north -
- * in other words, the bearing you would follow on a compass to get from point A to
- * point B.
+ * This class calculates the initial bearing between two points in reference to magnetic north -
+ * in other words, the bearing you would follow on a compass to get from point A to point B.
  *
  * <p><strong>
- * THIS IS HOBBYIST SOFTWARE.  I HAVE NO BACKGROUND IN, OR EVEN AN
- * UNDERSTANDING OF, GEODESY; I MERELY IMPLEMENTED A FORMULA I
- * FOUND ON WIKIPEDIA.  YOU WOULDN'T ENTRUST A WIKIPEDIA PAGE WITH
- * YOUR SAFETY, SO DON'T ENTRUST IT TO THIS SOFTWARE.  THIS WOULD
- * BE A GOOD TIME FOR YOU TO READ AND UNDERSTAND THE WAIVER PRESENT
- * IN THIS SOFTWARE'S LICENSE.
+ * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN
+ * UNDERSTANDING OF, GEODESY, AND MERELY IMPLEMENTED FORMULAS FOUND ONLINE.
+ * DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME
+ * TO READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
  * </strong></p>
+ *
+ * This class implements the formula found at
+ * <a href="http://www.movable-type.co.uk/scripts/latlong.html">http://www.movable-type.co.uk/scripts/latlong.html</a>.
  */
 public class BearingCalculator {
 
    /**
-    * Calculates the bearing that will take you from point A to point B
+    * Calculates the initial bearing that will take you from point A to point B.  Keep in mind
+    * that the bearing will change over the course of the trip and will need to be recalculated.
     *
     * @param from The departing point
     * @param to The destination point
     *
-    * @return The bearing from A to B, and a mapping of the bearing to an 8-point compass direction
+    * @return The initial bearing from A to B, and a mapping of the bearing to an 8-point compass direction
     */
    public static Bearing<CompassDirection32> bearing32( final Point from, final Point to ) {
-      final double bearingDouble = calculateBearing( from, to );
-      final BigDecimal bearingBigDec = new BigDecimal( bearingDouble );
-      final Bearing<CompassDirection32> bearing = new Bearing<>( CompassDirection32.getByBearing(bearingBigDec), bearingDouble );
-
+      final BigDecimal calcBearing = calculateBearing( from, to );
+      final Bearing<CompassDirection32> bearing = new Bearing<>( CompassDirection32.getByBearing(calcBearing), calcBearing );
       return bearing;
    }
 
    /**
-    * Calculates the bearing that will take you from point A to point B
+    * Calculates the initial bearing that will take you from point A to point B.  Keep in mind
+    * that the bearing will change over the course of the trip and will need to be recalculated.
     *
     * @param from The departing point
     * @param to The destination point
     *
-    * @return The bearing from A to B, and a mapping of the bearing to an 8-point compass direction
+    * @return The initial bearing from A to B, and a mapping of the bearing to an 8-point compass direction
     */
    public static Bearing<CompassDirection16> bearing16( final Point from, final Point to ) {
-      final double bearingDouble = calculateBearing( from, to );
-      final BigDecimal bearingBigDec = new BigDecimal( bearingDouble );
-      final Bearing<CompassDirection16> bearing = new Bearing<>( CompassDirection16.getByBearing(bearingBigDec), bearingDouble );
-
+      final BigDecimal calcBearing = calculateBearing( from, to );
+      final Bearing<CompassDirection16> bearing = new Bearing<>( CompassDirection16.getByBearing(calcBearing), calcBearing );
       return bearing;
    }
 
    /**
-    * Calculates the bearing that will take you from point A to point B
+    * Calculates the initial bearing that will take you from point A to point B.  Keep in mind
+    * that the bearing will change over the course of the trip and will need to be recalculated.
     *
     * @param from The departing point
     * @param to The destination point
     *
-    * @return The bearing from A to B, and a mapping of the bearing to an 8-point compass direction
+    * @return The initial bearing from A to B, and a mapping of the bearing to an 8-point compass direction
     */
    public static Bearing<CompassDirection8> bearing8( final Point from, final Point to ) {
-      final double bearingDouble = calculateBearing( from, to );
-      final BigDecimal bearingBigDec = new BigDecimal( bearingDouble );
-      final Bearing<CompassDirection8> bearing = new Bearing<>( CompassDirection8.getByBearing(bearingBigDec), bearingDouble );
-
+      final BigDecimal calcBearing = calculateBearing( from, to );
+      final Bearing<CompassDirection8> bearing = new Bearing<>( CompassDirection8.getByBearing(calcBearing), calcBearing );
       return bearing;
    }
 
-   private static double calculateBearing( final Point from, final Point to ) {
+   private static BigDecimal calculateBearing( final Point from, final Point to ) {
       if( from == null ) throw new GeographicCoordinateException( "'from' is null" );
       if( to == null ) throw new GeographicCoordinateException( "'to' is null" );
       if( from.getLatitude() == null ) throw new GeographicCoordinateException( "'from' latitude is null" );
@@ -128,6 +125,6 @@ public class BearingCalculator {
       final double bearing = Math.toDegrees( Math.atan2(y,  x) );
       final double normalizedBearing = (bearing + 360) % 360;
 
-      return normalizedBearing;
+      return new BigDecimal( normalizedBearing );
    }
 }
