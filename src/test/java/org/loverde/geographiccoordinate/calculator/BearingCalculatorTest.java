@@ -58,16 +58,19 @@ public class BearingCalculatorTest {
 
 
    @Test
+   @SuppressWarnings("unchecked")
    public void bearing8() {
-      final Bearing<CompassDirection8> bearing8 = BearingCalculator.bearing8( point1, point2 );
+      final Bearing<CompassDirection8> bearing8 = (Bearing<CompassDirection8>) BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
+
       assertEquals( 232.95302, bearing8.getBearing().doubleValue(), .00001 );
    }
 
    @Test
+   @SuppressWarnings("unchecked")
    public void bearingX_equivalence() {
-      final Bearing<CompassDirection8>  bearing8  = BearingCalculator.bearing8( point1, point2 );
-      final Bearing<CompassDirection16> bearing16 = BearingCalculator.bearing16( point1, point2 );
-      final Bearing<CompassDirection32> bearing32 = BearingCalculator.bearing32( point1, point2 );
+      final Bearing<CompassDirection8>  bearing8  = (Bearing<CompassDirection8>)  BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
+      final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) BearingCalculator.initialBearing( CompassDirection16.class, point1, point2 );
+      final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) BearingCalculator.initialBearing( CompassDirection32.class, point1, point2 );
 
       assertEquals( bearing8.getBearing(), bearing16.getBearing() );
       assertEquals( bearing16.getBearing(), bearing32.getBearing() );

@@ -37,6 +37,7 @@ import java.math.BigDecimal;
 
 import org.loverde.geographiccoordinate.Bearing;
 import org.loverde.geographiccoordinate.Point;
+import org.loverde.geographiccoordinate.compass.CompassDirection;
 import org.loverde.geographiccoordinate.compass.CompassDirection16;
 import org.loverde.geographiccoordinate.compass.CompassDirection32;
 import org.loverde.geographiccoordinate.compass.CompassDirection8;
@@ -60,48 +61,43 @@ import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 public class BearingCalculator {
 
    /**
-    * Calculates the initial bearing that will take you from point A to point B.  Keep in mind
-    * that the bearing will change over the course of the trip and will need to be recalculated.
+    * Calculates the initial bearing that will take you from point A to point B.
+    * Keep in mind that the bearing will change over the course of the trip and will need to be recalculated.
     *
+    * @param compassType The returned Bearing will be parameterized as this type, allowing you to safely cast it
     * @param from The departing point
     * @param to The destination point
     *
-    * @return The initial bearing from A to B, and a mapping of the bearing to an 8-point compass direction
+    * @return The initial bearing from A to B, and a mapping of the bearing to an 8, 16 or 32-point compass direction, depending on {@code compassDirectionType}
     */
-   public static Bearing<CompassDirection32> bearing32( final Point from, final Point to ) {
-      final BigDecimal calcBearing = calculateBearing( from, to );
-      final Bearing<CompassDirection32> bearing = new Bearing<>( CompassDirection32.getByBearing(calcBearing), calcBearing );
-      return bearing;
+   public static Bearing<? extends CompassDirection> initialBearing( final Class<? extends CompassDirection> compassType, final Point from, final Point to ) {
+      return newBearing( compassType, calculateBearing(from, to) );
    }
 
    /**
-    * Calculates the initial bearing that will take you from point A to point B.  Keep in mind
-    * that the bearing will change over the course of the trip and will need to be recalculated.
+    * Calculates the back azimuth - the bearing that gets you back to your starting point
     *
-    * @param from The departing point
-    * @param to The destination point
+    * @param compassType The returned Bearing will be parameterized as this type, allowing you to safely cast it
+    * @param bearing Your starting point
     *
-    * @return The initial bearing from A to B, and a mapping of the bearing to an 8-point compass direction
+    * @return
     */
-   public static Bearing<CompassDirection16> bearing16( final Point from, final Point to ) {
-      final BigDecimal calcBearing = calculateBearing( from, to );
-      final Bearing<CompassDirection16> bearing = new Bearing<>( CompassDirection16.getByBearing(calcBearing), calcBearing );
-      return bearing;
+   public static Bearing<? extends CompassDirection> backAzimuth( final Class<? extends CompassDirection> compassType, final Bearing<? extends CompassDirection> bearing ) {
+      return newBearing( compassType, calculateBackAzimuth(bearing.getBearing()) );
    }
 
-   /**
-    * Calculates the initial bearing that will take you from point A to point B.  Keep in mind
-    * that the bearing will change over the course of the trip and will need to be recalculated.
-    *
-    * @param from The departing point
-    * @param to The destination point
-    *
-    * @return The initial bearing from A to B, and a mapping of the bearing to an 8-point compass direction
-    */
-   public static Bearing<CompassDirection8> bearing8( final Point from, final Point to ) {
-      final BigDecimal calcBearing = calculateBearing( from, to );
-      final Bearing<CompassDirection8> bearing = new Bearing<>( CompassDirection8.getByBearing(calcBearing), calcBearing );
-      return bearing;
+   private static Bearing<? extends CompassDirection> newBearing( final Class<? extends CompassDirection> compassClass, final BigDecimal angle ) {
+      if( compassClass == null ) throw new GeographicCoordinateException( "" );
+
+      if( compassClass == CompassDirection8.class ) {
+         return new Bearing<CompassDirection8>( CompassDirection8.getByBearing(angle), angle );
+      } else if( compassClass == CompassDirection16.class ) {
+         return new Bearing<CompassDirection16>( CompassDirection16.getByBearing(angle), angle );
+      } else if( compassClass == CompassDirection32.class ) {
+         return new Bearing<CompassDirection32>( CompassDirection32.getByBearing(angle), angle );
+      }
+
+      return null;
    }
 
    private static BigDecimal calculateBearing( final Point from, final Point to ) {
@@ -126,5 +122,9 @@ public class BearingCalculator {
       final double normalizedBearing = (bearing + 360) % 360;
 
       return new BigDecimal( normalizedBearing );
+   }
+
+   private static BigDecimal calculateBackAzimuth( final BigDecimal bearing ) {
+      return bearing;
    }
 }
