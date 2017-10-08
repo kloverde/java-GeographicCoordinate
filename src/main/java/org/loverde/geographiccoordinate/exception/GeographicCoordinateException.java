@@ -57,6 +57,14 @@ public class GeographicCoordinateException extends RuntimeException {
                                  LOCALE_NULL        = "Locale is null",
                                  LONGITUDE_NULL     = "Longitude is null",
                                  NAME_NULL          = "Name is null";
+
+      public static final String BEARING_COMPASS_DIRECTION_NULL = "CompassDirection class is null",
+                                 BEARING_FROM_NULL              = "'from' is null",
+                                 BEARING_TO_NULL                = "'to' is null",
+                                 BEARING_FROM_LATITUDE_NULL     = "'from' latitude is null",
+                                 BEARING_FROM_LONGITUDE_NULL    = "'from' longitude is null",
+                                 BEARING_TO_LATITUDE_NULL       = "'to' latitude is null",
+                                 BEARING_TO_LONGITUDE_NULL      = "'to' longitude is null";
    }
 
    public GeographicCoordinateException() {

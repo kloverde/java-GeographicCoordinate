@@ -87,7 +87,7 @@ public class BearingCalculator {
    }
 
    private static Bearing<? extends CompassDirection> newBearing( final Class<? extends CompassDirection> compassClass, final BigDecimal angle ) {
-      if( compassClass == null ) throw new GeographicCoordinateException( "" );
+      if( compassClass == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_COMPASS_DIRECTION_NULL );
 
       if( compassClass == CompassDirection8.class ) {
          return new Bearing<CompassDirection8>( CompassDirection8.getByBearing(angle), angle );
@@ -101,12 +101,12 @@ public class BearingCalculator {
    }
 
    private static BigDecimal calculateBearing( final Point from, final Point to ) {
-      if( from == null ) throw new GeographicCoordinateException( "'from' is null" );
-      if( to == null ) throw new GeographicCoordinateException( "'to' is null" );
-      if( from.getLatitude() == null ) throw new GeographicCoordinateException( "'from' latitude is null" );
-      if( from.getLongitude() == null ) throw new GeographicCoordinateException( "'from' longitude is null" );
-      if( to.getLatitude() == null ) throw new GeographicCoordinateException( "'to' latitude is null" );
-      if( to.getLongitude() == null ) throw new GeographicCoordinateException( "'to' longitude is null" );
+      if( from == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_FROM_NULL );
+      if( to == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_TO_NULL );
+      if( from.getLatitude() == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_FROM_LATITUDE_NULL );
+      if( from.getLongitude() == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_FROM_LONGITUDE_NULL );
+      if( to.getLatitude() == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_TO_LATITUDE_NULL );
+      if( to.getLongitude() == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_TO_LONGITUDE_NULL );
 
       final double fromLatRadians = from.getLatitude().toRadians(),
                    fromLonRadians = from.getLongitude().toRadians(),

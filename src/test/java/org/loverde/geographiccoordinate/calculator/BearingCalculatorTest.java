@@ -34,8 +34,12 @@
 package org.loverde.geographiccoordinate.calculator;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.loverde.geographiccoordinate.Bearing;
 import org.loverde.geographiccoordinate.Latitude;
 import org.loverde.geographiccoordinate.Longitude;
@@ -43,31 +47,120 @@ import org.loverde.geographiccoordinate.Point;
 import org.loverde.geographiccoordinate.compass.CompassDirection16;
 import org.loverde.geographiccoordinate.compass.CompassDirection32;
 import org.loverde.geographiccoordinate.compass.CompassDirection8;
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 
 public class BearingCalculatorTest {
 
-   private static final Latitude latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
-   private static final Longitude longitude1 = new Longitude( 74, 0, 21, Longitude.Direction.WEST );
+   @Rule
+   public ExpectedException thrown = ExpectedException.none();
 
-   private static final Latitude latitude2 = new Latitude( 38, 54, 17, Latitude.Direction.NORTH );
-   private static final Longitude longitude2 = new Longitude( 77, 0, 59, Longitude.Direction.WEST );
+   private Latitude latitude1;
+   private Longitude longitude1;
 
-   private static final Point point1 = new Point( latitude1, longitude1 );
-   private static final Point point2 = new Point( latitude2, longitude2 );
+   private Latitude latitude2;
+   private Longitude longitude2;
 
+   @Mock private Point point1;
+   @Mock private Point point2;
+
+
+   @Before
+   public void setUp() {
+      latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
+      longitude1 = new Longitude( 74, 0, 21, Longitude.Direction.WEST );
+
+      latitude2 = new Latitude( 38, 54, 17, Latitude.Direction.NORTH );
+      longitude2 = new Longitude( 77, 0, 59, Longitude.Direction.WEST );
+
+      point1 = new Point( latitude1, longitude1 );
+      point2 = new Point( latitude2, longitude2 );
+
+      MockitoAnnotations.initMocks( this );
+
+      when( point1.getLatitude() ).thenReturn( latitude1);
+      when( point1.getLongitude() ).thenReturn( longitude1 );
+
+      when( point2.getLatitude() ).thenReturn( latitude2);
+      when( point2.getLongitude() ).thenReturn( longitude2 );
+   }
+
+   @Test
+   public void initialBearing_nullCompassDirectionType() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_COMPASS_DIRECTION_NULL );
+
+      BearingCalculator.initialBearing( null, point1, point2 );
+   }
+
+   @Test
+   public void initialBearing_nullFromLatitude() {
+      when( point1.getLatitude() ).thenReturn( null );
+
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_FROM_LATITUDE_NULL );
+
+      BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
+   }
+
+   @Test
+   public void initialBearing_nullFromLongitude() {
+      when( point1.getLongitude() ).thenReturn( null );
+
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_FROM_LONGITUDE_NULL );
+
+      BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
+   }
+
+   @Test
+   public void initialBearing_nullFromPoint() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_FROM_NULL );
+
+      BearingCalculator.initialBearing( CompassDirection8.class, null, point2 );
+   }
+
+   @Test
+   public void initialBearing_nullToLatitude() {
+      when( point2.getLatitude() ).thenReturn( null );
+
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_TO_LATITUDE_NULL );
+
+      BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
+   }
+
+   @Test
+   public void initialBearing_nullToLongitude() {
+      when( point2.getLongitude() ).thenReturn( null );
+
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_TO_LONGITUDE_NULL );
+
+      BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
+   }
+
+   @Test
+   public void initialBearing_nullToPoint() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_TO_NULL );
+
+      BearingCalculator.initialBearing( CompassDirection8.class, point1, null );
+   }
 
    @Test
    @SuppressWarnings("unchecked")
-   public void bearing8() {
+   public void initalBearing8() {
       final Bearing<CompassDirection8> bearing8 = (Bearing<CompassDirection8>) BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
-
       assertEquals( 232.95302, bearing8.getBearing().doubleValue(), .00001 );
    }
 
    @Test
    @SuppressWarnings("unchecked")
-   public void bearingX_equivalence() {
+   public void initialBearing_equivalence() {
       final Bearing<CompassDirection8>  bearing8  = (Bearing<CompassDirection8>)  BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
       final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) BearingCalculator.initialBearing( CompassDirection16.class, point1, point2 );
       final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) BearingCalculator.initialBearing( CompassDirection32.class, point1, point2 );
