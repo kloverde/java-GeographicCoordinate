@@ -38,12 +38,6 @@ public class GeographicCoordinateException extends RuntimeException {
 
    private static final long serialVersionUID = -5390540198404132694L;
 
-   /**
-    * No guarantee is made that these constants will remain unchanged, or that they will not be renamed or removed.
-    * Anything in this class can change at any time.  These constants are exposed for convenience in keeping the
-    * internal implementation and JUnit tests in sync.  Do not circumvent the package protection to use these
-    * constants in client code.
-    */
    public static final class Messages {
       public static final String DEGREES_RANGE = " degrees must be in a range of 0-",
                                  MINUTES_AND_SECONDS_MUST_BE_ZERO = " minutes and seconds must be 0 when degrees is ",

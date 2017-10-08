@@ -63,8 +63,11 @@ public class BearingCalculatorTest {
    private Latitude latitude2;
    private Longitude longitude2;
 
-   @Mock private Point point1;
-   @Mock private Point point2;
+   @Mock
+   private Point point1;
+
+   @Mock
+   private Point point2;
 
 
    @Before
@@ -153,9 +156,23 @@ public class BearingCalculatorTest {
 
    @Test
    @SuppressWarnings("unchecked")
-   public void initalBearing8() {
+   public void initalBearing_compassDirection8() {
       final Bearing<CompassDirection8> bearing8 = (Bearing<CompassDirection8>) BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
       assertEquals( 232.95302, bearing8.getBearing().doubleValue(), .00001 );
+   }
+
+   @Test
+   @SuppressWarnings("unchecked")
+   public void initalBearing_compassDirection16() {
+      final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) BearingCalculator.initialBearing( CompassDirection16.class, point1, point2 );
+      assertEquals( 232.95302, bearing16.getBearing().doubleValue(), .00001 );
+   }
+
+   @Test
+   @SuppressWarnings("unchecked")
+   public void initalBearing_compassDirection32() {
+      final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) BearingCalculator.initialBearing( CompassDirection32.class, point1, point2 );
+      assertEquals( 232.95302, bearing32.getBearing().doubleValue(), .00001 );
    }
 
    @Test
