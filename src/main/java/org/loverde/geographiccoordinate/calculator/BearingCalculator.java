@@ -42,6 +42,7 @@ import org.loverde.geographiccoordinate.compass.CompassDirection16;
 import org.loverde.geographiccoordinate.compass.CompassDirection32;
 import org.loverde.geographiccoordinate.compass.CompassDirection8;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+import org.loverde.util.number.bigdecimal.BigDecimalCompare;
 
 
 /**
@@ -54,21 +55,25 @@ import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
  * DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME
  * TO READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
  * </strong></p>
- *
- * This class implements the formula found at
- * <a href="http://www.movable-type.co.uk/scripts/latlong.html">http://www.movable-type.co.uk/scripts/latlong.html</a>.
  */
 public class BearingCalculator {
+
+   private static final BigDecimal BD_360 = new BigDecimal( 360 ),
+                                   BD_180 = new BigDecimal( 180 ),
+                                   BD_NEG_180 = new BigDecimal( -180 );
+
 
    /**
     * Calculates the initial bearing that will take you from point A to point B.
     * Keep in mind that the bearing will change over the course of the trip and will need to be recalculated.
     *
-    * @param compassType The returned Bearing will be parameterized as this type, allowing you to safely cast it
+    * @param compassType The returned {@code Bearing} will be parameterized with this type, allowing you to safely cast it
     * @param from The departing point
     * @param to The destination point
     *
-    * @return The initial bearing from A to B, and a mapping of the bearing to an 8, 16 or 32-point compass direction, depending on {@code compassDirectionType}
+    * @return The initial bearing from A to B, and a mapping of the bearing to an 8, 16 or 32-point compass direction, depending on {@code compassType}
+    *
+    * @see <a href="http://www.movable-type.co.uk/scripts/latlong.html">http://www.movable-type.co.uk/scripts/latlong.html</a>.
     */
    public static Bearing<? extends CompassDirection> initialBearing( final Class<? extends CompassDirection> compassType, final Point from, final Point to ) {
       return newBearing( compassType, calculateBearing(from, to) );
@@ -77,13 +82,13 @@ public class BearingCalculator {
    /**
     * Calculates the back azimuth - the bearing that gets you back to your starting point
     *
-    * @param compassType The returned Bearing will be parameterized as this type, allowing you to safely cast it
-    * @param bearing Your starting point
+    * @param compassType The returned {@code Bearing} will be parameterized with this type, allowing you to safely cast it
+    * @param bearing The initial bearing
     *
     * @return
     */
-   public static Bearing<? extends CompassDirection> backAzimuth( final Class<? extends CompassDirection> compassType, final Bearing<? extends CompassDirection> bearing ) {
-      return newBearing( compassType, calculateBackAzimuth(bearing.getBearing()) );
+   public static Bearing<? extends CompassDirection> backAzimuth( final Class<? extends CompassDirection> compassType, final BigDecimal initialBearing ) {
+      return newBearing( compassType, calculateBackAzimuth(initialBearing) );
    }
 
    private static Bearing<? extends CompassDirection> newBearing( final Class<? extends CompassDirection> compassClass, final BigDecimal angle ) {
@@ -118,13 +123,39 @@ public class BearingCalculator {
       final double x = Math.cos( fromLatRadians ) * Math.sin( toLatRadians ) -
                        Math.sin( fromLatRadians ) * Math.cos( toLatRadians ) * Math.cos( deltaLon );
 
-      final double bearing = Math.toDegrees( Math.atan2(y,  x) );
-      final double normalizedBearing = (bearing + 360) % 360;
+      final double bearing = Math.toDegrees( Math.atan2(y, x) );
+      final double normalizedBearing = normalizeBearing( bearing );
 
       return new BigDecimal( normalizedBearing );
    }
 
    private static BigDecimal calculateBackAzimuth( final BigDecimal bearing ) {
-      return bearing;
+      final BigDecimal zeroedBearing;
+      BigDecimal backAzimuth;
+
+      if( bearing == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_BEARING_NULL );
+      if( !BigDecimalCompare.isWithinInclusiveRange(bearing, BigDecimal.ZERO, BD_360) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
+
+       zeroedBearing = BigDecimalCompare.isEqualTo( bearing, BD_360 ) ? BigDecimal.ZERO : bearing;
+
+      if( BigDecimalCompare.isEqualTo(zeroedBearing, BD_180) || BigDecimalCompare.isEqualTo(zeroedBearing, BD_NEG_180)) {
+         backAzimuth = BigDecimal.ZERO;
+      } else if( BigDecimalCompare.isLessThan(zeroedBearing, BD_180)) {
+         backAzimuth = zeroedBearing.add( BD_180 );
+      } else {
+         backAzimuth = zeroedBearing.subtract( BD_180 );
+      }
+
+      backAzimuth = normalizeBearing( backAzimuth );
+
+      return backAzimuth;
+   }
+
+   private static double normalizeBearing( final double bearing ) {
+      return (bearing + 360) % 360;
+   }
+
+   private static BigDecimal normalizeBearing( final BigDecimal bearing ) {
+      return bearing.add( BD_360 ).remainder( BD_360 );
    }
 }

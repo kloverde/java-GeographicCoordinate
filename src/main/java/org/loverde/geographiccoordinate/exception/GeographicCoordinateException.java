@@ -52,7 +52,9 @@ public class GeographicCoordinateException extends RuntimeException {
                                  LONGITUDE_NULL     = "Longitude is null",
                                  NAME_NULL          = "Name is null";
 
-      public static final String BEARING_COMPASS_DIRECTION_NULL = "CompassDirection class is null",
+      public static final String BEARING_BEARING_NULL           = "Bearing is null",
+                                 BEARING_OUT_OF_RANGE           = "Bearing is out of range [0, 360]",
+                                 BEARING_COMPASS_DIRECTION_NULL = "CompassDirection class is null",
                                  BEARING_FROM_NULL              = "'from' is null",
                                  BEARING_TO_NULL                = "'to' is null",
                                  BEARING_FROM_LATITUDE_NULL     = "'from' latitude is null",

@@ -36,6 +36,8 @@ package org.loverde.geographiccoordinate.calculator;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -184,5 +186,81 @@ public class BearingCalculatorTest {
 
       assertEquals( bearing8.getBearing(), bearing16.getBearing() );
       assertEquals( bearing16.getBearing(), bearing32.getBearing() );
+   }
+
+   @Test
+   public void backAzimuth_nullCompassDirectionType() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_COMPASS_DIRECTION_NULL );
+
+      BearingCalculator.backAzimuth( null, BigDecimal.ZERO );
+   }
+
+   @Test
+   public void backAzimuth_nullInitialBearing() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_BEARING_NULL );
+
+      BearingCalculator.backAzimuth( CompassDirection8.class, null );
+   }
+
+   @Test
+   public void backAzimuth_outOfLowerBound() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
+
+      BearingCalculator.backAzimuth( CompassDirection8.class, new BigDecimal("-.00000000001") );
+   }
+
+   @Test
+   public void backAzimuth_outOfUpperBound() {
+      thrown.expect( GeographicCoordinateException.class );
+      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
+
+      BearingCalculator.backAzimuth( CompassDirection8.class, new BigDecimal("360.00000000001") );
+   }
+
+   @Test
+   public void backAzimuth_0() {
+      @SuppressWarnings("unchecked")
+      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, BigDecimal.ZERO );
+
+      assertEquals( new BigDecimal(180), back.getBearing() );
+   }
+
+   @Test
+   public void backAzimuth_179_9999() {
+      final BigDecimal bearing = new BigDecimal( "179.9999999999" );
+
+      @SuppressWarnings("unchecked")
+      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, bearing );
+
+      assertEquals( "359.9999999999", back.getBearing().toPlainString() );
+   }
+
+   @Test
+   public void backAzimuth_180() {
+      @SuppressWarnings("unchecked")
+      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, new BigDecimal(180) );
+
+      assertEquals( BigDecimal.ZERO, back.getBearing() );
+   }
+
+   @Test
+   public void backAzimuth_180_0001() {
+      final BigDecimal bearing = new BigDecimal( "180.00000000001" );
+
+      @SuppressWarnings("unchecked")
+      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, bearing );
+
+      assertEquals( "0.00000000001", back.getBearing().toPlainString() );
+   }
+
+   @Test
+   public void backAzimuth_360() {
+      @SuppressWarnings("unchecked")
+      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, new BigDecimal(360) );
+
+      assertEquals( new BigDecimal(180), back.getBearing() );
    }
 }

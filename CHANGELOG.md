@@ -12,11 +12,11 @@ Breaking changes:
 
 Non-breaking changes:
 
-* Added BearingCalculator, which calculates the bearing and compass direction (north, northeast, etc.) given starting and destination coordinates
+* Added BearingCalculator, which calculates the initial bearing and back azimuth
 * Added compass enumerations which represent the directions found on 32, 16 and 8-point compasses, such as north, northwest, etc.  The enumerations provide standard direction abbreviations as well as lookup by abbreviation and bearing.
-* Added support for centimeters and inches to DistanceCalculator (because why not)
-* JUnit tests refactored to move them from JUnit 3.8 to JUnit 4
-* The Eclipse project files have been migrated to Buildship, so they no longer have hardcoded paths to my filesystem.  This will make it easier to import a working project, but you do need to install the Buildship plugin if you don't already have it.
+* Added support for centimeters and inches to DistanceCalculator
+* JUnit tests migrated from JUnit 3.8 to JUnit 4
+* The Eclipse project files have been migrated to Buildship, so they no longer have hardcoded paths to my filesystem.  This will make it easier for others to import a working project, but requires the installation of the Buildship plugin.
 
 
 # Release 2.1.2 (March 16, 2016)
