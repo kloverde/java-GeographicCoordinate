@@ -46,8 +46,7 @@ import org.loverde.util.number.bigdecimal.BigDecimalCompare;
 
 
 /**
- * This class calculates the initial bearing between two points in reference to magnetic north -
- * in other words, the bearing you would follow on a compass to get from point A to point B.
+ * This class calculates initial bearing and back azimuth.
  *
  * <p><strong>
  * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN
@@ -85,7 +84,7 @@ public class BearingCalculator {
     * @param compassType The returned {@code Bearing} will be parameterized with this type, allowing you to safely cast it
     * @param bearing The initial bearing
     *
-    * @return
+    * @return The back azimuth based on initial bearing
     */
    public static Bearing<? extends CompassDirection> backAzimuth( final Class<? extends CompassDirection> compassType, final BigDecimal initialBearing ) {
       return newBearing( compassType, calculateBackAzimuth(initialBearing) );
