@@ -43,26 +43,26 @@ import org.loverde.util.number.bigdecimal.BigDecimalCompare;
 /**
  * A class containing an exact bearing and a mapping of the bearing to a general compass direction
  *
- * @param <E> An implementation of {@linkplain CompassDirection}
+ * @param <T> An implementation of {@linkplain CompassDirection}
  */
-public class Bearing<E extends CompassDirection> {
+public class Bearing<T extends CompassDirection> {
 
-   private E compassDirection;
+   private T compassDirection;
    private BigDecimal bearing;
 
 
    public Bearing() {}
 
-   public Bearing( final E compassDirection, final BigDecimal bearing ) {
+   public Bearing( final T compassDirection, final BigDecimal bearing ) {
       setCompassDirection( compassDirection );
       setBearing( bearing );
    }
 
-   public E getCompassDirection() {
+   public T getCompassDirection() {
       return compassDirection;
    }
 
-   public void setCompassDirection( final E compassDirection ) {
+   public void setCompassDirection( final T compassDirection ) {
       this.compassDirection = compassDirection;
    }
 
