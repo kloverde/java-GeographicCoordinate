@@ -169,43 +169,43 @@ public class DistanceCalculatorTest {
    @Test
    public void distance_feet() {
       final double distance = DistanceCalculator.distance( Unit.FEET, point1, point2 );
-      assertEquals( 1070811.8236831673228346456692913d, distance, fpDelta );
+      assertEquals( 1070813.1682906998d, distance, fpDelta );
    }
 
    @Test
    public void distance_kilometers() {
       final double distance = DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
-      assertEquals( 326.3834438586294d, distance, fpDelta );
+      assertEquals( 326.3838536950053d, distance, fpDelta );
    }
 
    @Test
    public void distance_meters() {
       final double distance = DistanceCalculator.distance( Unit.METERS, point1, point2 );
-      assertEquals( 326383.4438586294d, distance, fpDelta );
+      assertEquals( 326383.8536950053d, distance, fpDelta );
    }
 
    @Test
    public void distance_miles() {
       final double distance = DistanceCalculator.distance( Unit.MILES, point1, point2 );
-      assertEquals( 202.8052696369635d, distance, fpDelta );
+      assertEquals( 202.805524297481d, distance, fpDelta );
    }
 
    @Test
    public void distance_nauticalMiles() {
       final double distance = DistanceCalculator.distance( Unit.NAUTICAL_MILES, point1, point2 );
-      assertEquals( 176.23296104677613d, distance, fpDelta );
+      assertEquals( 176.2331823407156d, distance, fpDelta );
    }
 
    @Test
    public void distance_usSurveyfeet() {
       final double distance = DistanceCalculator.distance( Unit.US_SURVEY_FEET, point1, point2 );
-      assertEquals( 1070809.6820595199565d, distance, fpDelta );
+      assertEquals( 1070811.0266643632d, distance, fpDelta );
    }
 
    @Test
    public void distance_yards() {
       final double distance = DistanceCalculator.distance( Unit.YARDS, point1, point2 );
-      assertEquals( 356937.2745610558d, distance, fpDelta );
+      assertEquals( 356937.72276356665d, distance, fpDelta );
    }
 
    /**
@@ -215,7 +215,7 @@ public class DistanceCalculatorTest {
     * </p>
     *
     * <p>
-    * The interpolated distance is 95.47450102915191 miles, whereas the true road distance is 95.5 miles - a
+    * The interpolated distance is 95.47462091551327 miles, whereas the true road distance is 95.5 miles - a
     * difference of less than .026 miles using 20 points.  Bing's figure of 95.5 is of course rounded, so if
     * Bing rounded up, we're even closer to the real distance.  Bing might also have rounded down, which
     * would put us farther away.

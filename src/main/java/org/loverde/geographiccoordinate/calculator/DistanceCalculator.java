@@ -52,7 +52,7 @@ import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
  *
  * <p>
  * The Earth radius used in calculations is the volumetric mean radius, not the equatorial radius.  As of
- * the date this software was written, NASA's figure for the volumetric mean radius was 6371 km.
+ * the date this software was written, NASA's figure for the volumetric mean radius was 6371.008 km.
  * </p>
  *
  * <p><strong>
@@ -126,7 +126,8 @@ public class DistanceCalculator {
       }
    }
 
-   private static final double EARTH_RADIUS_KILOMETERS = 6371.0d;
+   /** http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html */
+   private static final double EARTH_RADIUS_KILOMETERS = 6371.008;
 
 
    /**

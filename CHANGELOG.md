@@ -17,6 +17,7 @@ Non-breaking changes:
 * Added support for centimeters and inches to DistanceCalculator
 * JUnit tests migrated from JUnit 3.8 to JUnit 4
 * The Eclipse project files have been migrated to Buildship, so they no longer have hardcoded paths to my filesystem.  This will make it easier for others to import a working project, but requires the installation of the Buildship plugin.
+* Updated Earth's volumetric mean radius in DistanceCalculator to NASA's latest figure (was 6371 km - now is 6371.008 km)
 
 
 # Release 2.1.2 (March 16, 2016)
