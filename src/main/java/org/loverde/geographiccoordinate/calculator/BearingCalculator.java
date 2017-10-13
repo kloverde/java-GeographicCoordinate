@@ -63,8 +63,17 @@ public class BearingCalculator {
 
 
    /**
+    * <p>
     * Calculates the initial bearing that will take you from point A to point B.
     * Keep in mind that the bearing will change over the course of the trip and will need to be recalculated.
+    * </p>
+    *
+    * <p><strong>
+    * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN
+    * UNDERSTANDING OF, GEODESY, AND MERELY IMPLEMENTED FORMULAS FOUND ONLINE.
+    * DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME
+    * TO READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
+    * </strong></p>
     *
     * @param compassType The returned {@code Bearing} will be parameterized with this type, allowing you to safely cast it
     * @param from The departing point
@@ -80,6 +89,13 @@ public class BearingCalculator {
 
    /**
     * Calculates the back azimuth - the bearing that gets you back to your starting point
+    *
+    * <p><strong>
+    * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN
+    * UNDERSTANDING OF, GEODESY, AND MERELY IMPLEMENTED FORMULAS FOUND ONLINE.
+    * DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME
+    * TO READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
+    * </strong></p>
     *
     * @param compassType The returned {@code Bearing} will be parameterized with this type, allowing you to safely cast it
     * @param bearing The initial bearing
