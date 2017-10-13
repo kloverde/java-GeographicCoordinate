@@ -18,6 +18,17 @@ GeographicCoordinate is a simple Java library for representing latitude and long
 * Look up a compass direction using a bearing or standard direction abbreviation
 
 
+## Accuracy
+
+Supposedly, the calculations of distance and bearing are accurate.  I didn't hop into a car to verify distance, and I didn't buy an expensive military-issue compass to verify bearings.
+
+Distance was verified by interpolating a course I plotted on Bing Maps (see the DistanceCalculator JUnit tests).  The calculated value agreed with Bing's.
+
+Bearing was verified by comparing my calculations to two online calculators, and my values matched theirs.
+
+Use this software at your own risk.
+
+
 ## Compile and Runtime Dependencies
 
 1.  [NumberUtil](https://github.com/kloverde/java-NumberUtil) (included)

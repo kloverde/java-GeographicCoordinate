@@ -98,7 +98,7 @@ public class BearingCalculator {
     * </strong></p>
     *
     * @param compassType The returned {@code Bearing} will be parameterized with this type, allowing you to safely cast it
-    * @param bearing The initial bearing
+    * @param initialBearing The initial bearing
     *
     * @return The back azimuth based on initial bearing
     */

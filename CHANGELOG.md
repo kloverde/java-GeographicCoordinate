@@ -1,6 +1,6 @@
-# Release 3.0 (UPCOMING RELEASE)
+# Release 3.0 (October 13, 2017)
 
-This release contains breaking and non-breaking changes.
+Major update.  This release contains breaking and non-breaking changes.
 
 Breaking changes:
 
