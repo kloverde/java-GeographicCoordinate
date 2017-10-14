@@ -3,7 +3,7 @@ GeographicCoordinate 3.0
 
 See LICENSE for this software's licensing terms.
 
-GeographicCoordinate is a simple Java library for representing latitude and longitude, and for performing calculations with coordinates.
+GeographicCoordinate is a Java library for representing latitude, longitude and cardinal points of the compass, and calculating distance and bearing between points.
 
 
 ## Features
