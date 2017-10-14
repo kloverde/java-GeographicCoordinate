@@ -1,15 +1,45 @@
 /*
- * Copyright (C) 2013 Kurtis LoVerde
+ * GeographicCoordinate
+ * https://github.com/kloverde/java-GeographicCoordinate
+ *
+ * Copyright (c) 2013 Kurtis LoVerde
  * All rights reserved
  *
- * https://github.com/kloverde/GeographicCoordinate
+ * Donations:  https://paypal.me/KurtisLoVerde/5
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     1. Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *     2. Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *     3. Neither the name of the copyright holder nor the names of its
+ *        contributors may be used to endorse or promote products derived from
+ *        this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.loverde.geographiccoordinate;
+package org.loverde.geographiccoordinate.internal;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+
+import org.loverde.geographiccoordinate.Latitude;
+import org.loverde.geographiccoordinate.Longitude;
+import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 
 /**
@@ -33,6 +63,10 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
 
 
    /**
+    * @param degrees degrees
+    * @param minutes minutes
+    * @param seconds seconds
+    *
     * @throws GeographicCoordinateException If you extend this class yourself
     */
    public AbstractGeographicCoordinate( final int degrees, final int minutes, final double seconds ) {
@@ -46,6 +80,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
    }
 
    /**
+    * @param value Floating point value
+    *
     * @throws GeographicCoordinateException If you extend this class yourself
     */
    public AbstractGeographicCoordinate( final double value ) {
@@ -148,10 +184,12 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     * @throws GeographicCoordinateException If {@code locale} is null or {@linkplain #getDirection()} returns null
     *
     * @see #toString()
+    *
+    * @return String representation of this object
     */
    public String toString( final Locale locale ) {
       final DecimalFormat fmt;
-      final AbstractDirection direction = getDirection();
+      final LatLonDirection direction = getDirection();
 
       String str = null;
 

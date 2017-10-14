@@ -1,3 +1,25 @@
+# Release 3.0 (October 13, 2017)
+
+Major update.  This release contains breaking and non-breaking changes.
+
+Breaking changes:
+
+* The source and binaries now target Java 8
+* New package structure.  Things you weren't meant to use in the first place (and which you probably aren't using) have been moved to a new 'internal' package.  You shouldn't need to refactor code resulting from this change unless you were doing something odd.
+* DistanceCalculator has been moved to a new 'calculator' package
+* GeographicCoordinateException has been moved to a new 'exception' package
+* DistanceCalculator.distance(Unit, Latitude, Longitude, Latitude, Longitude) has been removed.  Use the existing vararg method distance(Unit, Point ...) instead.
+
+Non-breaking changes:
+
+* Added BearingCalculator, which calculates the initial bearing and back azimuth
+* Added compass enumerations which represent the directions found on 32, 16 and 8-point compasses, such as north, northwest, etc.  The enumerations provide standard direction abbreviations as well as lookup by abbreviation and bearing.
+* Added support for centimeters and inches to DistanceCalculator
+* JUnit tests migrated from JUnit 3.8 to JUnit 4
+* The Eclipse project files have been migrated to Buildship, so they no longer have hardcoded paths to my filesystem.  This will make it easier for others to import a working project, but requires the installation of the Buildship plugin.
+* Updated Earth's volumetric mean radius in DistanceCalculator to NASA's latest figure (was 6371 km - now is 6371.008 km)
+
+
 # Release 2.1.2 (March 16, 2016)
 
 * Only the README has been updated
