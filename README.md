@@ -1,5 +1,5 @@
-GeographicCoordinate 3.0
-========================
+GeographicCoordinate 3.0.1
+==========================
 
 See LICENSE for this software's licensing terms.
 

@@ -1,3 +1,8 @@
+# Release 3.0.1 (April 22, 2018)
+
+Only the README has been updated.  The README incorrectly stated that the Latitude/Longitude classes are mutable.  They are not - this was a relic of prior behavior in v1.3 and earlier.
+
+
 # Release 3.0 (October 13, 2017)
 
 Major update.  This release contains breaking and non-breaking changes.
