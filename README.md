@@ -9,7 +9,7 @@ GeographicCoordinate is a Java library for representing latitude, longitude and 
 ## Features
 
 * Unlike using floating-point primitives to represent latitude and longitude, GeographicCoordinate enforces automatic range checking:  objects can never have invalid values.
-* Coordinates can be initialized in floating-point form or as degrees, minutes and seconds, and manipulated in either form thereafter
+* Coordinates can be initialized in floating-point form or as degrees, minutes and seconds
 * Calculates the distance between two points, or the total travel distance between an unlimited number of points (using the Haversine formula).  Supports a wide array of units of distance.
 * Calculates initial bearing and back azimuth
 * Provides enumerations for 32, 16 and 8-point compass directions
@@ -18,7 +18,7 @@ GeographicCoordinate is a Java library for representing latitude, longitude and 
 
 ## Accuracy
 
-Supposedly, the calculations of distance and bearing are accurate.  I didn't hop into a car to verify distance, and I didn't buy an expensive military-issue compass to verify bearings.
+Supposedly, the calculations of distance and bearing are accurate.  I didn't verify distance or bearing calculations in the real world.  Doing so would have required purchasing a military-issue compass and then taking it on a hike.  The hiking part sounded fine to me, but the purchase of an expensive compass did not.  That being said:
 
 Distance was verified by interpolating a course I plotted on Bing Maps (see the DistanceCalculator JUnit tests).  The calculated value agreed with Bing's.
 
