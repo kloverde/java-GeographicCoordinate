@@ -367,23 +367,39 @@ public class LatitudeTest {
       assertFalse( lat1.equals(l2) );
    }
 
+   @SuppressWarnings( "unlikely-arg-type" )
    @Test
    public void equals_fail_differentParentClass() {
       assertFalse( lat1.equals(Integer.valueOf(2)) );
    }
 
+   // At first glance, this test might seem like a copy/paste error was made because it compares two different types.
+   // This is not a mistake.  Here, we test a Latitude object against a Longitude object that's configured to match
+   // the Latitude object as closely as possible (degrees, minutes, seconds).  Although it would be incorrect, it's
+   // possible to write an equals() that would pass that.
+   @SuppressWarnings( "unlikely-arg-type" )
    @Test
    public void equals_fail_longitudeDirectionEast() {
       final Longitude longitude = new Longitude( lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), Longitude.Direction.EAST );
       assertFalse( lat1.equals(longitude) );
    }
 
+   // At first glance, this test might seem like a copy/paste error was made because it compares two different types.
+   @SuppressWarnings( "unlikely-arg-type" )
+   // This is not a mistake.  Here, we test a Latitude object against a Longitude object that's configured to match
+   // the Latitude object as closely as possible (degrees, minutes, seconds).  Although it would be incorrect, it's
+   // possible to write an equals() that would pass that.
    @Test
    public void equals_fail_longitudeDirectionWest() {
       final Longitude longitude = new Longitude( lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), Longitude.Direction.WEST );
       assertFalse( lat1.equals(longitude) );
    }
 
+   // At first glance, this test might seem like a copy/paste error was made because it compares two different types.
+   @SuppressWarnings( "unlikely-arg-type" )
+   // This is not a mistake.  Here, we test a Latitude object against a Longitude object that's configured to match
+   // the Latitude object as closely as possible (degrees, minutes, seconds).  Although it would be incorrect, it's
+   // possible to write an equals() that would pass that.
    @Test
    public void equals_fail_longitudeDirectionNeither() {
       final Longitude longitude = new Longitude( 0, 0, 0, Longitude.Direction.NEITHER );

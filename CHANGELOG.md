@@ -1,3 +1,18 @@
+# Release 4.0 (May 26, 2018)
+
+This release ends support for Java 8 and 9.  Java 10 is now required, which is why this release has a major version bump despite the fact that the only code changes are on the testing side.  Read on...
+
+* Tweaked the JUnit tests after discovering that they fail with Java 9 and 10.  [Java 8 introduced a floating point bug](https://bugs.openjdk.java.net/browse/JDK-8039915) which was fixed in Java 9, but the tests were only ever run on Java 8, so I was unaware that different JREs were giving different results for floating point calculations.  Although the tests were using an epsilon for floating-point comparisons, it wasn't large enough to account for the floating point change introduced in Java 9, so the tests failed.
+* Upgraded Mockito to prevent "[Illegal reflective access](https://github.com/mockito/mockito/issues/1295)" when building on Java 9 and 10.
+
+The reasons for ending support for Java 8 and 9 are:
+
+1. Due to floating point differences, keeping the JUnit tests working from Java 8 to 10 would have required allowing a greater margin of error in calculations
+2. The status of the JUnit tests on Java 9 is unknowable because Oracle ended support for Java 9.  They pulled the SDK from their site, so I can't install it to test.
+
+If you build this project from source, and you use my [https://github.com/kloverde/BuildScripts](BuildScripts) project to do it, you'll need to pull the latest version.  I had to remove findbugs from BuildScripts because it's incompatible with Java 10 - plus, [the project is dead](https://mailman.cs.umd.edu/pipermail/findbugs-discuss/2016-November/004321.html).
+
+
 # Release 3.0.1 (April 22, 2018)
 
 Only the README has been updated.  The README incorrectly stated that the Latitude/Longitude classes are mutable.  They are not - this was a relic of prior behavior in v1.3 and earlier.
