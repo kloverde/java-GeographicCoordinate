@@ -35,6 +35,7 @@ package org.loverde.geographiccoordinate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.Locale;
 
@@ -362,28 +363,46 @@ public class LongitudeTest {
    }
 
    @Test
-   public void equals_fail_DirectionDifferent() {
+   public void equals_fail_direction() {
+      assertNotEquals( lon1.getDirection(), Longitude.Direction.WEST );  // sanity check
+
       final Longitude l2 = new Longitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Longitude.Direction.WEST );
       assertFalse( lon1.equals(l2) );
    }
 
+   @SuppressWarnings( "unlikely-arg-type" )
    @Test
-   public void equals_fail_DifferentParentClass() {
+   public void equals_fail_differentParentClass() {
       assertFalse( lon1.equals(Integer.valueOf(2)) );
    }
 
+   // At first glance, this test might seem like a copy/paste error was made because it compares two different types.
+   // This is not a mistake.  Here, we test a Longitude object against a Latitude object that's configured to match
+   // the Longitude object as closely as possible (degrees, minutes, seconds).  Although it would be incorrect, it's
+   // possible to write an equals() that would pass that.
+   @SuppressWarnings( "unlikely-arg-type" )
    @Test
    public void equals_fail_LatitudeDirectionNorth() {
       final Latitude latitude = new Latitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Latitude.Direction.NORTH );
       assertFalse( lon1.equals(latitude) );
    }
 
+   // At first glance, this test might seem like a copy/paste error was made because it compares two different types.
+   // This is not a mistake.  Here, we test a Longitude object against a Latitude object that's configured to match
+   // the Longitude object as closely as possible (degrees, minutes, seconds).  Although it would be incorrect, it's
+   // possible to write an equals() that would pass that.
+   @SuppressWarnings( "unlikely-arg-type" )
    @Test
    public void equals_fail_LatitudeDirectionSouth() {
       final Latitude latitude = new Latitude( lon1.getDegrees(), lon1.getMinutes(), lon1.getSeconds(), Latitude.Direction.SOUTH );
       assertFalse( lon1.equals(latitude) );
    }
 
+   // At first glance, this test might seem like a copy/paste error was made because it compares two different types.
+   // This is not a mistake.  Here, we test a Longitude object against a Latitude object that's configured to match
+   // the Longitude object as closely as possible (degrees, minutes, seconds).  Although it would be incorrect, it's
+   // possible to write an equals() that would pass that.
+   @SuppressWarnings( "unlikely-arg-type" )
    @Test
    public void equals_fail_LatitudeDirectionNeither() {
       final Latitude latitude = new Latitude( 0, 0, 0, Latitude.Direction.NEITHER );
