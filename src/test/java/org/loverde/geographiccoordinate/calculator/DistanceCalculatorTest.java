@@ -169,43 +169,43 @@ public class DistanceCalculatorTest {
    @Test
    public void distance_feet() {
       final double distance = DistanceCalculator.distance( Unit.FEET, point1, point2 );
-      assertEquals( 1070813.1682906998d, distance, fpDelta );
+      assertEquals( 1070813.1682907024d, distance, fpDelta );
    }
 
    @Test
    public void distance_kilometers() {
       final double distance = DistanceCalculator.distance( Unit.KILOMETERS, point1, point2 );
-      assertEquals( 326.3838536950053d, distance, fpDelta );
+      assertEquals( 326.3838536950061d, distance, fpDelta );
    }
 
    @Test
    public void distance_meters() {
       final double distance = DistanceCalculator.distance( Unit.METERS, point1, point2 );
-      assertEquals( 326383.8536950053d, distance, fpDelta );
+      assertEquals( 326383.8536950061d, distance, fpDelta );
    }
 
    @Test
    public void distance_miles() {
       final double distance = DistanceCalculator.distance( Unit.MILES, point1, point2 );
-      assertEquals( 202.805524297481d, distance, fpDelta );
+      assertEquals( 202.80552429748153, distance, fpDelta );
    }
 
    @Test
    public void distance_nauticalMiles() {
       final double distance = DistanceCalculator.distance( Unit.NAUTICAL_MILES, point1, point2 );
-      assertEquals( 176.2331823407156d, distance, fpDelta );
+      assertEquals( 176.23318234071604d, distance, fpDelta );
    }
 
    @Test
    public void distance_usSurveyfeet() {
       final double distance = DistanceCalculator.distance( Unit.US_SURVEY_FEET, point1, point2 );
-      assertEquals( 1070811.0266643632d, distance, fpDelta );
+      assertEquals( 1070811.026664366d, distance, fpDelta );
    }
 
    @Test
    public void distance_yards() {
       final double distance = DistanceCalculator.distance( Unit.YARDS, point1, point2 );
-      assertEquals( 356937.72276356665d, distance, fpDelta );
+      assertEquals( 356937.7227635675d, distance, fpDelta );
    }
 
    /**
