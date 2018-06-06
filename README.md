@@ -1,4 +1,4 @@
-GeographicCoordinate 4.0
+GeographicCoordinate 4.1
 ========================
 
 See LICENSE for this software's licensing terms.

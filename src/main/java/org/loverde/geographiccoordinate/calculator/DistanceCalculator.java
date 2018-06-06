@@ -73,9 +73,9 @@ public class DistanceCalculator {
    public enum Unit {
       // Members are initialized with a conversion factor expressed in terms of 1 kilometer.
 
-      CENTIMETERS( 1.0d / 100000.0d ),
+      CENTIMETERS( 100000.0d ),
 
-      INCHES( 1.0d / 39370.1d ),
+      INCHES( 39370.1d ),
 
       /**
        * This is the international foot.  For those in the U.S., yes, that is the

@@ -1,3 +1,8 @@
+# Release 4.1 (June 5, 2018)
+
+* Distance calculations were incorrect (completely unusable) when units of centimeters or inches were specified.
+
+
 # Release 4.0 (May 26, 2018)
 
 This release ends support for Java 8 and 9.  Java 10 is now required, which is why this release has a major version bump despite the fact that the only code changes are on the testing side.  Read on...

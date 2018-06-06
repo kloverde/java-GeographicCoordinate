@@ -167,6 +167,36 @@ public class DistanceCalculatorTest {
    }
 
    @Test
+   public void distance_centimeters() {
+      final Latitude lat1 = new Latitude( 12.34 );
+      final Longitude lon1 = new Longitude( 56.78 );
+
+      final Latitude lat2 = new Latitude( 12.349 );
+      final Longitude lon2 = new Longitude( 56.78 );
+
+      final Point point1 = new Point( lat1, lon1 );
+      final Point point2 = new Point( lat2, lon2 );
+
+      final double distance = DistanceCalculator.distance( Unit.CENTIMETERS, point1, point2 );
+      assertEquals( 100075.55964381338d, distance, fpDelta );
+   }
+
+   @Test
+   public void distance_inches() {
+      final Latitude lat1 = new Latitude( 12.34 );
+      final Longitude lon1 = new Longitude( 56.78 );
+
+      final Latitude lat2 = new Latitude( 12.349 );
+      final Longitude lon2 = new Longitude( 56.78 );
+
+      final Point point1 = new Point( lat1, lon1 );
+      final Point point2 = new Point( lat2, lon2 );
+
+      final double distance = DistanceCalculator.distance( Unit.INCHES, point1, point2 );
+      assertEquals( 39399.84790732897d, distance, fpDelta );
+   }
+
+   @Test
    public void distance_feet() {
       final double distance = DistanceCalculator.distance( Unit.FEET, point1, point2 );
       assertEquals( 1070813.1682907024d, distance, fpDelta );
