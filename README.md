@@ -39,7 +39,7 @@ Use this software at your own risk.
 You only need to bother with these if you want to build using the same setup I used (see included project and build files).
 
 1.  [BuildScripts](https://github.com/kloverde/BuildScripts)
-2.  The Eclipse Buildship plugin (available on the Eclipse Marketplace if it wasn't pre-packaged with your version of Eclipse)
+2.  The Eclipse Buildship plugin (available on the Eclipse Marketplace if it wasn't pre-packaged with your version of Eclipse).  This is alluded to in the IDE Setup section below.
 3.  Gradle
 
 
