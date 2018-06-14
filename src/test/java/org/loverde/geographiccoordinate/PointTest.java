@@ -37,12 +37,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
-import org.mockito.Matchers;
 
 public class PointTest {
 
@@ -106,7 +106,7 @@ public class PointTest {
    @Test
    public void constructor3arg_fail_nullName() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( Matchers.endsWith(GeographicCoordinateException.Messages.NAME_NULL) );
+      thrown.expectMessage( CoreMatchers.endsWith(GeographicCoordinateException.Messages.NAME_NULL) );
 
       new Point( latitude1, longitude1, null );
    }

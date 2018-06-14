@@ -70,7 +70,9 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     * @throws GeographicCoordinateException If you extend this class yourself
     */
    public AbstractGeographicCoordinate( final int degrees, final int minutes, final double seconds ) {
-      if( !(this instanceof Latitude) && !(this instanceof Longitude) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DISALLOWED_EXTENDS );
+      if( !(this instanceof Latitude) && !(this instanceof Longitude) ) {
+         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DISALLOWED_EXTENDS );
+      }
 
       setMaxValueDegrees( this instanceof Latitude ? Latitude.MAX_VALUE : Longitude.MAX_VALUE );
 
@@ -85,9 +87,21 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     * @throws GeographicCoordinateException If you extend this class yourself
     */
    public AbstractGeographicCoordinate( final double value ) {
-      this( (int) Math.abs(value),
-            (int) ((Math.abs(value) - (int)Math.abs(value)) * 60.0d),
-            (((Math.abs(value) - (int)Math.abs(value)) * 60.0d) % 1.0d) * 60.0d );
+      if( !(this instanceof Latitude) && !(this instanceof Longitude) ) {
+         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DISALLOWED_EXTENDS );
+      }
+
+      setMaxValueDegrees( this instanceof Latitude ? Latitude.MAX_VALUE : Longitude.MAX_VALUE );
+
+      if( value < -getMaxValueDegrees() || value > getMaxValueDegrees() ) {
+         throw new GeographicCoordinateException( this instanceof Latitude
+               ? GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL
+               : GeographicCoordinateException.Messages.LONGITUDE_RANGE_DECIMAL );
+      }
+
+      setDegrees( (int) Math.abs(value) );
+      setMinutes( (int) ((Math.abs(value) - (int)Math.abs(value)) * 60.0d) );
+      setSeconds( (((Math.abs(value) - (int)Math.abs(value)) * 60.0d) % 1.0d) * 60.0d );
    }
 
    @Override

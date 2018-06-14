@@ -1,3 +1,12 @@
+# Release 4.1.1 (June 13, 2018)
+
+* Fixed incorrect exception messages.  When supplying an invalid value to the Latitude(double) or Longitude(double) constructors, the resulting exception message said that the lower bound for valid values was 0.  This is incorrect when using floating-point notation; valid values can be negative.  The actual validation logic was correct - this was only an issue with the literal text of the error message.
+
+* Moved Eclipse project files to `.eclipse_project_files` so that my project setup isn't forced on everyone.  See `.eclipse_project_files/README.txt` for more information.
+
+* Updated JUnit tests
+
+
 # Release 4.1 (June 5, 2018)
 
 * Distance calculations were incorrect (completely unusable) when units of centimeters or inches were specified.

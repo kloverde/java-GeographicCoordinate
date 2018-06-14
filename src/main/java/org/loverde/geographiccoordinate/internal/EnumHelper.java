@@ -55,8 +55,13 @@ public class EnumHelper {
 
       Method method = null;
 
-      if( enumClass == null ) throw new IllegalArgumentException( "enumClass is null" );
-      if( (keySourceGetterName + "").trim().isEmpty() ) throw new IllegalArgumentException( "keySourceGetterName is empty" );
+      if( enumClass == null ) {
+         throw new IllegalArgumentException( "enumClass is null" );
+      }
+
+      if( (keySourceGetterName + "").trim().isEmpty() ) {
+         throw new IllegalArgumentException( "keySourceGetterName is empty" );
+      }
 
       map = new LinkedHashMap<>();
       methods = enumClass.getMethods();

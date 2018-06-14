@@ -1,5 +1,5 @@
-GeographicCoordinate 4.1
-========================
+GeographicCoordinate 4.1.1
+==========================
 
 See LICENSE for this software's licensing terms.
 
@@ -39,8 +39,17 @@ Use this software at your own risk.
 You only need to bother with these if you want to build using the same setup I used (see included project and build files).
 
 1.  [BuildScripts](https://github.com/kloverde/BuildScripts)
-2.  The Eclipse Buildship plugin (available on the Eclipse Marketplace if it wasn't pre-packaged with your version of Eclipse)
+2.  The Eclipse Buildship plugin (available on the Eclipse Marketplace if it wasn't pre-packaged with your version of Eclipse).  This is alluded to in the IDE Setup section below.
 3.  Gradle
+
+
+## IDE Setup
+
+In the root directory, you'll find a subdirectory named `.eclipse_project_files`, which contains... you guessed it, Eclipse project files.  They enable you to import a pre-configured project that "just works" so that you don't have to fuss around.
+
+If you're an Eclipse user, you'll know that this is not where Eclipse keeps them - rather, they belong in the project root directory.  I archived the project files in a different location so that they could be saved without interfering with people who like to set up projects their own way.
+
+If you want to use them, read `.eclipse_project_files/README.txt` for a description of the Eclipse plugins you'll need to install.  Copy `.classpath` and `.project` to the project root directory, then import the project.
 
 
 ## Building
