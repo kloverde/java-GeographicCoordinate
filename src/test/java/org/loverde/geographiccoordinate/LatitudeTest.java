@@ -152,7 +152,7 @@ public class LatitudeTest {
    @Test
    public void doubleConstructor_fail_maxValueExceeded_degrees() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( DEGREES_RANGE );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL );
 
       new Latitude( 91 );
    }
@@ -160,7 +160,7 @@ public class LatitudeTest {
    @Test
    public void doubleConstructor_fail_maxValueExceeded_minutesSeconds() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( MINUTES_AND_SECONDS_MUST_BE_ZERO );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL );
 
       new Latitude( 90.000000001d );
    }
@@ -179,7 +179,7 @@ public class LatitudeTest {
    @Test
    public void doubleConstructor_fail_minValueExceeded_degrees() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( DEGREES_RANGE );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL );
 
       new Latitude( -91 );
    }
@@ -187,7 +187,7 @@ public class LatitudeTest {
    @Test
    public void doubleConstructor_fail_minValueExceeded_minutesSeconds() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( MINUTES_AND_SECONDS_MUST_BE_ZERO );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL );
 
       new Latitude( -90.000000001d );
    }

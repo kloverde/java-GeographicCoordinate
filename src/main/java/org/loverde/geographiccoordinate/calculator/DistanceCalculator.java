@@ -154,9 +154,17 @@ public class DistanceCalculator {
     * @return The total distance traveled, expressed in terms of {@code unit}
     */
    public static double distance( final Unit unit, final Point ... points ) {
-      if( unit == null ) throw new GeographicCoordinateException( "Unit is null" );
-      if( points == null ) throw new GeographicCoordinateException( "Points are null" );
-      if( points.length < 2 ) throw new GeographicCoordinateException( "Need to provide at least 2 points" );
+      if( unit == null ) {
+         throw new GeographicCoordinateException( "Unit is null" );
+      }
+
+      if( points == null ) {
+         throw new GeographicCoordinateException( "Points are null" );
+      }
+
+      if( points.length < 2 ) {
+         throw new GeographicCoordinateException( "Need to provide at least 2 points" );
+      }
 
       double distance = 0;
       Point previous = points[0];

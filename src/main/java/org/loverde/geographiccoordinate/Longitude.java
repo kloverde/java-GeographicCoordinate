@@ -136,7 +136,9 @@ public class Longitude extends AbstractGeographicCoordinate {
    private void setDirection( final Longitude.Direction direction ) {
       if( direction == null )  throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
 
-      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
+      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) {
+         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
+      }
 
       this.direction = direction;
    }

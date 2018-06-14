@@ -153,7 +153,7 @@ public class LongitudeTest {
    @Test
    public void doubleConstructor_fail_maxValueExceeded_degrees() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( DEGREES_RANGE );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LONGITUDE_RANGE_DECIMAL );
 
       new Longitude( Longitude.MAX_VALUE + 1 );
    }
@@ -161,7 +161,7 @@ public class LongitudeTest {
    @Test
    public void doubleConstructor_fail_maxValueExceeded_minutesSeconds() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( MINUTES_AND_SECONDS_MUST_BE_ZERO );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LONGITUDE_RANGE_DECIMAL );
 
       new Longitude( Longitude.MAX_VALUE + .000000001d );
    }
@@ -180,7 +180,7 @@ public class LongitudeTest {
    @Test
    public void doubleConstructor_fail_minValueExceeded_degrees() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( DEGREES_RANGE );
+      thrown.expectMessage( GeographicCoordinateException.Messages.LONGITUDE_RANGE_DECIMAL );
 
       new Longitude( -(Longitude.MAX_VALUE + 1) );
    }
@@ -188,7 +188,7 @@ public class LongitudeTest {
    @Test
    public void doubleConstructor_fail_minValueExceeded_minutesSeconds() {
       thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( MINUTES_AND_SECONDS_MUST_BE_ZERO);
+      thrown.expectMessage( GeographicCoordinateException.Messages.LONGITUDE_RANGE_DECIMAL );
 
       new Longitude( -(Longitude.MAX_VALUE + .000000001d) );
    }

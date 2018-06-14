@@ -80,7 +80,9 @@ public class Point {
    }
 
    private void setLatitude( final Latitude latitude ) {
-      if( latitude == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.LATITUDE_NULL );
+      if( latitude == null ) {
+         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.LATITUDE_NULL );
+      }
 
       this.latitude = latitude;
    }
@@ -90,7 +92,9 @@ public class Point {
    }
 
    private void setLongitude( final Longitude longitude ) {
-      if( longitude == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.LONGITUDE_NULL );
+      if( longitude == null ) {
+         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.LONGITUDE_NULL );
+      }
 
       this.longitude = longitude;
    }
@@ -103,7 +107,9 @@ public class Point {
     * @param name - Use for identification, such as displaying a label on a map
     */
    private void setName( final String name ) {
-      if( name == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.NAME_NULL );
+      if( name == null ) {
+         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.NAME_NULL );
+      }
 
       this.name = name;
    }

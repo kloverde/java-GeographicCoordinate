@@ -40,6 +40,8 @@ public class GeographicCoordinateException extends RuntimeException {
 
    public static final class Messages {
       public static final String DEGREES_RANGE = " degrees must be in a range of 0-",
+                                 LATITUDE_RANGE_DECIMAL = "Latitude must be in a range of -90 to 90",
+                                 LONGITUDE_RANGE_DECIMAL = "Longitude must be in a range of -180 to 180",
                                  MINUTES_AND_SECONDS_MUST_BE_ZERO = " minutes and seconds must be 0 when degrees is ",
                                  MINUTES_RANGE = " minutes must be in a range of 0-59",
                                  SECONDS_RANGE = " seconds must be in a range of 0-59.9[..]";

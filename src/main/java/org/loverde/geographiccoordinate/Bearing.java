@@ -71,8 +71,13 @@ public class Bearing<T extends CompassDirection> {
    }
 
    public void setBearing( final BigDecimal bearing ) {
-      if( bearing == null ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_BEARING_NULL );
-      if( !BigDecimalCompare.isWithinInclusiveRange(bearing, BigDecimal.ZERO, new BigDecimal(360)) ) throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
+      if( bearing == null ) {
+         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_BEARING_NULL );
+      }
+
+      if( !BigDecimalCompare.isWithinInclusiveRange(bearing, BigDecimal.ZERO, new BigDecimal(360)) ) {
+         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
+      }
 
       this.bearing = bearing;
    }
