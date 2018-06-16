@@ -91,6 +91,14 @@ public enum CompassDirection16 implements CompassDirection {
    }
 
    /**
+    * @return A visually friendly, grammatically correct transformation of {@link #name()}, with all lowercase letters, and underscores changed to spaces
+    */
+   @Override
+   public String getPrintName() {
+      return name().toLowerCase().replaceAll( "_", " " );
+   }
+
+   /**
     * @return The lower bound for a given direction
     */
    @Override
