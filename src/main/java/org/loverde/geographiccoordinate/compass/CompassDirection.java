@@ -39,6 +39,7 @@ import java.math.BigDecimal;
 public interface CompassDirection {
 
    public String getAbbreviation();
+   public String getPrintName();
    public BigDecimal getMinimum();
    public BigDecimal getMiddle();
    public BigDecimal getMaximum();

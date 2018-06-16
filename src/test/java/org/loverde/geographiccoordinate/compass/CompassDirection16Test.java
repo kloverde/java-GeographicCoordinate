@@ -176,4 +176,24 @@ public class CompassDirection16Test {
       thrown.expectMessage( "Bearing 360.000000000001 is not in range [0, 360]" );
       CompassDirection16.getByBearing( new BigDecimal("360.000000000001") );
    }
+
+   @Test
+   public void getPrintName() {
+      assertEquals( "east", CompassDirection16.EAST.getPrintName() );
+      assertEquals( "east northeast", CompassDirection16.EAST_NORTHEAST.getPrintName() );
+      assertEquals( "east southeast", CompassDirection16.EAST_SOUTHEAST.getPrintName() );
+      assertEquals( "north", CompassDirection16.NORTH.getPrintName() );
+      assertEquals( "north northeast", CompassDirection16.NORTH_NORTHEAST.getPrintName() );
+      assertEquals( "north northwest", CompassDirection16.NORTH_NORTHWEST.getPrintName() );
+      assertEquals( "northeast", CompassDirection16.NORTHEAST.getPrintName() );
+      assertEquals( "northwest", CompassDirection16.NORTHWEST.getPrintName() );
+      assertEquals( "south", CompassDirection16.SOUTH.getPrintName() );
+      assertEquals( "south southeast", CompassDirection16.SOUTH_SOUTHEAST.getPrintName() );
+      assertEquals( "south southwest", CompassDirection16.SOUTH_SOUTHWEST.getPrintName() );
+      assertEquals( "southeast", CompassDirection16.SOUTHEAST.getPrintName() );
+      assertEquals( "southwest", CompassDirection16.SOUTHWEST.getPrintName() );
+      assertEquals( "west", CompassDirection16.WEST.getPrintName() );
+      assertEquals( "west northwest", CompassDirection16.WEST_NORTHWEST.getPrintName() );
+      assertEquals( "west southwest", CompassDirection16.WEST_SOUTHWEST.getPrintName() );
+   }
 }

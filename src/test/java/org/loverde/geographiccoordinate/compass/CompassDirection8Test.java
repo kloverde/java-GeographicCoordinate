@@ -144,4 +144,16 @@ public class CompassDirection8Test {
       thrown.expectMessage( "Bearing 360.000000000001 is not in range [0, 360]" );
       CompassDirection8.getByBearing( new BigDecimal("360.000000000001") );
    }
+
+   @Test
+   public void getPrintName() {
+      assertEquals( "east", CompassDirection8.EAST.getPrintName() );
+      assertEquals( "north", CompassDirection8.NORTH.getPrintName() );
+      assertEquals( "northeast", CompassDirection8.NORTHEAST.getPrintName() );
+      assertEquals( "northwest", CompassDirection8.NORTHWEST.getPrintName() );
+      assertEquals( "south", CompassDirection8.SOUTH.getPrintName() );
+      assertEquals( "southeast", CompassDirection8.SOUTHEAST.getPrintName() );
+      assertEquals( "southwest", CompassDirection8.SOUTHWEST.getPrintName() );
+      assertEquals( "west", CompassDirection8.WEST.getPrintName() );
+   }
 }

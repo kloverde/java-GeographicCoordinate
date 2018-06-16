@@ -1,3 +1,8 @@
+# Release 4.2 (June 16, 2018)
+
+* Added a `getPrintName` method to the `CompassDirection` classes.  This returns a grammatically correct version of `name()`, changing all letters to lowercase and all underscores to spaces
+
+
 # Release 4.1.1 (June 13, 2018)
 
 * Fixed incorrect exception messages.  When supplying an invalid value to the Latitude(double) or Longitude(double) constructors, the resulting exception message said that the lower bound for valid values was 0.  This is incorrect when using floating-point notation; valid values can be negative.  The actual validation logic was correct - this was only an issue with the literal text of the error message.

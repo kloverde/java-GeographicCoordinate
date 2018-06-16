@@ -1,5 +1,5 @@
-GeographicCoordinate 4.1.1
-==========================
+GeographicCoordinate 4.2
+========================
 
 See LICENSE for this software's licensing terms.
 

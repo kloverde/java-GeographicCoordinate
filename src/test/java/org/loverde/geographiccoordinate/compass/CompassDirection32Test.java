@@ -240,4 +240,40 @@ public class CompassDirection32Test {
       thrown.expectMessage( "Bearing 360.000000000001 is not in range [0, 360]" );
       CompassDirection32.getByBearing( new BigDecimal("360.000000000001") );
    }
+
+   @Test
+   public void getPrintName() {
+      assertEquals( "north", CompassDirection32.NORTH.getPrintName() );
+      assertEquals( "north by east", CompassDirection32.NORTH_BY_EAST.getPrintName() );
+      assertEquals( "north northeast", CompassDirection32.NORTH_NORTHEAST.getPrintName() );
+      assertEquals( "northeast by north", CompassDirection32.NORTHEAST_BY_NORTH.getPrintName() );
+      assertEquals( "northeast", CompassDirection32.NORTHEAST.getPrintName() );
+      assertEquals( "northeast by east", CompassDirection32.NORTHEAST_BY_EAST.getPrintName() );
+      assertEquals( "east northeast", CompassDirection32.EAST_NORTHEAST.getPrintName() );
+      assertEquals( "east by north", CompassDirection32.EAST_BY_NORTH.getPrintName() );
+      assertEquals( "east", CompassDirection32.EAST.getPrintName() );
+      assertEquals( "east by south", CompassDirection32.EAST_BY_SOUTH.getPrintName() );
+      assertEquals( "east southeast", CompassDirection32.EAST_SOUTHEAST.getPrintName() );
+      assertEquals( "southeast by east", CompassDirection32.SOUTHEAST_BY_EAST.getPrintName() );
+      assertEquals( "southeast", CompassDirection32.SOUTHEAST.getPrintName() );
+      assertEquals( "southeast by south", CompassDirection32.SOUTHEAST_BY_SOUTH.getPrintName() );
+      assertEquals( "south southeast", CompassDirection32.SOUTH_SOUTHEAST.getPrintName() );
+      assertEquals( "south by east", CompassDirection32.SOUTH_BY_EAST.getPrintName() );
+      assertEquals( "south", CompassDirection32.SOUTH.getPrintName() );
+      assertEquals( "south by west", CompassDirection32.SOUTH_BY_WEST.getPrintName() );
+      assertEquals( "south southwest", CompassDirection32.SOUTH_SOUTHWEST.getPrintName() );
+      assertEquals( "southwest by south", CompassDirection32.SOUTHWEST_BY_SOUTH.getPrintName() );
+      assertEquals( "southwest", CompassDirection32.SOUTHWEST.getPrintName() );
+      assertEquals( "southwest by west", CompassDirection32.SOUTHWEST_BY_WEST.getPrintName() );
+      assertEquals( "west southwest", CompassDirection32.WEST_SOUTHWEST.getPrintName() );
+      assertEquals( "west by south", CompassDirection32.WEST_BY_SOUTH.getPrintName() );
+      assertEquals( "west", CompassDirection32.WEST.getPrintName() );
+      assertEquals( "west by north", CompassDirection32.WEST_BY_NORTH.getPrintName() );
+      assertEquals( "west northwest", CompassDirection32.WEST_NORTHWEST.getPrintName() );
+      assertEquals( "northwest by west", CompassDirection32.NORTHWEST_BY_WEST.getPrintName() );
+      assertEquals( "northwest", CompassDirection32.NORTHWEST.getPrintName() );
+      assertEquals( "northwest by north", CompassDirection32.NORTHWEST_BY_NORTH.getPrintName() );
+      assertEquals( "north northwest", CompassDirection32.NORTH_NORTHWEST.getPrintName() );
+      assertEquals( "north by west", CompassDirection32.NORTH_BY_WEST.getPrintName() );
+   }
 }
