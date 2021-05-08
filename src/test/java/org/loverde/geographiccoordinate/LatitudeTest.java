@@ -471,35 +471,35 @@ public class LatitudeTest {
 
    @Test
    public void toString_success_north_localeWithPeriods() {
-      assertEquals( "12°16'23.45\"N", lat1.toString(Locale.US) );
+      assertEquals( "12Â°16'23.45\"N", lat1.toString(Locale.US) );
    }
 
    @Test
    public void toString_success_south_localeWithPeriods() {
       final Latitude l = new Latitude( 12, 16, 23.45d, Latitude.Direction.SOUTH );
-      assertEquals( "12°16'23.45\"S", l.toString(Locale.US) );
+      assertEquals( "12Â°16'23.45\"S", l.toString(Locale.US) );
    }
 
    @Test
    public void toString_success_north_localeWithCommas() {
-      assertEquals( "12°16'23,45\"N", lat1.toString(Locale.FRANCE) );
+      assertEquals( "12Â°16'23,45\"N", lat1.toString(Locale.FRANCE) );
    }
 
    @Test
    public void toString_success_south_localeWithCommas() {
       final Latitude l = new Latitude( 12, 16, 23.45d, Latitude.Direction.SOUTH );
-      assertEquals( "12°16'23,45\"S", l.toString(Locale.FRANCE) );
+      assertEquals( "12Â°16'23,45\"S", l.toString(Locale.FRANCE) );
    }
 
    @Test
    public void toString_success_noDirectionOnEquator() {
       final Latitude l = new Latitude( 0 );
-      assertEquals( "0°0'0\"", l.toString() );
+      assertEquals( "0Â°0'0\"", l.toString() );
    }
 
    @Test
    public void toString_success_noTrailingZeros() {
       final Latitude l = new Latitude(12, 16, 0, Latitude.Direction.NORTH );
-      assertEquals( "12°16'0\"N", l.toString() );
+      assertEquals( "12Â°16'0\"N", l.toString() );
    }
 }

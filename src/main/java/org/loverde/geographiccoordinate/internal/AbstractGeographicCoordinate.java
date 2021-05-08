@@ -171,8 +171,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     * For example,
     *
     * <ul>
-    *    <li>In the United States:  30°60'40.912"N</li>
-    *    <li>In France:  30°60'40,912"N</li>
+    *    <li>In the United States:  30Â°60'40.912"N</li>
+    *    <li>In France:  30Â°60'40,912"N</li>
     * </ul>
     *
     * @throws GeographicCoordinateException If {@linkplain #getDirection()} returs null
@@ -189,8 +189,8 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
     * For example,
     *
     * <ul>
-    *    <li>For {@linkplain Locale#US}:  30°60'40.912"N</li>
-    *    <li>For {@linkplain Locale#FRANCE}:  30°60'40,912"N</li>
+    *    <li>For {@linkplain Locale#US}:  30Â°60'40.912"N</li>
+    *    <li>For {@linkplain Locale#FRANCE}:  30Â°60'40,912"N</li>
     * </ul>
     *
     * @param locale - The locale to localize to
@@ -218,7 +218,7 @@ public abstract class AbstractGeographicCoordinate implements GeographicCoordina
       fmt.setMaximumFractionDigits( DECIMAL_FORMAT_MAX_FRACTION_DIGITS );
 
       str = String.format( locale,
-                           "%d°%d'%s\"%s",
+                           "%dÂ°%d'%s\"%s",
                            getDegrees(),
                            getMinutes(),
                            fmt.format( getSeconds() ),

@@ -474,35 +474,35 @@ public class LongitudeTest {
 
    @Test
    public void toString_success_east_localeWithPeriods() {
-      assertEquals( "12°16'23.45\"E", lon1.toString(Locale.US) );
+      assertEquals( "12Â°16'23.45\"E", lon1.toString(Locale.US) );
    }
 
    @Test
    public void toString_success_west_localeWithPeriods() {
       final Longitude l = new Longitude( 12, 16, 23.45d, Longitude.Direction.WEST );
-      assertEquals( "12°16'23.45\"W", l.toString(Locale.US) );
+      assertEquals( "12Â°16'23.45\"W", l.toString(Locale.US) );
    }
 
    @Test
    public void toString_success_east_localeWithCommas() {
-      assertEquals( "12°16'23,45\"E", lon1.toString(Locale.FRANCE) );
+      assertEquals( "12Â°16'23,45\"E", lon1.toString(Locale.FRANCE) );
    }
 
    @Test
    public void toString_success_west_localeWithCommas() {
       final Longitude l = new Longitude( 12, 16, 23.45d, Longitude.Direction.WEST );
-      assertEquals( "12°16'23,45\"W", l.toString(Locale.FRANCE) );
+      assertEquals( "12Â°16'23,45\"W", l.toString(Locale.FRANCE) );
    }
 
    @Test
    public void toString_success_noDirectionOnPrimeMeridian() {
       final Longitude l = new Longitude( 0 );
-      assertEquals( "0°0'0\"", l.toString() );
+      assertEquals( "0Â°0'0\"", l.toString() );
    }
 
    @Test
    public void toString_success_noTrailingZeros() {
       final Longitude l = new Longitude(12, 16, 0, Longitude.Direction.EAST );
-      assertEquals( "12°16'0\"E", l.toString() );
+      assertEquals( "12Â°16'0\"E", l.toString() );
    }
 }

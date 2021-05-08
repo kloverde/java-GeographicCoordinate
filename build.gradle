@@ -1,31 +1,9 @@
-apply plugin: "eclipse"   // Run 'gradle eclipse' to rebuild .classpath for other systems
-
 apply from: buildScriptsDir + "/build_java_lib.gradle"
 
+
 dependencies {
-   compile files( "lib/numberutil/numberutil-1.0.jar" )
+   implementation "org.loverde:numberutil:1.0.1"
 
-   testCompile "junit:junit:4.12"
-   testCompile "org.mockito:mockito-core:2.18.3"
-}
-
-task release( type : Zip ) {
-   dependsOn jars
-
-   if( builtByName == null || builtByName.trim().isEmpty() ) {
-      throw new GradleException( "Empty builtByName in gradle.properties" );
-   }
-
-   archiveName projectName + "-" + releaseVersion + ".zip"
-
-   from( "/lib/numberutil" )
-   include "*.jar"
-
-   from( "/build/libs" )
-   include "*.jar"
-
-   from( "/" )
-   include "CHANGELOG.md"
-   include "LICENSE"
-   include "README.md"
+   testImplementation "junit:junit:4.12"
+   testImplementation "org.mockito:mockito-core:2.18.3"
 }

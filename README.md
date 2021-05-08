@@ -1,5 +1,5 @@
-GeographicCoordinate 4.2
-========================
+GeographicCoordinate 4.2.1
+==========================
 
 See LICENSE for this software's licensing terms.
 
@@ -20,7 +20,7 @@ Starting with v4.0, Java 10 or later is required.  See the v4.0 release notes in
 
 ## Accuracy
 
-Supposedly, the calculations of distance and bearing are accurate.  I didn't verify distance or bearing calculations in the real world.  Doing so would have required purchasing a military-issue compass and then taking it on a hike.  The hiking part sounded fine to me, but the purchase of an expensive compass did not.  That being said:
+Supposedly, the calculations of distance and bearing are accurate.  I didn't verify distance or bearing calculations in the real world.  Doing so would have required purchasing a military-grade compass, which I presume would be expensive.  (Whether necessary or not, preciseness is a thing for me).  That being said:
 
 Distance was verified by interpolating a course I plotted on Bing Maps (see the DistanceCalculator JUnit tests).  The calculated value agreed with Bing's.
 
@@ -29,34 +29,15 @@ Bearing was verified by comparing my calculations to two online calculators, and
 Use this software at your own risk.
 
 
-## Compile and Runtime Dependencies
-
-1.  [NumberUtil](https://github.com/kloverde/java-NumberUtil) (included)
-
-
-## Development Setup Dependencies
-
-You only need to bother with these if you want to build using the same setup I used (see included project and build files).
-
-1.  [BuildScripts](https://github.com/kloverde/BuildScripts)
-2.  The Eclipse Buildship plugin (available on the Eclipse Marketplace if it wasn't pre-packaged with your version of Eclipse).  This is alluded to in the IDE Setup section below.
-3.  Gradle
-
-
-## IDE Setup
-
-In the root directory, you'll find a subdirectory named `.eclipse_project_files`, which contains... you guessed it, Eclipse project files.  They enable you to import a pre-configured project that "just works" so that you don't have to fuss around.
-
-If you're an Eclipse user, you'll know that this is not where Eclipse keeps them - rather, they belong in the project root directory.  I archived the project files in a different location so that they could be saved without interfering with people who like to set up projects their own way.
-
-If you want to use them, read `.eclipse_project_files/README.txt` for a description of the Eclipse plugins you'll need to install.  Copy `.classpath` and `.project` to the project root directory, then import the project.
-
-
 ## Building
 
-1.  Update the path to BuildScripts in gradle.properties
-2.  Provide a value for builtByName in gradle.properties
-3.  Provide the path to the NumberUtil jar in build.gradle
+This project is known to build on Gradle 7.0.
+
+1.  Get [BuildScripts](https://github.com/kloverde/BuildScripts)
+2.  Build [NumberUtil](https://github.com/kloverde/java-NumberUtil) and publish it locally with `gradle publishtomavenlocal`
+3.  Set `buildScriptsDir` (the path to BuildScripts) in gradle.properties
+4.  Set `builtBy` in gradle.properties
+5.  Run `gradle build`
 
 
 ## Donations

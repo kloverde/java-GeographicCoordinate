@@ -1,3 +1,12 @@
+# Release 4.2.1 (May 8, 2021)
+
+* Fixed a compilation error observed on OpenJDK 15/Linux where the 'degree' symbol was not a UTF-8 character.  Whatever it was previously, it's been replaced with a compliant character.  This changes the value returned by `toString` in `Latitude` and `Longitude`.
+
+* The project's build script has been updated to be compatible with Gradle 7.0 and the latest version of [BuildScripts](https://github.com/kloverde/BuildScripts).
+
+* Beginning with this release, releases will be source only.  This includes first-party dependencies such as [NumberUtil](https://github.com/kloverde/java-NumberUtil), which you'll need to build yourself.
+
+
 # Release 4.2 (June 16, 2018)
 
 * Added a `getPrintName` method to the `CompassDirection` classes.  This returns a grammatically correct version of `name()`, changing all letters to lowercase and all underscores to spaces
@@ -105,7 +114,7 @@ This release contains several breaking changes which were necessary for code cle
 * Removed GeographicCoordinate.Type from all GeographicCoordinate constructors.  No client code should be impacted, since client code would have been working with the Latitude and Longitude classes directly.
 * Removed GeographicCoordinateException.Messages.COORDINATE_TYPE_NULL, as it can no longer be thrown
 * Changed GeographicCoordinateException.Messages from public to protected, as client code should not be using them.  The constants contained therein exist solely to keep the internal code and JUnit tests in sync.  The javadoc has been updated to indicate this.
-* Changed the Latitude/Longitude toString methods to return a degree/minute/second format, such as 12°34'56.789"N.  Likewise, Point's toString method now uses this format.
+* Changed the Latitude/Longitude toString methods to return a degree/minute/second format, such as 12ï¿½34'56.789"N.  Likewise, Point's toString method now uses this format.
 * When using the Latitude(double) constructor to create a latitude of 0.0 (the Equator), the direction will be considered north.  Previously, it was considered south.  No client code should be impacted because it's never correct to examine the direction when talking about the Equator, since it is neither north nor south.
 * When using the Longitude(double) constructor to create a longitude of 0.0 (the Prime Meridian), the direction will be considered east.  Previously, it was considered west.  No client code should be impacted because it's never correct to examine the direction when talking about the Prime Meridian, since it is neither east nor west.
 * Integrated with the latest version of the BuildScripts project (https://github.com/kloverde/BuildScripts), adding findbugs integration, JUnit integration and new release packaging:  one archive contains all jars and the readme, changelog and license.
