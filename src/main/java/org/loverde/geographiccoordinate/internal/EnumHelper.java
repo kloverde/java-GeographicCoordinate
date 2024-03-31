@@ -47,8 +47,8 @@ public class EnumHelper {
      * @param keyExtractor A method reference on the enum which supplies the key value for the map
      * @return A map containing all members of the enum
      */
-    public static <E> Map<String, E> populateEnumMap(final Class<E> enumClass, final Function<E, String> keyExtractor) {
-        final Map<String, E> map;
+    public static <E extends Enum<E>, K> Map<K, E> populateEnumMap(final Class<E> enumClass, final Function<E, K> keyExtractor) {
+        final Map<K, E> map;
 
         if (enumClass == null) {
             throw new IllegalArgumentException("enumClass is null");
