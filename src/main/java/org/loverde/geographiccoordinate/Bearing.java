@@ -37,7 +37,8 @@ import java.math.BigDecimal;
 
 import org.loverde.geographiccoordinate.compass.CompassDirection;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
-import org.loverde.util.number.bigdecimal.BigDecimalCompare;
+
+import static java.math.BigDecimal.ZERO;
 
 
 /**
@@ -47,38 +48,39 @@ import org.loverde.util.number.bigdecimal.BigDecimalCompare;
  */
 public class Bearing<T extends CompassDirection> {
 
-   private T compassDirection;
-   private BigDecimal bearing;
+    private T compassDirection;
+    private BigDecimal bearing;
 
 
-   public Bearing() {}
+    public Bearing() {
+    }
 
-   public Bearing( final T compassDirection, final BigDecimal bearing ) {
-      setCompassDirection( compassDirection );
-      setBearing( bearing );
-   }
+    public Bearing(final T compassDirection, final BigDecimal bearing) {
+        setCompassDirection(compassDirection);
+        setBearing(bearing);
+    }
 
-   public T getCompassDirection() {
-      return compassDirection;
-   }
+    public T getCompassDirection() {
+        return compassDirection;
+    }
 
-   public void setCompassDirection( final T compassDirection ) {
-      this.compassDirection = compassDirection;
-   }
+    public void setCompassDirection(final T compassDirection) {
+        this.compassDirection = compassDirection;
+    }
 
-   public BigDecimal getBearing() {
-      return bearing;
-   }
+    public BigDecimal getBearing() {
+        return bearing;
+    }
 
-   public void setBearing( final BigDecimal bearing ) {
-      if( bearing == null ) {
-         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_BEARING_NULL );
-      }
+    public void setBearing(final BigDecimal bearing) {
+        if (bearing == null) {
+            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_BEARING_NULL);
+        }
 
-      if( !BigDecimalCompare.isWithinInclusiveRange(bearing, BigDecimal.ZERO, new BigDecimal(360)) ) {
-         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
-      }
+        if ((bearing.compareTo(ZERO) < 0) || bearing.compareTo(new BigDecimal(360)) > 0) {
+           throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE);
+        }
 
-      this.bearing = bearing;
-   }
+        this.bearing = bearing;
+    }
 }

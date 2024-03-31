@@ -36,5 +36,5 @@ package org.loverde.geographiccoordinate.internal;
 
 public interface LatLonDirection {
 
-   public String getAbbreviation();
+   String getAbbreviation();
 }

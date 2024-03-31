@@ -36,11 +36,11 @@ package org.loverde.geographiccoordinate.internal;
 
 public interface GeographicCoordinate {
 
-   public int getDegrees();
-   public int getMinutes();
-   public double getSeconds();
-   public LatLonDirection getDirection();
+   int getDegrees();
+   int getMinutes();
+   double getSeconds();
+   LatLonDirection getDirection();
 
-   public double toDouble();
-   public double toRadians();
+   double toDouble();
+   double toRadians();
 }

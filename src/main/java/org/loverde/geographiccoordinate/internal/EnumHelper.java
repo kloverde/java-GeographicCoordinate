@@ -41,51 +41,50 @@ import java.util.Map;
 
 public class EnumHelper {
 
-   /**
-    * Uses reflection to populate a map of enum members using a configurable getter from the enum
-    *
-    * @param enumClass The enumeration
-    * @param keySourceGetterName The name of a public getter within the enumeration, which provides the keys for the map
-    *
-    * @return A map containing all members of the enumeration
-    */
-   public static final <E> Map<String, E> populateEnumMap_stringKey( final Class<E> enumClass, final String keySourceGetterName ) {
-      final Map<String, E> map;
-      final Method methods[];
+    /**
+     * Uses reflection to populate a map of enum members using a configurable getter from the enum
+     *
+     * @param enumClass           The enumeration
+     * @param keySourceGetterName The name of a public getter within the enumeration, which provides the keys for the map
+     * @return A map containing all members of the enumeration
+     */
+    public static <E> Map<String, E> populateEnumMap_stringKey(final Class<E> enumClass, final String keySourceGetterName) {
+        final Map<String, E> map;
+        final Method[] methods;
 
-      Method method = null;
+        Method method = null;
 
-      if( enumClass == null ) {
-         throw new IllegalArgumentException( "enumClass is null" );
-      }
+        if (enumClass == null) {
+            throw new IllegalArgumentException("enumClass is null");
+        }
 
-      if( (keySourceGetterName + "").trim().isEmpty() ) {
-         throw new IllegalArgumentException( "keySourceGetterName is empty" );
-      }
+        if (keySourceGetterName == null || keySourceGetterName.trim().isEmpty()) {
+            throw new IllegalArgumentException("keySourceGetterName is empty");
+        }
 
-      map = new LinkedHashMap<>();
-      methods = enumClass.getMethods();
+        map = new LinkedHashMap<>();
+        methods = enumClass.getMethods();
 
-      if( methods.length > 0 ) {
-         for( Method m : methods ) {
-            if( m.getName().equals(keySourceGetterName) && m.getReturnType() == String.class ) {
-               method = m;
+        if (methods.length > 0) {
+            for (Method m : methods) {
+                if (m.getName().equals(keySourceGetterName) && m.getReturnType() == String.class) {
+                    method = m;
+                }
             }
-         }
 
-         if( method == null ) {
-            throw new IllegalArgumentException( "Could not find a matching String method named " + keySourceGetterName );
-         }
-
-         try {
-            for( final E enumObj : enumClass.getEnumConstants() ) {
-               map.put( (String) method.invoke(enumObj, (Object[]) null), enumObj );
+            if (method == null) {
+                throw new IllegalArgumentException("Could not find a matching String method named " + keySourceGetterName);
             }
-         } catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
-            throw new RuntimeException( e );
-         }
-      }
 
-      return map;
-   }
+            try {
+                for (final E enumObj : enumClass.getEnumConstants()) {
+                    map.put((String) method.invoke(enumObj, (Object[]) null), enumObj);
+                }
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return map;
+    }
 }

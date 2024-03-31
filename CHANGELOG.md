@@ -1,3 +1,11 @@
+# Release 5.0.0 (March 31, 2024)
+
+* Removed dependencies on my external `BuildScripts` and `NumberUtil` projects
+* Retargeted at Java 17 + Gradle 8.0
+* Upgraded to JUnit 5
+* Upgraded Mockito
+* Breaking code changes [TODO]
+
 # Release 4.2.1 (May 8, 2021)
 
 * Fixed a compilation error observed on OpenJDK 15/Linux where the 'degree' symbol was not a UTF-8 character.  Whatever it was previously, it's been replaced with a compliant character.  This changes the value returned by `toString` in `Latitude` and `Longitude`.

@@ -33,35 +33,38 @@
 
 package org.loverde.geographiccoordinate.internal;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-public class AbstractGeographicCoordinateTest extends TestCase {
 
-   private class GeoSubclass extends AbstractGeographicCoordinate {
-      public GeoSubclass( double d ) {
-         super( d );
-      }
+class AbstractGeographicCoordinateTest {
 
-      @Override
-      public double toDouble() {
-         return 0;
-      }
+    private static class GeoSubclass extends AbstractGeographicCoordinate {
+        public GeoSubclass(double d) {
+            super(d);
+        }
 
-      @Override
-      public LatLonDirection getDirection() {
-         return null;
-      }
-   }
+        @Override
+        public double toDouble() {
+            return 0;
+        }
 
-   public void testSubclassPrevention() {
-      try {
-         new GeoSubclass( 1.234d );
-         fail( "Expected exception" );
-      } catch( final GeographicCoordinateException e ) {
-         assertEquals( GeographicCoordinateException.Messages.DISALLOWED_EXTENDS, e.getMessage() );
-      }
-   }
+        @Override
+        public LatLonDirection getDirection() {
+            return null;
+        }
+    }
+
+    @Test
+    void testSubclassPrevention() {
+        try {
+            new GeoSubclass(1.234d);
+            fail("Expected exception");
+        } catch (final GeographicCoordinateException e) {
+            assertEquals(GeographicCoordinateException.Messages.DISALLOWED_EXTENDS, e.getMessage());
+        }
+    }
 }

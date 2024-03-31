@@ -33,15 +33,17 @@
 
 package org.loverde.geographiccoordinate.calculator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.loverde.geographiccoordinate.calculator.BearingCalculator.backAzimuth;
+import static org.loverde.geographiccoordinate.calculator.BearingCalculator.initialBearing;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.loverde.geographiccoordinate.Bearing;
 import org.loverde.geographiccoordinate.Latitude;
 import org.loverde.geographiccoordinate.Longitude;
@@ -51,216 +53,176 @@ import org.loverde.geographiccoordinate.compass.CompassDirection32;
 import org.loverde.geographiccoordinate.compass.CompassDirection8;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 
-public class BearingCalculatorTest {
+@ExtendWith(MockitoExtension.class)
+class BearingCalculatorTest {
 
-   @Rule
-   public ExpectedException thrown = ExpectedException.none();
+    @Mock
+    private Point point1;
 
-   private Latitude latitude1;
-   private Longitude longitude1;
-
-   private Latitude latitude2;
-   private Longitude longitude2;
-
-   @Mock
-   private Point point1;
-
-   @Mock
-   private Point point2;
+    @Mock
+    private Point point2;
 
 
-   @Before
-   public void setUp() {
-      latitude1 = new Latitude( 40, 42, 46, Latitude.Direction.NORTH );
-      longitude1 = new Longitude( 74, 0, 21, Longitude.Direction.WEST );
+    @BeforeEach
+    void setUp() {
+        final Latitude latitude1 = new Latitude(40, 42, 46, Latitude.Direction.NORTH);
+        final Longitude longitude1 = new Longitude(74, 0, 21, Longitude.Direction.WEST);
 
-      latitude2 = new Latitude( 38, 54, 17, Latitude.Direction.NORTH );
-      longitude2 = new Longitude( 77, 0, 59, Longitude.Direction.WEST );
+        final Latitude latitude2 = new Latitude(38, 54, 17, Latitude.Direction.NORTH);
+        final Longitude longitude2 = new Longitude(77, 0, 59, Longitude.Direction.WEST);
 
-      point1 = new Point( latitude1, longitude1 );
-      point2 = new Point( latitude2, longitude2 );
+        lenient().when(point1.getLatitude()).thenReturn(latitude1);
+        lenient().when(point1.getLongitude()).thenReturn(longitude1);
 
-      MockitoAnnotations.initMocks( this );
+        lenient().when(point2.getLatitude()).thenReturn(latitude2);
+        lenient().when(point2.getLongitude()).thenReturn(longitude2);
+    }
 
-      when( point1.getLatitude() ).thenReturn( latitude1);
-      when( point1.getLongitude() ).thenReturn( longitude1 );
+    @Test
+    void initialBearing_nullCompassDirectionType() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> initialBearing(null, point1, point2));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_COMPASS_DIRECTION_NULL, e.getMessage());
+    }
 
-      when( point2.getLatitude() ).thenReturn( latitude2);
-      when( point2.getLongitude() ).thenReturn( longitude2 );
-   }
+    @Test
+    void initialBearing_nullFromLatitude() {
+        when(point1.getLatitude()).thenReturn(null);
 
-   @Test
-   public void initialBearing_nullCompassDirectionType() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_COMPASS_DIRECTION_NULL );
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_FROM_LATITUDE_NULL, e.getMessage());
+    }
 
-      BearingCalculator.initialBearing( null, point1, point2 );
-   }
+    @Test
+    void initialBearing_nullFromLongitude() {
+        when(point1.getLongitude()).thenReturn(null);
 
-   @Test
-   public void initialBearing_nullFromLatitude() {
-      when( point1.getLatitude() ).thenReturn( null );
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_FROM_LONGITUDE_NULL, e.getMessage());
+    }
 
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_FROM_LATITUDE_NULL );
+    @Test
+    void initialBearing_nullFromPoint() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> initialBearing(CompassDirection8.class, null, point2));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_FROM_NULL, e.getMessage());
+    }
 
-      BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
-   }
+    @Test
+    void initialBearing_nullToLatitude() {
+        when(point2.getLatitude()).thenReturn(null);
 
-   @Test
-   public void initialBearing_nullFromLongitude() {
-      when( point1.getLongitude() ).thenReturn( null );
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_TO_LATITUDE_NULL, e.getMessage());
+    }
 
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_FROM_LONGITUDE_NULL );
+    @Test
+    void initialBearing_nullToLongitude() {
+        when(point2.getLongitude()).thenReturn(null);
 
-      BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
-   }
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_TO_LONGITUDE_NULL, e.getMessage());
+    }
 
-   @Test
-   public void initialBearing_nullFromPoint() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_FROM_NULL );
+    @Test
+    void initialBearing_nullToPoint() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> initialBearing(CompassDirection8.class, point1, null));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_TO_NULL, e.getMessage());
+    }
 
-      BearingCalculator.initialBearing( CompassDirection8.class, null, point2 );
-   }
+    @Test
+    @SuppressWarnings("unchecked")
+    void initalBearing_compassDirection8() {
+        final Bearing<CompassDirection8> bearing8 = (Bearing<CompassDirection8>) initialBearing(CompassDirection8.class, point1, point2);
+        assertEquals(232.95302, bearing8.getBearing().doubleValue(), .00001);
+    }
 
-   @Test
-   public void initialBearing_nullToLatitude() {
-      when( point2.getLatitude() ).thenReturn( null );
+    @Test
+    @SuppressWarnings("unchecked")
+    void initalBearing_compassDirection16() {
+        final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) initialBearing(CompassDirection16.class, point1, point2);
+        assertEquals(232.95302, bearing16.getBearing().doubleValue(), .00001);
+    }
 
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_TO_LATITUDE_NULL );
+    @Test
+    @SuppressWarnings("unchecked")
+    void initalBearing_compassDirection32() {
+        final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) initialBearing(CompassDirection32.class, point1, point2);
+        assertEquals(232.95302, bearing32.getBearing().doubleValue(), .00001);
+    }
 
-      BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
-   }
+    @Test
+    @SuppressWarnings("unchecked")
+    void initialBearing_equivalence() {
+        final Bearing<CompassDirection8> bearing8 = (Bearing<CompassDirection8>) initialBearing(CompassDirection8.class, point1, point2);
+        final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) initialBearing(CompassDirection16.class, point1, point2);
+        final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) initialBearing(CompassDirection32.class, point1, point2);
 
-   @Test
-   public void initialBearing_nullToLongitude() {
-      when( point2.getLongitude() ).thenReturn( null );
+        assertEquals(bearing8.getBearing(), bearing16.getBearing());
+        assertEquals(bearing16.getBearing(), bearing32.getBearing());
+    }
 
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_TO_LONGITUDE_NULL );
+    @Test
+    void backAzimuth_nullCompassDirectionType() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> backAzimuth(null, BigDecimal.ZERO));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_COMPASS_DIRECTION_NULL, e.getMessage());
+    }
 
-      BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
-   }
+    @Test
+    void backAzimuth_nullInitialBearing() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> backAzimuth(CompassDirection8.class, null));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_BEARING_NULL, e.getMessage());
+    }
 
-   @Test
-   public void initialBearing_nullToPoint() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_TO_NULL );
+    @Test
+    void backAzimuth_outOfLowerBound() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> backAzimuth(CompassDirection8.class, new BigDecimal("-.00000000001")));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE, e.getMessage());
+    }
 
-      BearingCalculator.initialBearing( CompassDirection8.class, point1, null );
-   }
+    @Test
+    void backAzimuth_outOfUpperBound() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> backAzimuth(CompassDirection8.class, new BigDecimal("360.00000000001")));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE, e.getMessage());
+    }
 
-   @Test
-   @SuppressWarnings("unchecked")
-   public void initalBearing_compassDirection8() {
-      final Bearing<CompassDirection8> bearing8 = (Bearing<CompassDirection8>) BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
-      assertEquals( 232.95302, bearing8.getBearing().doubleValue(), .00001 );
-   }
+    @Test
+    void backAzimuth_0() {
+        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, BigDecimal.ZERO);
 
-   @Test
-   @SuppressWarnings("unchecked")
-   public void initalBearing_compassDirection16() {
-      final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) BearingCalculator.initialBearing( CompassDirection16.class, point1, point2 );
-      assertEquals( 232.95302, bearing16.getBearing().doubleValue(), .00001 );
-   }
+        assertEquals(new BigDecimal(180), back.getBearing());
+    }
 
-   @Test
-   @SuppressWarnings("unchecked")
-   public void initalBearing_compassDirection32() {
-      final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) BearingCalculator.initialBearing( CompassDirection32.class, point1, point2 );
-      assertEquals( 232.95302, bearing32.getBearing().doubleValue(), .00001 );
-   }
+    @Test
+    void backAzimuth_179_9999() {
+        final BigDecimal bearing = new BigDecimal("179.9999999999");
 
-   @Test
-   @SuppressWarnings("unchecked")
-   public void initialBearing_equivalence() {
-      final Bearing<CompassDirection8>  bearing8  = (Bearing<CompassDirection8>)  BearingCalculator.initialBearing( CompassDirection8.class, point1, point2 );
-      final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) BearingCalculator.initialBearing( CompassDirection16.class, point1, point2 );
-      final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) BearingCalculator.initialBearing( CompassDirection32.class, point1, point2 );
+        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, bearing);
 
-      assertEquals( bearing8.getBearing(), bearing16.getBearing() );
-      assertEquals( bearing16.getBearing(), bearing32.getBearing() );
-   }
+        assertEquals("359.9999999999", back.getBearing().toPlainString());
+    }
 
-   @Test
-   public void backAzimuth_nullCompassDirectionType() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_COMPASS_DIRECTION_NULL );
+    @Test
+    void backAzimuth_180() {
+        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, new BigDecimal(180));
 
-      BearingCalculator.backAzimuth( null, BigDecimal.ZERO );
-   }
+        assertEquals(BigDecimal.ZERO, back.getBearing());
+    }
 
-   @Test
-   public void backAzimuth_nullInitialBearing() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_BEARING_NULL );
+    @Test
+    void backAzimuth_180_0001() {
+        final BigDecimal bearing = new BigDecimal("180.00000000001");
 
-      BearingCalculator.backAzimuth( CompassDirection8.class, null );
-   }
+        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, bearing);
 
-   @Test
-   public void backAzimuth_outOfLowerBound() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
+        assertEquals("0.00000000001", back.getBearing().toPlainString());
+    }
 
-      BearingCalculator.backAzimuth( CompassDirection8.class, new BigDecimal("-.00000000001") );
-   }
+    @Test
+    void backAzimuth_360() {
+        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, new BigDecimal(360));
 
-   @Test
-   public void backAzimuth_outOfUpperBound() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
-
-      BearingCalculator.backAzimuth( CompassDirection8.class, new BigDecimal("360.00000000001") );
-   }
-
-   @Test
-   public void backAzimuth_0() {
-      @SuppressWarnings("unchecked")
-      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, BigDecimal.ZERO );
-
-      assertEquals( new BigDecimal(180), back.getBearing() );
-   }
-
-   @Test
-   public void backAzimuth_179_9999() {
-      final BigDecimal bearing = new BigDecimal( "179.9999999999" );
-
-      @SuppressWarnings("unchecked")
-      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, bearing );
-
-      assertEquals( "359.9999999999", back.getBearing().toPlainString() );
-   }
-
-   @Test
-   public void backAzimuth_180() {
-      @SuppressWarnings("unchecked")
-      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, new BigDecimal(180) );
-
-      assertEquals( BigDecimal.ZERO, back.getBearing() );
-   }
-
-   @Test
-   public void backAzimuth_180_0001() {
-      final BigDecimal bearing = new BigDecimal( "180.00000000001" );
-
-      @SuppressWarnings("unchecked")
-      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, bearing );
-
-      assertEquals( "0.00000000001", back.getBearing().toPlainString() );
-   }
-
-   @Test
-   public void backAzimuth_360() {
-      @SuppressWarnings("unchecked")
-      final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) BearingCalculator.backAzimuth( CompassDirection8.class, new BigDecimal(360) );
-
-      assertEquals( new BigDecimal(180), back.getBearing() );
-   }
+        assertEquals(new BigDecimal(180), back.getBearing());
+    }
 }

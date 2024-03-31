@@ -35,50 +35,41 @@ package org.loverde.geographiccoordinate;
 
 import java.math.BigDecimal;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 import org.loverde.geographiccoordinate.compass.CompassDirection8;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
-
-public class BearingTest {
-
-   @Rule
-   public ExpectedException thrown = ExpectedException.none();
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-   @Test
-   public void setBearing_null() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_BEARING_NULL );
+class BearingTest {
 
-      new Bearing<CompassDirection8>().setBearing( null );
-   }
+    @Test
+    void setBearing_null() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Bearing<CompassDirection8>().setBearing(null));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_BEARING_NULL, e.getMessage());
+    }
 
-   @Test
-   public void setBearing_outOfLowBound() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
+    @Test
+    void setBearing_outOfLowBound() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Bearing<CompassDirection8>().setBearing(new BigDecimal("-.0000000000001")));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE, e.getMessage());
+    }
 
-      new Bearing<CompassDirection8>().setBearing( new BigDecimal("-.0000000000001") );
-   }
+    @Test
+    void setBearing_atLowBound() {
+        new Bearing<CompassDirection8>().setBearing(BigDecimal.ZERO);
+    }
 
-   @Test
-   public void setBearing_atLowBound() {
-      new Bearing<CompassDirection8>().setBearing( BigDecimal.ZERO );
-   }
+    @Test
+    void setBearing_atHighBound() {
+        new Bearing<CompassDirection8>().setBearing(new BigDecimal(360));
+    }
 
-   @Test
-   public void setBearing_atHighBound() {
-      new Bearing<CompassDirection8>().setBearing( new BigDecimal(360) );
-   }
-
-   @Test
-   public void setBearing_outsideHighBound() {
-      thrown.expect( GeographicCoordinateException.class );
-      thrown.expectMessage( GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE );
-
-      new Bearing<CompassDirection8>().setBearing( new BigDecimal("360.0000000000000001") );
-   }
+    @Test
+    void setBearing_outsideHighBound() {
+        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Bearing<CompassDirection8>().setBearing(new BigDecimal("360.0000000000000001")));
+        assertEquals(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE, e.getMessage());
+    }
 }
