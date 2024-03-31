@@ -67,7 +67,8 @@ public enum CompassDirection8 implements CompassDirection {
     private static final BigDecimal BD360 = new BigDecimal(360);
     private static final BigDecimal STEP = new BigDecimal(45);
 
-    private static final Map<String, CompassDirection8> map = EnumHelper.populateEnumMap(CompassDirection8.class, CompassDirection8::getAbbreviation);
+    private static final Map<String, CompassDirection8> abbreviationMap = EnumHelper.populateEnumMap(
+        CompassDirection8.class, CompassDirection8::getAbbreviation);
 
 
     CompassDirection8(final String abbr, final String min, final String mid, final String max) {
@@ -86,7 +87,8 @@ public enum CompassDirection8 implements CompassDirection {
     }
 
     /**
-     * @return A visually friendly, grammatically correct transformation of {@link #name()}, with all lowercase letters, and underscores changed to spaces
+     * @return A visually friendly, grammatically correct transformation of {@link #name()}, with all lowercase letters,
+     *         and underscores changed to spaces
      */
     @Override
     public String getPrintName() {
@@ -138,7 +140,7 @@ public enum CompassDirection8 implements CompassDirection {
      * @return The compass direction corresponding to its abbreviation
      */
     public static CompassDirection8 getByAbbreviation(final String abbr) {
-        return map.get(abbr);
+        return abbreviationMap.get(abbr);
     }
 
     /**
