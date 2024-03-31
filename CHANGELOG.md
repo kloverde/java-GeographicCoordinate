@@ -4,6 +4,7 @@
 * Retargeted at Java 17 + Gradle 8.0
 * Upgraded to JUnit 5
 * Upgraded Mockito
+* Removed use of reflection from the compass direction internals
 * Breaking code changes [TODO]
 
 # Release 4.2.1 (May 8, 2021)

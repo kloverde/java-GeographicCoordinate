@@ -48,8 +48,6 @@ public class EnumHelper {
      * @return A map containing all members of the enum
      */
     public static <E extends Enum<E>, K> Map<K, E> populateEnumMap(final Class<E> enumClass, final Function<E, K> keyExtractor) {
-        final Map<K, E> map;
-
         if (enumClass == null) {
             throw new IllegalArgumentException("enumClass is null");
         }
@@ -58,7 +56,7 @@ public class EnumHelper {
             throw new IllegalArgumentException("keySourceGetterName is empty");
         }
 
-        map = new LinkedHashMap<>();
+        final Map<K, E> map = new LinkedHashMap<>();
 
         for (final E enumObj : enumClass.getEnumConstants()) {
             map.put(keyExtractor.apply(enumObj), enumObj);
