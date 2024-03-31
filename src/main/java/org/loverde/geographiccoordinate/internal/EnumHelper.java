@@ -54,7 +54,7 @@ public class EnumHelper {
         }
 
         if (keyExtractor == null) {
-            throw new IllegalArgumentException("keySourceGetterName is empty");
+            throw new IllegalArgumentException("keyExtractor is null");
         }
 
         final Map<K, E> map = new LinkedHashMap<>();
