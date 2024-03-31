@@ -36,6 +36,8 @@ package org.loverde.geographiccoordinate.compass;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static java.math.BigDecimal.ZERO;
@@ -44,21 +46,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CompassDirection16Test {
 
-    @Test
-    // TODO:  Convert to parameterized test
-    void getMinMidMaxIncreases() {
-        for (final CompassDirection16 dir : CompassDirection16.values()) {
-            assertTrue(dir.getMinimum().compareTo(ZERO) >= 0, "Comparing %s minimum to 0".formatted(dir.name()));
-            assertTrue(dir.getMiddle().compareTo(dir.getMaximum()) < 0, "Comparing %s middle to max".formatted(dir.name()));
-            assertTrue(dir.getMaximum().compareTo(new BigDecimal(360)) <= 0, "Comparing %s maximum to 360".formatted(dir.name()));
-            assertTrue(dir.getMaximum().compareTo(dir.getNext().getMinimum()) < 0, "Comparing %s maximum to next minimum".formatted(dir.name()));
+    @ParameterizedTest(name = "Verify that {0} has increasing values for minimum, middle and maximum")
+    @EnumSource(CompassDirection16.class)
+    void minimumMiddleAndMaximumIncrease(final CompassDirection16 direction) {
+        assertTrue(direction.getMinimum().compareTo(ZERO) >= 0, "Minimum should be greater than or equal to zero");
 
-            if (dir != CompassDirection16.NORTH) {
-                assertTrue(dir.getMinimum().compareTo(dir.getMiddle()) < 0, "Comparing %s minimum to middle".formatted(dir.name()));
-            } else {
-                assertTrue(dir.getMinimum().compareTo(dir.getMiddle()) > 0, "Comparing %s minimum to middle".formatted(dir.name()));
-            }
+        if (direction != CompassDirection16.NORTH) {
+            assertTrue(direction.getMiddle().compareTo(direction.getMinimum()) > 0, "Middle should be greater than minimum");
+        }  else {
+            assertTrue(direction.getMiddle().compareTo(direction.getMinimum()) < 0, "Middle should be less than minimum (special case for NORTH)");
         }
+
+        assertTrue(direction.getMiddle().compareTo(direction.getMaximum()) < 0, "Middle should be less than maximum");
+        assertTrue(direction.getMaximum().compareTo(direction.getMiddle()) > 0, "Maximum should be greater than middle");
+        assertTrue(direction.getMaximum().compareTo(new BigDecimal(360)) <= 0, "Maximum should be less than or equal to 360");
+        assertTrue(direction.getMaximum().compareTo(direction.getNext().getMinimum()) < 0, "Maximum should be less than the next minimum");
     }
 
     @Test
@@ -73,77 +75,18 @@ class CompassDirection16Test {
         assertEquals(CompassDirection16.NORTH, CompassDirection16.NORTH_NORTHWEST.getNext());   // verify loop-around
     }
 
-    @Test
-    // TODO:  Convert to parameterized test
-    void getByAbbreviation() {
-        assertEquals(CompassDirection16.NORTH, CompassDirection16.getByAbbreviation(CompassDirection16.NORTH.getAbbreviation()));
-        assertEquals(CompassDirection16.NORTH_NORTHEAST, CompassDirection16.getByAbbreviation(CompassDirection16.NORTH_NORTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection16.NORTHEAST, CompassDirection16.getByAbbreviation(CompassDirection16.NORTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection16.EAST_NORTHEAST, CompassDirection16.getByAbbreviation(CompassDirection16.EAST_NORTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection16.EAST, CompassDirection16.getByAbbreviation(CompassDirection16.EAST.getAbbreviation()));
-        assertEquals(CompassDirection16.EAST_SOUTHEAST, CompassDirection16.getByAbbreviation(CompassDirection16.EAST_SOUTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection16.SOUTHEAST, CompassDirection16.getByAbbreviation(CompassDirection16.SOUTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection16.SOUTH_SOUTHEAST, CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH_SOUTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection16.SOUTH, CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH.getAbbreviation()));
-        assertEquals(CompassDirection16.SOUTH_SOUTHWEST, CompassDirection16.getByAbbreviation(CompassDirection16.SOUTH_SOUTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection16.SOUTHWEST, CompassDirection16.getByAbbreviation(CompassDirection16.SOUTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection16.WEST_SOUTHWEST, CompassDirection16.getByAbbreviation(CompassDirection16.WEST_SOUTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection16.WEST, CompassDirection16.getByAbbreviation(CompassDirection16.WEST.getAbbreviation()));
-        assertEquals(CompassDirection16.WEST_NORTHWEST, CompassDirection16.getByAbbreviation(CompassDirection16.WEST_NORTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection16.NORTHWEST, CompassDirection16.getByAbbreviation(CompassDirection16.NORTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection16.NORTH_NORTHWEST, CompassDirection16.getByAbbreviation(CompassDirection16.NORTH_NORTHWEST.getAbbreviation()));
+    @ParameterizedTest(name = "Verify that {0} is retrievable by its abbreviation")
+    @EnumSource(CompassDirection16.class)
+    void getByAbbreviation(final CompassDirection16 direction) {
+        assertEquals(direction, CompassDirection16.getByAbbreviation(direction.getAbbreviation()));
     }
 
-    @Test
-    // TODO:  Convert to parameterized test
-    void getByBearing_minMax() {
-        assertEquals(CompassDirection16.NORTH, CompassDirection16.getByBearing(CompassDirection16.NORTH.getMinimum()));
-        assertEquals(CompassDirection16.NORTH, CompassDirection16.getByBearing(CompassDirection16.NORTH.getMaximum()));
-
-        assertEquals(CompassDirection16.NORTH_NORTHEAST, CompassDirection16.getByBearing(CompassDirection16.NORTH_NORTHEAST.getMinimum()));
-        assertEquals(CompassDirection16.NORTH_NORTHEAST, CompassDirection16.getByBearing(CompassDirection16.NORTH_NORTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection16.NORTHEAST, CompassDirection16.getByBearing(CompassDirection16.NORTHEAST.getMinimum()));
-        assertEquals(CompassDirection16.NORTHEAST, CompassDirection16.getByBearing(CompassDirection16.NORTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection16.EAST_NORTHEAST, CompassDirection16.getByBearing(CompassDirection16.EAST_NORTHEAST.getMinimum()));
-        assertEquals(CompassDirection16.EAST_NORTHEAST, CompassDirection16.getByBearing(CompassDirection16.EAST_NORTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection16.EAST, CompassDirection16.getByBearing(CompassDirection16.EAST.getMinimum()));
-        assertEquals(CompassDirection16.EAST, CompassDirection16.getByBearing(CompassDirection16.EAST.getMaximum()));
-
-        assertEquals(CompassDirection16.EAST_SOUTHEAST, CompassDirection16.getByBearing(CompassDirection16.EAST_SOUTHEAST.getMinimum()));
-        assertEquals(CompassDirection16.EAST_SOUTHEAST, CompassDirection16.getByBearing(CompassDirection16.EAST_SOUTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection16.SOUTHEAST, CompassDirection16.getByBearing(CompassDirection16.SOUTHEAST.getMinimum()));
-        assertEquals(CompassDirection16.SOUTHEAST, CompassDirection16.getByBearing(CompassDirection16.SOUTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection16.SOUTH_SOUTHEAST, CompassDirection16.getByBearing(CompassDirection16.SOUTH_SOUTHEAST.getMinimum()));
-        assertEquals(CompassDirection16.SOUTH_SOUTHEAST, CompassDirection16.getByBearing(CompassDirection16.SOUTH_SOUTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection16.SOUTH, CompassDirection16.getByBearing(CompassDirection16.SOUTH.getMinimum()));
-        assertEquals(CompassDirection16.SOUTH, CompassDirection16.getByBearing(CompassDirection16.SOUTH.getMaximum()));
-
-        assertEquals(CompassDirection16.SOUTH_SOUTHWEST, CompassDirection16.getByBearing(CompassDirection16.SOUTH_SOUTHWEST.getMinimum()));
-        assertEquals(CompassDirection16.SOUTH_SOUTHWEST, CompassDirection16.getByBearing(CompassDirection16.SOUTH_SOUTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection16.SOUTHWEST, CompassDirection16.getByBearing(CompassDirection16.SOUTHWEST.getMinimum()));
-        assertEquals(CompassDirection16.SOUTHWEST, CompassDirection16.getByBearing(CompassDirection16.SOUTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection16.WEST_SOUTHWEST, CompassDirection16.getByBearing(CompassDirection16.WEST_SOUTHWEST.getMinimum()));
-        assertEquals(CompassDirection16.WEST_SOUTHWEST, CompassDirection16.getByBearing(CompassDirection16.WEST_SOUTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection16.WEST, CompassDirection16.getByBearing(CompassDirection16.WEST.getMinimum()));
-        assertEquals(CompassDirection16.WEST, CompassDirection16.getByBearing(CompassDirection16.WEST.getMaximum()));
-
-        assertEquals(CompassDirection16.WEST_NORTHWEST, CompassDirection16.getByBearing(CompassDirection16.WEST_NORTHWEST.getMinimum()));
-        assertEquals(CompassDirection16.WEST_NORTHWEST, CompassDirection16.getByBearing(CompassDirection16.WEST_NORTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection16.NORTHWEST, CompassDirection16.getByBearing(CompassDirection16.NORTHWEST.getMinimum()));
-        assertEquals(CompassDirection16.NORTHWEST, CompassDirection16.getByBearing(CompassDirection16.NORTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection16.NORTH_NORTHWEST, CompassDirection16.getByBearing(CompassDirection16.NORTH_NORTHWEST.getMinimum()));
-        assertEquals(CompassDirection16.NORTH_NORTHWEST, CompassDirection16.getByBearing(CompassDirection16.NORTH_NORTHWEST.getMaximum()));
+    @ParameterizedTest(name = "Verify that {0} is retrievable by min/max/middle bearings")
+    @EnumSource(CompassDirection16.class)
+    void getByBearing(final CompassDirection16 direction) {
+        assertEquals(direction, CompassDirection16.getByBearing(direction.getMinimum()), "Should be retrievable by minimum");
+        assertEquals(direction, CompassDirection16.getByBearing(direction.getMiddle()), "Should be retrievable by middle");
+        assertEquals(direction, CompassDirection16.getByBearing(direction.getMaximum()), "Should be retrievable by maximum");
     }
 
     @Test

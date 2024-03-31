@@ -36,6 +36,8 @@ package org.loverde.geographiccoordinate.compass;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static java.math.BigDecimal.ZERO;
@@ -44,21 +46,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CompassDirection32Test {
 
-    @Test
-    // TODO:  Convert to parameterized test
-    void getMinMidMaxIncreases() {
-        for (final CompassDirection32 dir : CompassDirection32.values()) {
-            assertTrue(dir.getMinimum().compareTo(ZERO) >= 0, "Comparing %s minimum to 0".formatted(dir.name()));
-            assertTrue(dir.getMiddle().compareTo(dir.getMaximum()) < 0, "Comparing %s middle to max".formatted(dir.name()));
-            assertTrue(dir.getMaximum().compareTo(new BigDecimal(360)) <= 0, "Comparing %s maximum to 360".formatted(dir.name()));
-            assertTrue(dir.getMaximum().compareTo(dir.getNext().getMinimum()) < 0, "Comparing %s maximum to next minimum".formatted(dir.name()));
+    @ParameterizedTest(name = "Verify that {0} has increasing values for minimum, middle and maximum")
+    @EnumSource(CompassDirection32.class)
+    void minimumMiddleAndMaximumIncrease(final CompassDirection32 direction) {
+        assertTrue(direction.getMinimum().compareTo(ZERO) >= 0, "Minimum should be greater than or equal to zero");
 
-            if (dir != CompassDirection32.NORTH) {
-                assertTrue(dir.getMinimum().compareTo(dir.getMiddle()) < 0, "Comparing %s minimum to middle".formatted(dir.name()));
-            } else {
-                assertTrue(dir.getMinimum().compareTo(dir.getMiddle()) > 0);
-            }
+        if (direction != CompassDirection32.NORTH) {
+            assertTrue(direction.getMiddle().compareTo(direction.getMinimum()) > 0, "Middle should be greater than minimum");
+        }  else {
+            assertTrue(direction.getMiddle().compareTo(direction.getMinimum()) < 0, "Middle should be less than minimum (special case for NORTH)");
         }
+
+        assertTrue(direction.getMiddle().compareTo(direction.getMaximum()) < 0, "Middle should be less than maximum");
+        assertTrue(direction.getMaximum().compareTo(direction.getMiddle()) > 0, "Maximum should be greater than middle");
+        assertTrue(direction.getMaximum().compareTo(new BigDecimal(360)) <= 0, "Maximum should be less than or equal to 360");
+        assertTrue(direction.getMaximum().compareTo(direction.getNext().getMinimum()) < 0, "Maximum should be less than the next minimum");
     }
 
     @Test
@@ -73,141 +75,18 @@ class CompassDirection32Test {
         assertEquals(CompassDirection32.NORTH, CompassDirection32.NORTH_BY_WEST.getNext());   // verify loop-around
     }
 
-    @Test
-    // TODO:  Convert to parameterized test
-    void getByAbbreviation() {
-        assertEquals(CompassDirection32.NORTH, CompassDirection32.getByAbbreviation(CompassDirection32.NORTH.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTH_BY_EAST, CompassDirection32.getByAbbreviation(CompassDirection32.NORTH_BY_EAST.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTH_NORTHEAST, CompassDirection32.getByAbbreviation(CompassDirection32.NORTH_NORTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTHEAST_BY_NORTH, CompassDirection32.getByAbbreviation(CompassDirection32.NORTHEAST_BY_NORTH.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTHEAST, CompassDirection32.getByAbbreviation(CompassDirection32.NORTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTHEAST_BY_EAST, CompassDirection32.getByAbbreviation(CompassDirection32.NORTHEAST_BY_EAST.getAbbreviation()));
-        assertEquals(CompassDirection32.EAST_NORTHEAST, CompassDirection32.getByAbbreviation(CompassDirection32.EAST_NORTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection32.EAST_BY_NORTH, CompassDirection32.getByAbbreviation(CompassDirection32.EAST_BY_NORTH.getAbbreviation()));
-        assertEquals(CompassDirection32.EAST, CompassDirection32.getByAbbreviation(CompassDirection32.EAST.getAbbreviation()));
-        assertEquals(CompassDirection32.EAST_BY_SOUTH, CompassDirection32.getByAbbreviation(CompassDirection32.EAST_BY_SOUTH.getAbbreviation()));
-        assertEquals(CompassDirection32.EAST_SOUTHEAST, CompassDirection32.getByAbbreviation(CompassDirection32.EAST_SOUTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTHEAST_BY_EAST, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTHEAST_BY_EAST.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTHEAST, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTHEAST_BY_SOUTH, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTHEAST_BY_SOUTH.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTH_SOUTHEAST, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTH_SOUTHEAST.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTH_BY_EAST, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTH_BY_EAST.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTH, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTH.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTH_BY_WEST, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTH_BY_WEST.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTH_SOUTHWEST, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTH_SOUTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTHWEST_BY_SOUTH, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTHWEST_BY_SOUTH.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTHWEST, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection32.SOUTHWEST_BY_WEST, CompassDirection32.getByAbbreviation(CompassDirection32.SOUTHWEST_BY_WEST.getAbbreviation()));
-        assertEquals(CompassDirection32.WEST_SOUTHWEST, CompassDirection32.getByAbbreviation(CompassDirection32.WEST_SOUTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection32.WEST_BY_SOUTH, CompassDirection32.getByAbbreviation(CompassDirection32.WEST_BY_SOUTH.getAbbreviation()));
-        assertEquals(CompassDirection32.WEST, CompassDirection32.getByAbbreviation(CompassDirection32.WEST.getAbbreviation()));
-        assertEquals(CompassDirection32.WEST_BY_NORTH, CompassDirection32.getByAbbreviation(CompassDirection32.WEST_BY_NORTH.getAbbreviation()));
-        assertEquals(CompassDirection32.WEST_NORTHWEST, CompassDirection32.getByAbbreviation(CompassDirection32.WEST_NORTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTHWEST_BY_WEST, CompassDirection32.getByAbbreviation(CompassDirection32.NORTHWEST_BY_WEST.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTHWEST, CompassDirection32.getByAbbreviation(CompassDirection32.NORTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTHWEST_BY_NORTH, CompassDirection32.getByAbbreviation(CompassDirection32.NORTHWEST_BY_NORTH.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTH_NORTHWEST, CompassDirection32.getByAbbreviation(CompassDirection32.NORTH_NORTHWEST.getAbbreviation()));
-        assertEquals(CompassDirection32.NORTH_BY_WEST, CompassDirection32.getByAbbreviation(CompassDirection32.NORTH_BY_WEST.getAbbreviation()));
+    @ParameterizedTest(name = "Verify that {0} is retrievable by its abbreviation")
+    @EnumSource(CompassDirection32.class)
+    void getByAbbreviation(final CompassDirection32 direction) {
+        assertEquals(direction, CompassDirection32.getByAbbreviation(direction.getAbbreviation()));
     }
 
-    @Test
-    // TODO:  Convert to parameterized test
-    void getByBearing_minMax() {
-        assertEquals(CompassDirection32.NORTH, CompassDirection32.getByBearing(CompassDirection32.NORTH.getMinimum()));
-        assertEquals(CompassDirection32.NORTH, CompassDirection32.getByBearing(CompassDirection32.NORTH.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTH_BY_EAST, CompassDirection32.getByBearing(CompassDirection32.NORTH_BY_EAST.getMinimum()));
-        assertEquals(CompassDirection32.NORTH_BY_EAST, CompassDirection32.getByBearing(CompassDirection32.NORTH_BY_EAST.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTH_NORTHEAST, CompassDirection32.getByBearing(CompassDirection32.NORTH_NORTHEAST.getMinimum()));
-        assertEquals(CompassDirection32.NORTH_NORTHEAST, CompassDirection32.getByBearing(CompassDirection32.NORTH_NORTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTHEAST_BY_NORTH, CompassDirection32.getByBearing(CompassDirection32.NORTHEAST_BY_NORTH.getMinimum()));
-        assertEquals(CompassDirection32.NORTHEAST_BY_NORTH, CompassDirection32.getByBearing(CompassDirection32.NORTHEAST_BY_NORTH.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTHEAST, CompassDirection32.getByBearing(CompassDirection32.NORTHEAST.getMinimum()));
-        assertEquals(CompassDirection32.NORTHEAST, CompassDirection32.getByBearing(CompassDirection32.NORTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTHEAST_BY_EAST, CompassDirection32.getByBearing(CompassDirection32.NORTHEAST_BY_EAST.getMinimum()));
-        assertEquals(CompassDirection32.NORTHEAST_BY_EAST, CompassDirection32.getByBearing(CompassDirection32.NORTHEAST_BY_EAST.getMaximum()));
-
-        assertEquals(CompassDirection32.EAST_NORTHEAST, CompassDirection32.getByBearing(CompassDirection32.EAST_NORTHEAST.getMinimum()));
-        assertEquals(CompassDirection32.EAST_NORTHEAST, CompassDirection32.getByBearing(CompassDirection32.EAST_NORTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection32.EAST_BY_NORTH, CompassDirection32.getByBearing(CompassDirection32.EAST_BY_NORTH.getMinimum()));
-        assertEquals(CompassDirection32.EAST_BY_NORTH, CompassDirection32.getByBearing(CompassDirection32.EAST_BY_NORTH.getMaximum()));
-
-        assertEquals(CompassDirection32.EAST, CompassDirection32.getByBearing(CompassDirection32.EAST.getMinimum()));
-        assertEquals(CompassDirection32.EAST, CompassDirection32.getByBearing(CompassDirection32.EAST.getMaximum()));
-
-        assertEquals(CompassDirection32.EAST_BY_SOUTH, CompassDirection32.getByBearing(CompassDirection32.EAST_BY_SOUTH.getMinimum()));
-        assertEquals(CompassDirection32.EAST_BY_SOUTH, CompassDirection32.getByBearing(CompassDirection32.EAST_BY_SOUTH.getMaximum()));
-
-        assertEquals(CompassDirection32.EAST_SOUTHEAST, CompassDirection32.getByBearing(CompassDirection32.EAST_SOUTHEAST.getMinimum()));
-        assertEquals(CompassDirection32.EAST_SOUTHEAST, CompassDirection32.getByBearing(CompassDirection32.EAST_SOUTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTHEAST_BY_EAST, CompassDirection32.getByBearing(CompassDirection32.SOUTHEAST_BY_EAST.getMinimum()));
-        assertEquals(CompassDirection32.SOUTHEAST_BY_EAST, CompassDirection32.getByBearing(CompassDirection32.SOUTHEAST_BY_EAST.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTHEAST, CompassDirection32.getByBearing(CompassDirection32.SOUTHEAST.getMinimum()));
-        assertEquals(CompassDirection32.SOUTHEAST, CompassDirection32.getByBearing(CompassDirection32.SOUTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTHEAST_BY_SOUTH, CompassDirection32.getByBearing(CompassDirection32.SOUTHEAST_BY_SOUTH.getMinimum()));
-        assertEquals(CompassDirection32.SOUTHEAST_BY_SOUTH, CompassDirection32.getByBearing(CompassDirection32.SOUTHEAST_BY_SOUTH.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTH_SOUTHEAST, CompassDirection32.getByBearing(CompassDirection32.SOUTH_SOUTHEAST.getMinimum()));
-        assertEquals(CompassDirection32.SOUTH_SOUTHEAST, CompassDirection32.getByBearing(CompassDirection32.SOUTH_SOUTHEAST.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTH_BY_EAST, CompassDirection32.getByBearing(CompassDirection32.SOUTH_BY_EAST.getMinimum()));
-        assertEquals(CompassDirection32.SOUTH_BY_EAST, CompassDirection32.getByBearing(CompassDirection32.SOUTH_BY_EAST.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTH, CompassDirection32.getByBearing(CompassDirection32.SOUTH.getMinimum()));
-        assertEquals(CompassDirection32.SOUTH, CompassDirection32.getByBearing(CompassDirection32.SOUTH.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTH_BY_WEST, CompassDirection32.getByBearing(CompassDirection32.SOUTH_BY_WEST.getMinimum()));
-        assertEquals(CompassDirection32.SOUTH_BY_WEST, CompassDirection32.getByBearing(CompassDirection32.SOUTH_BY_WEST.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTH_SOUTHWEST, CompassDirection32.getByBearing(CompassDirection32.SOUTH_SOUTHWEST.getMinimum()));
-        assertEquals(CompassDirection32.SOUTH_SOUTHWEST, CompassDirection32.getByBearing(CompassDirection32.SOUTH_SOUTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTHWEST_BY_SOUTH, CompassDirection32.getByBearing(CompassDirection32.SOUTHWEST_BY_SOUTH.getMinimum()));
-        assertEquals(CompassDirection32.SOUTHWEST_BY_SOUTH, CompassDirection32.getByBearing(CompassDirection32.SOUTHWEST_BY_SOUTH.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTHWEST, CompassDirection32.getByBearing(CompassDirection32.SOUTHWEST.getMinimum()));
-        assertEquals(CompassDirection32.SOUTHWEST, CompassDirection32.getByBearing(CompassDirection32.SOUTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection32.SOUTHWEST_BY_WEST, CompassDirection32.getByBearing(CompassDirection32.SOUTHWEST_BY_WEST.getMinimum()));
-        assertEquals(CompassDirection32.SOUTHWEST_BY_WEST, CompassDirection32.getByBearing(CompassDirection32.SOUTHWEST_BY_WEST.getMaximum()));
-
-        assertEquals(CompassDirection32.WEST_SOUTHWEST, CompassDirection32.getByBearing(CompassDirection32.WEST_SOUTHWEST.getMinimum()));
-        assertEquals(CompassDirection32.WEST_SOUTHWEST, CompassDirection32.getByBearing(CompassDirection32.WEST_SOUTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection32.WEST_BY_SOUTH, CompassDirection32.getByBearing(CompassDirection32.WEST_BY_SOUTH.getMinimum()));
-        assertEquals(CompassDirection32.WEST_BY_SOUTH, CompassDirection32.getByBearing(CompassDirection32.WEST_BY_SOUTH.getMaximum()));
-
-        assertEquals(CompassDirection32.WEST, CompassDirection32.getByBearing(CompassDirection32.WEST.getMinimum()));
-        assertEquals(CompassDirection32.WEST, CompassDirection32.getByBearing(CompassDirection32.WEST.getMaximum()));
-
-        assertEquals(CompassDirection32.WEST_BY_NORTH, CompassDirection32.getByBearing(CompassDirection32.WEST_BY_NORTH.getMinimum()));
-        assertEquals(CompassDirection32.WEST_BY_NORTH, CompassDirection32.getByBearing(CompassDirection32.WEST_BY_NORTH.getMaximum()));
-
-        assertEquals(CompassDirection32.WEST_NORTHWEST, CompassDirection32.getByBearing(CompassDirection32.WEST_NORTHWEST.getMinimum()));
-        assertEquals(CompassDirection32.WEST_NORTHWEST, CompassDirection32.getByBearing(CompassDirection32.WEST_NORTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTHWEST_BY_WEST, CompassDirection32.getByBearing(CompassDirection32.NORTHWEST_BY_WEST.getMinimum()));
-        assertEquals(CompassDirection32.NORTHWEST_BY_WEST, CompassDirection32.getByBearing(CompassDirection32.NORTHWEST_BY_WEST.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTHWEST, CompassDirection32.getByBearing(CompassDirection32.NORTHWEST.getMinimum()));
-        assertEquals(CompassDirection32.NORTHWEST, CompassDirection32.getByBearing(CompassDirection32.NORTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTHWEST_BY_NORTH, CompassDirection32.getByBearing(CompassDirection32.NORTHWEST_BY_NORTH.getMinimum()));
-        assertEquals(CompassDirection32.NORTHWEST_BY_NORTH, CompassDirection32.getByBearing(CompassDirection32.NORTHWEST_BY_NORTH.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTH_NORTHWEST, CompassDirection32.getByBearing(CompassDirection32.NORTH_NORTHWEST.getMinimum()));
-        assertEquals(CompassDirection32.NORTH_NORTHWEST, CompassDirection32.getByBearing(CompassDirection32.NORTH_NORTHWEST.getMaximum()));
-
-        assertEquals(CompassDirection32.NORTH_BY_WEST, CompassDirection32.getByBearing(CompassDirection32.NORTH_BY_WEST.getMinimum()));
-        assertEquals(CompassDirection32.NORTH_BY_WEST, CompassDirection32.getByBearing(CompassDirection32.NORTH_BY_WEST.getMaximum()));
+    @ParameterizedTest(name = "Verify that {0} is retrievable by min/max/middle bearings")
+    @EnumSource(CompassDirection32.class)
+    void getByBearing(final CompassDirection32 direction) {
+        assertEquals(direction, CompassDirection32.getByBearing(direction.getMinimum()), "Should be retrievable by minimum");
+        assertEquals(direction, CompassDirection32.getByBearing(direction.getMiddle()), "Should be retrievable by middle");
+        assertEquals(direction, CompassDirection32.getByBearing(direction.getMaximum()), "Should be retrievable by maximum");
     }
 
     @Test
