@@ -75,7 +75,7 @@ public enum CompassDirection16 implements CompassDirection {
     private static final BigDecimal BD360 = new BigDecimal(360);
     private static final BigDecimal STEP = new BigDecimal("22.5");
 
-    private static final Map<String, CompassDirection16> map = EnumHelper.populateEnumMap_stringKey(CompassDirection16.class, "getAbbreviation");
+    private static final Map<String, CompassDirection16> map = EnumHelper.populateEnumMap(CompassDirection16.class, CompassDirection16::getAbbreviation);
 
 
     CompassDirection16(final String abbr, final String min, final String mid, final String max) {

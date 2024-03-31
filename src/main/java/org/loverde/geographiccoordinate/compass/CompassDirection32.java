@@ -91,7 +91,7 @@ public enum CompassDirection32 implements CompassDirection {
     private static final BigDecimal BD360 = new BigDecimal(360);
     private static final BigDecimal STEP = new BigDecimal("11.25");
 
-    private static final Map<String, CompassDirection32> map = EnumHelper.populateEnumMap_stringKey(CompassDirection32.class, "getAbbreviation");
+    private static final Map<String, CompassDirection32> map = EnumHelper.populateEnumMap(CompassDirection32.class, CompassDirection32::getAbbreviation);
 
 
     CompassDirection32(final String abbr, final String min, final String mid, final String max) {

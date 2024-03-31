@@ -67,7 +67,7 @@ public enum CompassDirection8 implements CompassDirection {
     private static final BigDecimal BD360 = new BigDecimal(360);
     private static final BigDecimal STEP = new BigDecimal(45);
 
-    private static final Map<String, CompassDirection8> map = EnumHelper.populateEnumMap_stringKey(CompassDirection8.class, "getAbbreviation");
+    private static final Map<String, CompassDirection8> map = EnumHelper.populateEnumMap(CompassDirection8.class, CompassDirection8::getAbbreviation);
 
 
     CompassDirection8(final String abbr, final String min, final String mid, final String max) {

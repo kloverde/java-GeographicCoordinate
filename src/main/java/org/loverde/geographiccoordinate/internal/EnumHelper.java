@@ -33,56 +33,35 @@
 
 package org.loverde.geographiccoordinate.internal;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 
 public class EnumHelper {
 
     /**
-     * Uses reflection to populate a map of enum members using a configurable getter from the enum
+     * Populate a map of enum members using a configurable getter from the enum as the key supplier
      *
-     * @param enumClass           The enumeration
-     * @param keySourceGetterName The name of a public getter within the enumeration, which provides the keys for the map
-     * @return A map containing all members of the enumeration
+     * @param enumClass    The enumeration
+     * @param keyExtractor A method reference on the enum which supplies the key value for the map
+     * @return A map containing all members of the enum
      */
-    public static <E> Map<String, E> populateEnumMap_stringKey(final Class<E> enumClass, final String keySourceGetterName) {
+    public static <E> Map<String, E> populateEnumMap(final Class<E> enumClass, final Function<E, String> keyExtractor) {
         final Map<String, E> map;
-        final Method[] methods;
-
-        Method method = null;
 
         if (enumClass == null) {
             throw new IllegalArgumentException("enumClass is null");
         }
 
-        if (keySourceGetterName == null || keySourceGetterName.trim().isEmpty()) {
+        if (keyExtractor == null) {
             throw new IllegalArgumentException("keySourceGetterName is empty");
         }
 
         map = new LinkedHashMap<>();
-        methods = enumClass.getMethods();
 
-        if (methods.length > 0) {
-            for (Method m : methods) {
-                if (m.getName().equals(keySourceGetterName) && m.getReturnType() == String.class) {
-                    method = m;
-                }
-            }
-
-            if (method == null) {
-                throw new IllegalArgumentException("Could not find a matching String method named " + keySourceGetterName);
-            }
-
-            try {
-                for (final E enumObj : enumClass.getEnumConstants()) {
-                    map.put((String) method.invoke(enumObj, (Object[]) null), enumObj);
-                }
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
+        for (final E enumObj : enumClass.getEnumConstants()) {
+            map.put(keyExtractor.apply(enumObj), enumObj);
         }
 
         return map;
