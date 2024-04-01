@@ -40,6 +40,7 @@ import org.loverde.geographiccoordinate.internal.LatLonDirection;
 import static org.loverde.geographiccoordinate.Latitude.Direction.SOUTH;
 import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.DIRECTION_CANT_BE_NEITHER;
 import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.LAT_LON_RANGE_ERROR;
+import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
 /**
@@ -90,29 +91,12 @@ public record Latitude(int degrees, int minutes, double seconds, Direction direc
      *                                       are all 0 with a {@code direction} other than {@linkplain Direction#NEITHER}
      */
     public Latitude {
-        if (degrees < 0.0 || degrees > MAX_VALUE) {
-            throw new IllegalArgumentException(getRangeError());
-        }
-
-        if (minutes < 0.0 || minutes > MAX_VALUE_MINUTES) {
-            throw new IllegalArgumentException(getRangeError());
-        }
-
-        if (seconds < 0.0 || seconds > MAX_VALUE_SECONDS) {
-            throw new IllegalArgumentException(getRangeError());
-        }
-
-        if (degrees == MAX_VALUE && (minutes != 0.0 || seconds != 0.0)) {
-            throw new IllegalArgumentException(getRangeError());
-        }
-
-        if (direction == null) {
-            throw new IllegalArgumentException("Direction cannot be null");
-        }
-
-        if (direction == Direction.NEITHER && !(degrees == 0 && minutes == 0 && seconds == 0.0d)) {
-            throw new IllegalArgumentException(DIRECTION_CANT_BE_NEITHER);
-        }
+        failIf(degrees < 0 || degrees > MAX_VALUE, Latitude::getRangeError);
+        failIf(minutes < 0 || minutes > MAX_VALUE_MINUTES, Latitude::getRangeError);
+        failIf(seconds < 0.0 || seconds > MAX_VALUE_SECONDS, Latitude::getRangeError);
+        failIf(degrees == MAX_VALUE && (minutes > 0 || seconds > 0.0), Latitude::getRangeError);
+        failIf(direction == null, () -> "Direction cannot be null");
+        failIf(direction == Direction.NEITHER && !(degrees == 0 && minutes == 0 && seconds == 0.0d), () -> DIRECTION_CANT_BE_NEITHER);
     }
 
     /**
