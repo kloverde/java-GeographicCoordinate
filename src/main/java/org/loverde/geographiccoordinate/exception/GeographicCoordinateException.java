@@ -33,8 +33,8 @@
 
 package org.loverde.geographiccoordinate.exception;
 
-
 import java.io.Serial;
+
 
 public class GeographicCoordinateException extends RuntimeException {
 
@@ -42,31 +42,29 @@ public class GeographicCoordinateException extends RuntimeException {
     private static final long serialVersionUID = -5390540198404132694L;
 
     public static final class Messages {
-       public static final String DEGREES_RANGE = " degrees must be in a range of 0-",
-                                  LATITUDE_RANGE_DECIMAL = "Latitude must be in a range of -90 to 90",
-                                  LONGITUDE_RANGE_DECIMAL = "Longitude must be in a range of -180 to 180",
-                                  MINUTES_AND_SECONDS_MUST_BE_ZERO = " minutes and seconds must be 0 when degrees is ",
-                                  MINUTES_RANGE = " minutes must be in a range of 0-59",
-                                  SECONDS_RANGE = " seconds must be in a range of 0-59.9[..]";
+        public static final String LAT_LON_RANGE_ERROR = """
+            Value out of range.  Values must be within the following ranges (inclusive):
 
-       public static final String DIRECTION_INVALID  = "Direction is invalid",
-                                  DIRECTION_NULL     = "Direction is null",
-                                  DISALLOWED_EXTENDS = "This class may only be extended by Latitude or Longitude",
-                                  LATITUDE_NULL      = "Latitude is null",
-                                  LOCALE_NULL        = "Locale is null",
-                                  LONGITUDE_NULL     = "Longitude is null",
-                                  NAME_NULL          = "Name is null";
+            Decimal:  -%f to %f
 
-       public static final String BEARING_BEARING_NULL           = "Bearing is null",
-                                  BEARING_OUT_OF_RANGE           = "Bearing is out of range [0, 360]",
-                                  BEARING_COMPASS_DIRECTION_NULL = "CompassDirection class is null",
-                                  BEARING_FROM_NULL              = "'from' is null",
-                                  BEARING_TO_NULL                = "'to' is null",
-                                  BEARING_FROM_LATITUDE_NULL     = "'from' latitude is null",
-                                  BEARING_FROM_LONGITUDE_NULL    = "'from' longitude is null",
-                                  BEARING_TO_LATITUDE_NULL       = "'to' latitude is null",
-                                  BEARING_TO_LONGITUDE_NULL      = "'to' longitude is null";
-   }
+            Degrees:  0 to %d
+            Minutes:  0 to 59
+            Seconds:  0 to 59.9[...]
+            (Minutes and seconds must be 0 when degrees is %d)
+            """;
+
+        public static String DIRECTION_CANT_BE_NEITHER = "Direction can only be NEITHER when the value is 0.0";
+
+        public static final String BEARING_BEARING_NULL = "Bearing is null",
+            BEARING_OUT_OF_RANGE = "Bearing is out of range [0, 360]",
+            BEARING_COMPASS_DIRECTION_NULL = "CompassDirection class is null",
+            BEARING_FROM_NULL = "'from' is null",
+            BEARING_TO_NULL = "'to' is null",
+            BEARING_FROM_LATITUDE_NULL = "'from' latitude is null",
+            BEARING_FROM_LONGITUDE_NULL = "'from' longitude is null",
+            BEARING_TO_LATITUDE_NULL = "'to' latitude is null",
+            BEARING_TO_LONGITUDE_NULL = "'to' longitude is null";
+    }
 
     public GeographicCoordinateException() {
         super();

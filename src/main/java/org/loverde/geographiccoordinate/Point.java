@@ -79,7 +79,7 @@ public class Point {
 
     private void setLatitude(final Latitude latitude) {
         if (latitude == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.LATITUDE_NULL);
+            throw new IllegalArgumentException("Latitude cannot be null");
         }
 
         this.latitude = latitude;
@@ -91,7 +91,7 @@ public class Point {
 
     private void setLongitude(final Longitude longitude) {
         if (longitude == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.LONGITUDE_NULL);
+            throw new IllegalArgumentException("Longitude cannot be null");
         }
 
         this.longitude = longitude;
@@ -106,7 +106,7 @@ public class Point {
      */
     private void setName(final String name) {
         if (name == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.NAME_NULL);
+            throw new IllegalArgumentException("name cannot be null");
         }
 
         this.name = name;

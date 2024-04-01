@@ -46,10 +46,6 @@ class LatitudeTest {
 
     private Latitude lat1;
 
-    private static final String DEGREES_RANGE = "Latitude" + GeographicCoordinateException.Messages.DEGREES_RANGE + Latitude.MAX_VALUE,
-            MINUTES_RANGE = "Latitude" + GeographicCoordinateException.Messages.MINUTES_RANGE,
-            MINUTES_AND_SECONDS_MUST_BE_ZERO = "Latitude" + GeographicCoordinateException.Messages.MINUTES_AND_SECONDS_MUST_BE_ZERO + Latitude.MAX_VALUE,
-            SECONDS_RANGE = "Latitude" + GeographicCoordinateException.Messages.SECONDS_RANGE;
 
     @BeforeEach
     void setUp() {
@@ -57,7 +53,7 @@ class LatitudeTest {
     }
 
     @Test
-    void _maxValueIsCorrect() {
+    void testConstant_maxValueIsCorrect() {
         assertEquals(90, Latitude.MAX_VALUE);
     }
 
@@ -70,10 +66,10 @@ class LatitudeTest {
 
         final Latitude l = new Latitude(deg, min, sec, dir);
 
-        assertEquals(deg, l.getDegrees());
-        assertEquals(min, l.getMinutes());
-        assertEquals(sec, l.getSeconds(), 0.0);
-        assertEquals(dir, l.getDirection());
+        assertEquals(deg, l.degrees());
+        assertEquals(min, l.minutes());
+        assertEquals(sec, l.seconds(), 0.0);
+        assertEquals(dir, l.direction());
     }
 
     @Test
@@ -85,10 +81,10 @@ class LatitudeTest {
 
         final Latitude l = new Latitude(deg, min, sec, dir);
 
-        assertEquals(deg, l.getDegrees());
-        assertEquals(min, l.getMinutes());
-        assertEquals(sec, l.getSeconds(), 0.0);
-        assertEquals(dir, l.getDirection());
+        assertEquals(deg, l.degrees());
+        assertEquals(min, l.minutes());
+        assertEquals(sec, l.seconds(), 0.0);
+        assertEquals(dir, l.direction());
     }
 
     @Test
@@ -100,100 +96,100 @@ class LatitudeTest {
 
         final Latitude l = new Latitude(deg, min, sec, dir);
 
-        assertEquals(deg, l.getDegrees());
-        assertEquals(min, l.getMinutes());
-        assertEquals(sec, l.getSeconds(), 0.0);
-        assertEquals(dir, l.getDirection());
+        assertEquals(deg, l.degrees());
+        assertEquals(min, l.minutes());
+        assertEquals(sec, l.seconds(), 0.0);
+        assertEquals(dir, l.direction());
     }
 
     @Test
     void constructor_fail_directionNeither() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(1, 1, 1, Latitude.Direction.NEITHER));
-        assertEquals(GeographicCoordinateException.Messages.DIRECTION_INVALID, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(1, 1, 1, Latitude.Direction.NEITHER));
+        assertEquals(GeographicCoordinateException.Messages.DIRECTION_CANT_BE_NEITHER, e.getMessage());
     }
 
     @Test
     void doubleConstructor_success_directionNorth() {
         final Latitude l = new Latitude(1);
-        assertEquals(Latitude.Direction.NORTH, l.getDirection());
+        assertEquals(Latitude.Direction.NORTH, l.direction());
     }
 
     @Test
     void doubleConstructor_success_directionSouth() {
         final Latitude l = new Latitude(-1);
-        assertEquals(Latitude.Direction.SOUTH, l.getDirection());
+        assertEquals(Latitude.Direction.SOUTH, l.direction());
     }
 
     @Test
     void doubleConstructor_success_directionNeither() {
         final Latitude l = new Latitude(0);
-        assertEquals(Latitude.Direction.NEITHER, l.getDirection());
+        assertEquals(Latitude.Direction.NEITHER, l.direction());
     }
 
     @Test
     void doubleConstructor_success_maxValue() {
         final Latitude l = new Latitude(90);
 
-        assertEquals(90, l.getDegrees());
-        assertEquals(0, l.getMinutes());
-        assertEquals(0.0, l.getSeconds(), 0.0);
-        assertEquals(Latitude.Direction.NORTH, l.getDirection());
+        assertEquals(90, l.degrees());
+        assertEquals(0, l.minutes());
+        assertEquals(0.0, l.seconds(), 0.0);
+        assertEquals(Latitude.Direction.NORTH, l.direction());
         assertEquals(90.0, l.toDouble(), 0.0);
     }
 
     @Test
     void doubleConstructor_fail_maxValueExceeded_degrees() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(91));
-        assertEquals(GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(91));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
     void doubleConstructor_fail_maxValueExceeded_minutesSeconds() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(90.000000001d));
-        assertEquals(GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(90.000000001d));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
     void doubleConstructor_success_minValue() {
         final Latitude l = new Latitude(-90);
 
-        assertEquals(90, l.getDegrees());  // degrees are not negative - direction indicates sign
-        assertEquals(0, l.getMinutes());
-        assertEquals(0.0, l.getSeconds(), 0.0);
-        assertEquals(Latitude.Direction.SOUTH, l.getDirection());
+        assertEquals(90, l.degrees());  // degrees are not negative - direction indicates sign
+        assertEquals(0, l.minutes());
+        assertEquals(0.0, l.seconds(), 0.0);
+        assertEquals(Latitude.Direction.SOUTH, l.direction());
         assertEquals(-90.0, l.toDouble(), 0.0);
     }
 
     @Test
     void doubleConstructor_fail_minValueExceeded_degrees() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(-91));
-        assertEquals(GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(-91));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
     void doubleConstructor_fail_minValueExceeded_minutesSeconds() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(-90.000000001d));
-        assertEquals(GeographicCoordinateException.Messages.LATITUDE_RANGE_DECIMAL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(-90.000000001d));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
     void doubleConstructor_success_directionRecognizedAsNorth() {
         final Latitude l = new Latitude(40.4406d);
 
-        assertEquals(40, l.getDegrees());
-        assertEquals(26, l.getMinutes());
-        assertEquals(26.16d, l.getSeconds(), 0.00000000001236d);
-        assertEquals(Latitude.Direction.NORTH, l.getDirection());
+        assertEquals(40, l.degrees());
+        assertEquals(26, l.minutes());
+        assertEquals(26.16d, l.seconds(), 0.00000000001236d);
+        assertEquals(Latitude.Direction.NORTH, l.direction());
     }
 
     @Test
     void doubleConstructor_success_directionRecognizedAsSouth() {
         final Latitude l = new Latitude(-40.4406d);
 
-        assertEquals(40, l.getDegrees());
-        assertEquals(26, l.getMinutes());
-        assertEquals(26.16d, l.getSeconds(), 0.00000000001236d);
-        assertEquals(Latitude.Direction.SOUTH, l.getDirection());
+        assertEquals(40, l.degrees());
+        assertEquals(26, l.minutes());
+        assertEquals(26.16d, l.seconds(), 0.00000000001236d);
+        assertEquals(Latitude.Direction.SOUTH, l.direction());
     }
 
     @Test
@@ -203,8 +199,8 @@ class LatitudeTest {
 
     @Test
     void constructor_fail_degreesBelowMinValue() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(-1, 10, 20, Latitude.Direction.NORTH));
-        assertEquals(DEGREES_RANGE, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(-1, 10, 20, Latitude.Direction.NORTH));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
@@ -214,14 +210,14 @@ class LatitudeTest {
 
     @Test
     void constructor_fail_degreesExceedMaxValue() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(Latitude.MAX_VALUE + 1, 0, 0, Latitude.Direction.NORTH));
-        assertEquals(DEGREES_RANGE, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude((int)Latitude.MAX_VALUE + 1, 0, 0, Latitude.Direction.NORTH));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
     void constructor_fail_directionNull() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(1, 2, 3, null));
-        assertEquals(GeographicCoordinateException.Messages.DIRECTION_NULL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(1, 2, 3, null));
+        assertEquals("Direction cannot be null", e.getMessage());
     }
 
     @Test
@@ -231,8 +227,8 @@ class LatitudeTest {
 
     @Test
     void constructor_fail_minutesBelowMinValue() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(10, -1, 10, Latitude.Direction.NORTH));
-        assertEquals(MINUTES_RANGE, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(10, -1, 10, Latitude.Direction.NORTH));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
@@ -242,14 +238,14 @@ class LatitudeTest {
 
     @Test
     void constructor_fail_minutesExceedMaxValue() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(10, 60, 1, Latitude.Direction.NORTH));
-        assertEquals(MINUTES_RANGE, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(10, 60, 1, Latitude.Direction.NORTH));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
     void constructor_fail_minutesMustBeZero() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(90, 1, 0, Latitude.Direction.NORTH));
-        assertEquals(MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(90, 1, 0, Latitude.Direction.NORTH));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
@@ -259,8 +255,8 @@ class LatitudeTest {
 
     @Test
     void constructor_fail_secondsBelowMinValue() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(20, 10, -.0000001d, Latitude.Direction.NORTH));
-        assertEquals(SECONDS_RANGE, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(20, 10, -.0000001d, Latitude.Direction.NORTH));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
@@ -270,14 +266,14 @@ class LatitudeTest {
 
     @Test
     void constructor_fail_secondsExceedMaxValue() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(10, 10, 60, Latitude.Direction.NORTH));
-        assertEquals(SECONDS_RANGE, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(10, 10, 60, Latitude.Direction.NORTH));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
     void constructor_fail_secondsMustBeZero() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Latitude(90, 0, 1, Latitude.Direction.NORTH));
-        assertEquals(MINUTES_AND_SECONDS_MUST_BE_ZERO, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(90, 0, 1, Latitude.Direction.NORTH));
+        assertEquals(Latitude.getRangeError(), e.getMessage());
     }
 
     @Test
@@ -294,7 +290,7 @@ class LatitudeTest {
 
     @Test
     void equals_success_equalToOther() {
-        final Latitude lat2 = new Latitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), lat1.getDirection());
+        final Latitude lat2 = new Latitude(lat1.degrees(), lat1.minutes(), lat1.seconds(), lat1.direction());
         assertEquals(lat1, lat2);
         assertEquals(lat2, lat1);
     }
@@ -311,25 +307,25 @@ class LatitudeTest {
 
     @Test
     void equals_fail_degrees() {
-        final Latitude l2 = new Latitude(lat1.getDegrees() + 1, lat1.getMinutes(), lat1.getSeconds(), lat1.getDirection());
+        final Latitude l2 = new Latitude(lat1.degrees() + 1, lat1.minutes(), lat1.seconds(), lat1.direction());
         assertNotEquals(lat1, l2);
     }
 
     @Test
     void equals_fail_minutes() {
-        final Latitude l2 = new Latitude(lat1.getDegrees(), lat1.getMinutes() + 1, lat1.getSeconds(), lat1.getDirection());
+        final Latitude l2 = new Latitude(lat1.degrees(), lat1.minutes() + 1, lat1.seconds(), lat1.direction());
         assertNotEquals(lat1, l2);
     }
 
     @Test
     void equals_fail_seconds() {
-        final Latitude l2 = new Latitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds() + 1, lat1.getDirection());
+        final Latitude l2 = new Latitude(lat1.degrees(), lat1.minutes(), lat1.seconds() + 1, lat1.direction());
         assertNotEquals(lat1, l2);
     }
 
     @Test
     void equals_fail_directionDifferent() {
-        final Latitude l2 = new Latitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), Latitude.Direction.SOUTH);
+        final Latitude l2 = new Latitude(lat1.degrees(), lat1.minutes(), lat1.seconds(), Latitude.Direction.SOUTH);
         assertNotEquals(lat1, l2);
     }
 
@@ -346,7 +342,7 @@ class LatitudeTest {
     @SuppressWarnings("unlikely-arg-type")
     @Test
     void equals_fail_longitudeDirectionEast() {
-        final Longitude longitude = new Longitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), Longitude.Direction.EAST);
+        final Longitude longitude = new Longitude(lat1.degrees(), lat1.minutes(), lat1.seconds(), Longitude.Direction.EAST);
         assertNotEquals(lat1, longitude);
     }
 
@@ -357,7 +353,7 @@ class LatitudeTest {
     // possible to write an equals() that would pass that.
     @Test
     void equals_fail_longitudeDirectionWest() {
-        final Longitude longitude = new Longitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), Longitude.Direction.WEST);
+        final Longitude longitude = new Longitude(lat1.degrees(), lat1.minutes(), lat1.seconds(), Longitude.Direction.WEST);
         assertNotEquals(lat1, longitude);
     }
 
@@ -374,51 +370,51 @@ class LatitudeTest {
 
     @Test
     void hashCode_success_same() {
-        final Latitude lat2 = new Latitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), lat1.getDirection());
+        final Latitude lat2 = new Latitude(lat1.degrees(), lat1.minutes(), lat1.seconds(), lat1.direction());
         assertEquals(lat1.hashCode(), lat2.hashCode());
     }
 
     @Test
     void hashCode_fail_differentTypeLongitudeDirectionEast() {
-        final Longitude lon = new Longitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), Longitude.Direction.EAST);
+        final Longitude lon = new Longitude(lat1.degrees(), lat1.minutes(), lat1.seconds(), Longitude.Direction.EAST);
         assertNotEquals(lat1.hashCode(), lon.hashCode());
     }
 
     @Test
     void hashCode_differentType_longitudeDirectionWest() {
-        final Longitude lon = new Longitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), Longitude.Direction.WEST);
+        final Longitude lon = new Longitude(lat1.degrees(), lat1.minutes(), lat1.seconds(), Longitude.Direction.WEST);
         assertNotEquals(lat1.hashCode(), lon.hashCode());
     }
 
     @Test
     void hashCode_fail_differentTypeLongitudeDirectionNeither() {
         final Latitude lat = new Latitude(0, 0, 0, Latitude.Direction.NEITHER);
-        final Longitude lon = new Longitude(lat.getDegrees(), lat.getMinutes(), lat.getSeconds(), Longitude.Direction.NEITHER);
+        final Longitude lon = new Longitude(lat.degrees(), lat.minutes(), lat.seconds(), Longitude.Direction.NEITHER);
 
         assertNotEquals(lat.hashCode(), lon.hashCode());
     }
 
     @Test
     void hashCode_fail_differentDegrees() {
-        final Latitude l2 = new Latitude(lat1.getDegrees() + 1, lat1.getMinutes(), lat1.getSeconds(), lat1.getDirection());
+        final Latitude l2 = new Latitude(lat1.degrees() + 1, lat1.minutes(), lat1.seconds(), lat1.direction());
         assertNotEquals(lat1.hashCode(), l2.hashCode());
     }
 
     @Test
     void hashCode_fail_differentMinutes() {
-        final Latitude l = new Latitude(lat1.getDegrees(), lat1.getMinutes() + 1, lat1.getSeconds(), lat1.getDirection());
+        final Latitude l = new Latitude(lat1.degrees(), lat1.minutes() + 1, lat1.seconds(), lat1.direction());
         assertNotEquals(lat1.hashCode(), l.hashCode());
     }
 
     @Test
     void hashCode_fail_differentSeconds() {
-        final Latitude l = new Latitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds() + 1, lat1.getDirection());
+        final Latitude l = new Latitude(lat1.degrees(), lat1.minutes(), lat1.seconds() + 1, lat1.direction());
         assertNotEquals(lat1.hashCode(), l.hashCode());
     }
 
     @Test
     void hashCode_fail_differentDirection() {
-        final Latitude l = new Latitude(lat1.getDegrees(), lat1.getMinutes(), lat1.getSeconds(), Latitude.Direction.SOUTH);
+        final Latitude l = new Latitude(lat1.degrees(), lat1.minutes(), lat1.seconds(), Latitude.Direction.SOUTH);
         assertNotEquals(lat1.hashCode(), l.hashCode());
     }
 
@@ -428,31 +424,14 @@ class LatitudeTest {
     }
 
     @Test
-    void toString_fail_nullLocale() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> lat1.toString(null));
-        assertEquals(GeographicCoordinateException.Messages.LOCALE_NULL, e.getMessage());
+    void toString_success_north() {
+        assertEquals("12°16'23.45\"N", lat1.toString());
     }
 
     @Test
-    void toString_success_north_localeWithPeriods() {
-        assertEquals("12°16'23.45\"N", lat1.toString(Locale.US));
-    }
-
-    @Test
-    void toString_success_south_localeWithPeriods() {
+    void toString_success_south() {
         final Latitude l = new Latitude(12, 16, 23.45d, Latitude.Direction.SOUTH);
-        assertEquals("12°16'23.45\"S", l.toString(Locale.US));
-    }
-
-    @Test
-    void toString_success_north_localeWithCommas() {
-        assertEquals("12°16'23,45\"N", lat1.toString(Locale.FRANCE));
-    }
-
-    @Test
-    void toString_success_south_localeWithCommas() {
-        final Latitude l = new Latitude(12, 16, 23.45d, Latitude.Direction.SOUTH);
-        assertEquals("12°16'23,45\"S", l.toString(Locale.FRANCE));
+        assertEquals("12°16'23.45\"S", l.toString());
     }
 
     @Test

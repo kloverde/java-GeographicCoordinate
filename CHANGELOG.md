@@ -1,11 +1,20 @@
-# Release 5.0.0 (March 31, 2024)
+# Release 5.0.0 (April 1, 2024)
 
 * Removed dependencies on my external `BuildScripts` and `NumberUtil` projects
 * Retargeted at Java 17 + Gradle 8.0
 * Upgraded to JUnit 5
 * Upgraded Mockito
+* The internals are updated to use modern Java features
 * Removed use of reflection from the compass direction internals
-* Breaking code changes [TODO]
+
+API BREAKING CHANGES:
+
+* `AbstractGeographicCoordinate` has been removed, as well as the exception constants in its nested `Messages` class
+* TODO: `IllegalArgumentException` has replaced `GeographicCoordinateException`.  `GeographicCoordinateException` has been removed.
+* Exception messages have changed
+* `toString(Locale)` has been removed in favor of `toString()`.  Apparently the international standard is to use U.S. formatting for coordinates.
+* The `EnumHelper` API has changed (you weren't using an API that was labeled _internal_, were you? 👀)
+* `Latitude.MAX_VALUE` and `Longitude.MAX_VALUE` have been changed to doubles
 
 # Release 4.2.1 (May 8, 2021)
 

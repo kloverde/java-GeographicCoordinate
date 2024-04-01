@@ -35,7 +35,6 @@ package org.loverde.geographiccoordinate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,32 +65,32 @@ class PointTest {
 
     @Test
     void constructor2arg_fail_nullLatitude() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Point(null, longitude1));
-        assertEquals(GeographicCoordinateException.Messages.LATITUDE_NULL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(null, longitude1));
+        assertEquals("Latitude cannot be null", e.getMessage());
     }
 
     @Test
     void constructor2arg_fail_nullLongitude() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Point(latitude1, null));
-        assertEquals(GeographicCoordinateException.Messages.LONGITUDE_NULL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(latitude1, null));
+        assertEquals("Longitude cannot be null", e.getMessage());
     }
 
     @Test
     void constructor3arg_fail_nullLatitude() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Point(null, longitude1, "name"));
-        assertEquals(GeographicCoordinateException.Messages.LATITUDE_NULL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(null, longitude1, "name"));
+        assertEquals("Latitude cannot be null", e.getMessage());
     }
 
     @Test
     void constructor3arg_fail_nullLongitude() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Point(latitude1, null, "name"));
-        assertEquals(GeographicCoordinateException.Messages.LONGITUDE_NULL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(latitude1, null, "name"));
+        assertEquals("Longitude cannot be null", e.getMessage());
     }
 
     @Test
     void constructor3arg_fail_nullName() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Point(latitude1, longitude1, null));
-        assertTrue(e.getMessage().endsWith(GeographicCoordinateException.Messages.NAME_NULL));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(latitude1, longitude1, null));
+        assertEquals("name cannot be null", e.getMessage());
     }
 
     @Test
@@ -101,18 +100,18 @@ class PointTest {
 
     @Test
     void equals_equal_differentAddresses() {
-        final Latitude lat = new Latitude(point1.getLatitude().getDegrees(), point1.getLatitude().getMinutes(),
-                point1.getLatitude().getSeconds(), point1.getLatitude().getDirection());
+        final Latitude lat = new Latitude(point1.getLatitude().degrees(), point1.getLatitude().minutes(),
+                point1.getLatitude().seconds(), point1.getLatitude().direction());
 
-        final Longitude lon = new Longitude(point1.getLongitude().getDegrees(), point1.getLongitude().getMinutes(),
-                point1.getLongitude().getSeconds(), point1.getLongitude().getDirection());
+        final Longitude lon = new Longitude(point1.getLongitude().degrees(), point1.getLongitude().minutes(),
+                point1.getLongitude().seconds(), point1.getLongitude().direction());
 
         assertEquals(point1, new Point(lat, lon, "name"));
     }
 
     @Test
     void equals_notEqual_differentLatitude() {
-        final Latitude lat = new Latitude(latitude1.getDegrees() + 1, latitude1.getMinutes(), latitude1.getSeconds(), latitude1.getDirection());
+        final Latitude lat = new Latitude(latitude1.degrees() + 1, latitude1.minutes(), latitude1.seconds(), latitude1.direction());
         final Point newPoint = new Point(lat, point1.getLongitude());
 
         assertNotEquals(point1, newPoint);
@@ -120,7 +119,7 @@ class PointTest {
 
     @Test
     void equals_notEqual_differentLongitude() {
-        final Longitude lon = new Longitude(longitude1.getDegrees() + 1, longitude1.getMinutes(), longitude1.getSeconds(), longitude1.getDirection());
+        final Longitude lon = new Longitude(longitude1.degrees() + 1, longitude1.minutes(), longitude1.seconds(), longitude1.direction());
         final Point newPoint = new Point(point1.getLatitude(), lon);
 
         assertNotEquals(point1, newPoint);
@@ -135,11 +134,11 @@ class PointTest {
 
     @Test
     void hashCode_notEqual_differentLatitude() {
-        final Latitude lat = new Latitude(point1.getLatitude().getDegrees(), point1.getLatitude().getMinutes(),
-                point1.getLatitude().getSeconds() + 1, point1.getLatitude().getDirection());
+        final Latitude lat = new Latitude(point1.getLatitude().degrees(), point1.getLatitude().minutes(),
+                point1.getLatitude().seconds() + 1, point1.getLatitude().direction());
 
-        final Longitude lon = new Longitude(point1.getLongitude().getDegrees(), point1.getLongitude().getMinutes(),
-                point1.getLongitude().getSeconds(), point1.getLongitude().getDirection());
+        final Longitude lon = new Longitude(point1.getLongitude().degrees(), point1.getLongitude().minutes(),
+                point1.getLongitude().seconds(), point1.getLongitude().direction());
 
         final Point newPoint = new Point(lat, lon);
 
@@ -148,11 +147,11 @@ class PointTest {
 
     @Test
     void hashCode_notEqual_differentLongitude() {
-        final Latitude lat = new Latitude(point1.getLatitude().getDegrees(), point1.getLatitude().getMinutes(),
-                point1.getLatitude().getSeconds(), point1.getLatitude().getDirection());
+        final Latitude lat = new Latitude(point1.getLatitude().degrees(), point1.getLatitude().minutes(),
+                point1.getLatitude().seconds(), point1.getLatitude().direction());
 
-        final Longitude lon = new Longitude(point1.getLongitude().getDegrees(), point1.getLongitude().getMinutes(),
-                point1.getLongitude().getSeconds() + 1, point1.getLongitude().getDirection());
+        final Longitude lon = new Longitude(point1.getLongitude().degrees(), point1.getLongitude().minutes(),
+                point1.getLongitude().seconds() + 1, point1.getLongitude().direction());
 
         final Point newPoint = new Point(lat, lon);
 
