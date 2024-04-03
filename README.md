@@ -32,9 +32,14 @@ the real world.  That being said:
 Use this software at your own risk.
 
 
-## Building
+## Build Tasks
 
 This project is known to build on Gradle 8.0.
 
-1. Set values for `specVendor`, `implementationVendor` and `builtBy` in _gradle.properties_
-2. Run `gradlew build`
+| task                | purpose                                      |
+|---------------------|----------------------------------------------|
+| build               | Builds the project                           |
+| check               | Runs the tests and code quality checks       |
+| clean               | Removes the `build` directory                |
+| jars                | Builds the source, javadoc and binary jars   |
+| publishToMavenLocal | Published the jars to your local Maven cache |

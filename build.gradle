@@ -27,9 +27,6 @@ dependencies {
 def includeManifest = {
    manifest {
       attributes "Specification-Title": rootProject.name,
-                 "Specification-Vendor": specVendor ?: System.getProperty("user.name"),
-                 "Implementation-Version": version,
-                 "Implementation-Vendor": implementationVendor ?: System.getProperty("user.name"),
                  "Built-Date": new Date(),
                  "Built-JDK": System.getProperty("java.version"),
                  "Target-JDK": targetCompatibility,
@@ -54,11 +51,19 @@ javadocJar {
    configure includeManifest
 }
 
-javadoc.options.addStringOption( "Xdoclint:none", "-quiet" )
+tasks.register("jars") {
+   dependsOn(
+      tasks.jar,
+      tasks.sourcesJar,
+      tasks.javadocJar
+   )
+}
+
+javadoc.options.addStringOption("Xdoclint:none", "-quiet")
 
 publishing {
    publications {
-      mavenJava( MavenPublication ) {
+      mavenJava(MavenPublication) {
          from project.components.java
          artifacts = [ jar, javadocJar, sourcesJar ]
       }
