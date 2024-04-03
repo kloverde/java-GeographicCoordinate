@@ -119,10 +119,6 @@ public class BearingCalculator {
     private static BigDecimal calculateBearing(final Point from, final Point to) {
         failIf(from == null, () -> STARTING_POINT_NULL);
         failIf(to == null, () -> BEARING_TO_NULL);
-        failIf(from.latitude() == null, () -> BEARING_FROM_LATITUDE_NULL);
-        failIf(from.longitude() == null, () -> BEARING_FROM_LONGITUDE_NULL);
-        failIf(to.latitude() == null, () -> BEARING_TO_LATITUDE_NULL);
-        failIf(to.longitude() == null, () -> BEARING_TO_LONGITUDE_NULL);
 
         final double fromLatRadians = from.latitude().toRadians(),
                      fromLonRadians = from.longitude().toRadians(),
@@ -144,7 +140,7 @@ public class BearingCalculator {
         BigDecimal backAzimuth;
 
         failIf(bearing == null, () -> BEARING_NULL);
-        failIf(bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD_360) > 0, () -> BEARING_OUT_OF_RANGE);
+        failIf(bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD_360) > 0, () -> BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()));
 
         zeroedBearing = bearing.compareTo(BD_360) == 0 ? ZERO : bearing;
 

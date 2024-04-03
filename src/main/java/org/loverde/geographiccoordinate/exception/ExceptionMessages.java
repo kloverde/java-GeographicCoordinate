@@ -48,7 +48,7 @@ public class ExceptionMessages {
         """;
     public static final String DIRECTION_NULL = "Direction is null";
     public static final String DIRECTION_CANT_BE_NEITHER = "Direction can only be NEITHER when the value is 0.0";
-    public static final String BEARING_OUT_OF_RANGE = "Bearing is out of range [0, 360]";
+    public static final String BEARING_OUT_OF_RANGE = "Bearing [%s] is out of range [0, 360]";
     public static final String COMPASS_TYPE_NULL = "Compass type is null";
     public static final String BEARING_NULL = "Bearing is null";
     public static final String LATITUDE_NULL = "Latitude is null";

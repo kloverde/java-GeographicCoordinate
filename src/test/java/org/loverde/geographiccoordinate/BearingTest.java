@@ -54,8 +54,9 @@ class BearingTest {
 
     @Test
     void setBearing_outOfLowBound() {
-        Exception e = assertThrows(IllegalArgumentException.class, () -> new Bearing<CompassDirection8>().setBearing(new BigDecimal("-.0000000000001")));
-        assertEquals(BEARING_OUT_OF_RANGE, e.getMessage());
+        BigDecimal bearing = new BigDecimal("-.0000000000001");
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Bearing<CompassDirection8>().setBearing(bearing));
+        assertEquals(BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()), e.getMessage());
     }
 
     @Test
@@ -70,7 +71,8 @@ class BearingTest {
 
     @Test
     void setBearing_outsideHighBound() {
-        Exception e = assertThrows(IllegalArgumentException.class, () -> new Bearing<CompassDirection8>().setBearing(new BigDecimal("360.0000000000000001")));
-        assertEquals(BEARING_OUT_OF_RANGE, e.getMessage());
+        BigDecimal bearing = new BigDecimal("360.0000000000000001");
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Bearing<CompassDirection8>().setBearing(bearing));
+        assertEquals(BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()), e.getMessage());
     }
 }

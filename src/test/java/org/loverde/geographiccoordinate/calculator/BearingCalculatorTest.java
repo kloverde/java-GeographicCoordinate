@@ -174,14 +174,16 @@ class BearingCalculatorTest {
 
     @Test
     void backAzimuth_outOfLowerBound() {
-        Exception e = assertThrows(IllegalArgumentException.class, () -> backAzimuth(CompassDirection8.class, new BigDecimal("-.00000000001")));
-        assertEquals(BEARING_OUT_OF_RANGE, e.getMessage());
+        BigDecimal bearing = new BigDecimal("-.00000000001");
+        Exception e = assertThrows(IllegalArgumentException.class, () -> backAzimuth(CompassDirection8.class, bearing));
+        assertEquals(BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()), e.getMessage());
     }
 
     @Test
     void backAzimuth_outOfUpperBound() {
-        Exception e = assertThrows(IllegalArgumentException.class, () -> backAzimuth(CompassDirection8.class, new BigDecimal("360.00000000001")));
-        assertEquals(BEARING_OUT_OF_RANGE, e.getMessage());
+        BigDecimal bearing = new BigDecimal("360.00000000001");
+        Exception e = assertThrows(IllegalArgumentException.class, () -> backAzimuth(CompassDirection8.class, bearing));
+        assertEquals(BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()), e.getMessage());
     }
 
     @Test

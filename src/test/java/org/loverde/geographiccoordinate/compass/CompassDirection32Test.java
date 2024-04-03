@@ -41,6 +41,7 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import static java.math.BigDecimal.ZERO;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.BEARING_OUT_OF_RANGE;
 
 
 class CompassDirection32Test {
@@ -103,14 +104,16 @@ class CompassDirection32Test {
 
     @Test
     void getByBearing_invalidMin() {
-        Exception e = assertThrows(IllegalArgumentException.class, () -> CompassDirection32.getByBearing(new BigDecimal("-0.000000000001")));
-        assertEquals("Bearing -0.000000000001 is not in range [0, 360]", e.getMessage());
+        BigDecimal bearing = new BigDecimal("-0.000000000001");
+        Exception e = assertThrows(IllegalArgumentException.class, () -> CompassDirection32.getByBearing(bearing));
+        assertEquals(BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()), e.getMessage());
     }
 
     @Test
     void getByBearing_invalidMax() {
-        Exception e = assertThrows(IllegalArgumentException.class, () -> CompassDirection32.getByBearing(new BigDecimal("360.000000000001")));
-        assertEquals("Bearing 360.000000000001 is not in range [0, 360]", e.getMessage());
+        BigDecimal bearing = new BigDecimal("360.000000000001");
+        Exception e = assertThrows(IllegalArgumentException.class, () -> CompassDirection32.getByBearing(bearing));
+        assertEquals(BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()), e.getMessage());
     }
 
     @Test

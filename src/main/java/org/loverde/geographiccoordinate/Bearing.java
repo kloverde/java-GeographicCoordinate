@@ -76,7 +76,7 @@ public class Bearing<T extends CompassDirection> {
 
     public void setBearing(final BigDecimal bearing) {
         failIf(bearing == null, () -> BEARING_NULL);
-        failIf((bearing.compareTo(ZERO) < 0) || bearing.compareTo(new BigDecimal(360)) > 0, () -> BEARING_OUT_OF_RANGE);
+        failIf((bearing.compareTo(ZERO) < 0) || bearing.compareTo(new BigDecimal(360)) > 0, () -> BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()));
 
         this.bearing = bearing;
     }

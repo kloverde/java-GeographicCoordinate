@@ -40,6 +40,7 @@ import java.util.Map;
 import org.loverde.geographiccoordinate.internal.EnumHelper;
 
 import static java.math.BigDecimal.ZERO;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.BEARING_OUT_OF_RANGE;
 import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
@@ -153,7 +154,7 @@ public enum CompassDirection8 implements CompassDirection {
         final CompassDirection8[] values;
         CompassDirection8 dir;
 
-        failIf(bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD360) > 0, () -> "Bearing %s is not in range [0, 360]".formatted(bearing.toPlainString()));
+        failIf(bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD360) > 0, () -> BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()));
 
         values = values();
         newBearing = (bearing.compareTo(BD360) == 0 ? ZERO : bearing).setScale(2, RoundingMode.HALF_UP);
