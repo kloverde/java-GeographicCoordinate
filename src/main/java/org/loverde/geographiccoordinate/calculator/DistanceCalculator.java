@@ -158,11 +158,11 @@ public class DistanceCalculator {
             if (previous == null) throw new IllegalArgumentException("points " + (i - 1) + " is null");
             if (current == null) throw new IllegalArgumentException("points " + i + " is null");
 
-            final Latitude latitude1 = previous.getLatitude();
-            final Latitude latitude2 = current.getLatitude();
+            final Latitude latitude1 = previous.latitude();
+            final Latitude latitude2 = current.latitude();
 
-            final Longitude longitude1 = previous.getLongitude();
-            final Longitude longitude2 = current.getLongitude();
+            final Longitude longitude1 = previous.longitude();
+            final Longitude longitude2 = current.longitude();
 
             failIf(latitude1 == null, () -> "Latitude 1 is null");
             failIf(latitude2 == null, () -> "Latitude 2 is null");

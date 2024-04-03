@@ -71,8 +71,8 @@ class DistanceCalculatorTest {
         point1 = new Point(latitude1, longitude1);
         point2 = new Point(latitude2, longitude2);
 
-        lenient().when(mockPoint.getLatitude()).thenReturn(latitude1);
-        lenient().when(mockPoint.getLongitude()).thenReturn(longitude1);
+        lenient().when(mockPoint.latitude()).thenReturn(latitude1);
+        lenient().when(mockPoint.longitude()).thenReturn(longitude1);
     }
 
     @Test
@@ -100,7 +100,7 @@ class DistanceCalculatorTest {
      */
     @Test
     void distance_nullLatitudePoint1() {
-        when(mockPoint.getLatitude()).thenReturn(null);
+        when(mockPoint.latitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, mockPoint, point2));
         assertEquals("Latitude 1 is null", e.getMessage());
@@ -113,7 +113,7 @@ class DistanceCalculatorTest {
      */
     @Test
     void distance_nullLatitudePoint2() {
-        when(mockPoint.getLatitude()).thenReturn(null);
+        when(mockPoint.latitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, point1, mockPoint));
         assertEquals("Latitude 2 is null", e.getMessage());
@@ -126,7 +126,7 @@ class DistanceCalculatorTest {
      */
     @Test
     void distance_nullLongitudePoint1() {
-        when(mockPoint.getLongitude()).thenReturn(null);
+        when(mockPoint.longitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, mockPoint, point2));
         assertEquals("Longitude 1 is null", e.getMessage());
@@ -139,7 +139,7 @@ class DistanceCalculatorTest {
      */
     @Test
     void distance_nullLongitudePoint2() {
-        when(mockPoint.getLongitude()).thenReturn(null);
+        when(mockPoint.longitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, point1, mockPoint));
         assertEquals("Longitude 2 is null", e.getMessage());

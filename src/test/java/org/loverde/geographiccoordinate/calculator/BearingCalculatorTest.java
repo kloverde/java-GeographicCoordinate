@@ -75,11 +75,11 @@ class BearingCalculatorTest {
         final Latitude latitude2 = new Latitude(38, 54, 17, Latitude.Direction.NORTH);
         final Longitude longitude2 = new Longitude(77, 0, 59, Longitude.Direction.WEST);
 
-        lenient().when(point1.getLatitude()).thenReturn(latitude1);
-        lenient().when(point1.getLongitude()).thenReturn(longitude1);
+        lenient().when(point1.latitude()).thenReturn(latitude1);
+        lenient().when(point1.longitude()).thenReturn(longitude1);
 
-        lenient().when(point2.getLatitude()).thenReturn(latitude2);
-        lenient().when(point2.getLongitude()).thenReturn(longitude2);
+        lenient().when(point2.latitude()).thenReturn(latitude2);
+        lenient().when(point2.longitude()).thenReturn(longitude2);
     }
 
     @Test
@@ -90,7 +90,7 @@ class BearingCalculatorTest {
 
     @Test
     void initialBearing_nullFromLatitude() {
-        when(point1.getLatitude()).thenReturn(null);
+        when(point1.latitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
         assertEquals(BEARING_FROM_LATITUDE_NULL, e.getMessage());
@@ -98,7 +98,7 @@ class BearingCalculatorTest {
 
     @Test
     void initialBearing_nullFromLongitude() {
-        when(point1.getLongitude()).thenReturn(null);
+        when(point1.longitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
         assertEquals(BEARING_FROM_LONGITUDE_NULL, e.getMessage());
@@ -112,7 +112,7 @@ class BearingCalculatorTest {
 
     @Test
     void initialBearing_nullToLatitude() {
-        when(point2.getLatitude()).thenReturn(null);
+        when(point2.latitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
         assertEquals(BEARING_TO_LATITUDE_NULL, e.getMessage());
@@ -120,7 +120,7 @@ class BearingCalculatorTest {
 
     @Test
     void initialBearing_nullToLongitude() {
-        when(point2.getLongitude()).thenReturn(null);
+        when(point2.longitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
         assertEquals(BEARING_TO_LONGITUDE_NULL, e.getMessage());

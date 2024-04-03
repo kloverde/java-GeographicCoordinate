@@ -37,8 +37,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.loverde.geographiccoordinate.exception.ExceptionMessages.LATITUDE_NULL;
-import static org.loverde.geographiccoordinate.exception.ExceptionMessages.LONGITUDE_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.*;
 
 
 class PointTest {
@@ -60,9 +59,9 @@ class PointTest {
 
     @Test
     void constructor2arg_actuallySetsStuffCorrectly() {
-        assertSame(latitude1, point1.getLatitude());
-        assertSame(longitude1, point1.getLongitude());
-        assertSame("name", point1.getName());
+        assertSame(latitude1, point1.latitude());
+        assertSame(longitude1, point1.longitude());
+        assertSame("name", point1.name());
     }
 
     @Test
@@ -87,83 +86,5 @@ class PointTest {
     void constructor3arg_fail_nullLongitude() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(latitude1, null, "name"));
         assertEquals(LONGITUDE_NULL, e.getMessage());
-    }
-
-    @Test
-    void constructor3arg_fail_nullName() {
-        Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(latitude1, longitude1, null));
-        assertEquals("name cannot be null", e.getMessage());
-    }
-
-    @Test
-    void equals_equal_sameAddress() {
-        assertEquals(point1, point1);
-    }
-
-    @Test
-    void equals_equal_differentAddresses() {
-        final Latitude lat = new Latitude(point1.getLatitude().degrees(), point1.getLatitude().minutes(),
-                point1.getLatitude().seconds(), point1.getLatitude().direction());
-
-        final Longitude lon = new Longitude(point1.getLongitude().degrees(), point1.getLongitude().minutes(),
-                point1.getLongitude().seconds(), point1.getLongitude().direction());
-
-        assertEquals(point1, new Point(lat, lon, "name"));
-    }
-
-    @Test
-    void equals_notEqual_differentLatitude() {
-        final Latitude lat = new Latitude(latitude1.degrees() + 1, latitude1.minutes(), latitude1.seconds(), latitude1.direction());
-        final Point newPoint = new Point(lat, point1.getLongitude());
-
-        assertNotEquals(point1, newPoint);
-    }
-
-    @Test
-    void equals_notEqual_differentLongitude() {
-        final Longitude lon = new Longitude(longitude1.degrees() + 1, longitude1.minutes(), longitude1.seconds(), longitude1.direction());
-        final Point newPoint = new Point(point1.getLatitude(), lon);
-
-        assertNotEquals(point1, newPoint);
-    }
-
-    @Test
-    void equals_notEqual_differentName() {
-        final Point newPoint = new Point(point1.getLatitude(), point1.getLongitude(), point1.getName() + "different");
-
-        assertNotEquals(point1, newPoint);
-    }
-
-    @Test
-    void hashCode_notEqual_differentLatitude() {
-        final Latitude lat = new Latitude(point1.getLatitude().degrees(), point1.getLatitude().minutes(),
-                point1.getLatitude().seconds() + 1, point1.getLatitude().direction());
-
-        final Longitude lon = new Longitude(point1.getLongitude().degrees(), point1.getLongitude().minutes(),
-                point1.getLongitude().seconds(), point1.getLongitude().direction());
-
-        final Point newPoint = new Point(lat, lon);
-
-        assertNotEquals(point1.hashCode(), newPoint.hashCode());
-    }
-
-    @Test
-    void hashCode_notEqual_differentLongitude() {
-        final Latitude lat = new Latitude(point1.getLatitude().degrees(), point1.getLatitude().minutes(),
-                point1.getLatitude().seconds(), point1.getLatitude().direction());
-
-        final Longitude lon = new Longitude(point1.getLongitude().degrees(), point1.getLongitude().minutes(),
-                point1.getLongitude().seconds() + 1, point1.getLongitude().direction());
-
-        final Point newPoint = new Point(lat, lon);
-
-        assertNotEquals(point1.hashCode(), newPoint.hashCode());
-    }
-
-    @Test
-    void hashCode_notEqual_differentName() {
-        final Point newPoint = new Point(point1.getLatitude(), point1.getLongitude(), point1.getName() + "different");
-
-        assertNotEquals(point1.hashCode(), newPoint.hashCode());
     }
 }

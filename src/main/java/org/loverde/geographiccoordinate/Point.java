@@ -33,8 +33,7 @@
 
 package org.loverde.geographiccoordinate;
 
-import static org.loverde.geographiccoordinate.exception.ExceptionMessages.LATITUDE_NULL;
-import static org.loverde.geographiccoordinate.exception.ExceptionMessages.LONGITUDE_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.*;
 import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
@@ -42,116 +41,36 @@ import static org.loverde.geographiccoordinate.internal.Objects.failIf;
  * This class is a thin wrapper of a {@linkplain Latitude} and {@linkplain Longitude}.
  * It adds a {@link Point#Point(Latitude, Longitude, String) name} field.
  */
-public class Point {
-
-    private Latitude latitude;
-    private Longitude longitude;
-
-    private String name;
-
+public record Point(Latitude latitude, Longitude longitude, String name) {
 
     /**
      * Creates a new Point object
      *
-     * @param latitude  - {@linkplain Latitude}
-     * @param longitude - {@linkplain Longitude}
-     * @throws IllegalArgumentException If either parameter is null
+     * @param latitude  The {@linkplain Latitude}
+     * @param longitude The {@linkplain Longitude}
+     * @param name      Use for identification, such as displaying a caption on a map
+     * @throws IllegalArgumentException If latitude or longitude is null
      */
-    public Point(final Latitude latitude, final Longitude longitude) {
-        setLatitude(latitude);
-        setLongitude(longitude);
+    public Point {
+        failIf(latitude == null, () -> LATITUDE_NULL);
+        failIf(longitude == null, () -> LONGITUDE_NULL);
     }
 
     /**
      * Creates a new Point object
      *
-     * @param latitude  - {@linkplain Latitude}
-     * @param longitude - {@linkplain Longitude}
-     * @param name      - Use for identification, such as displaying a caption on a map.  Null is permitted.
+     * @param latitude  {@linkplain Latitude}
+     * @param longitude {@linkplain Longitude}
      * @throws IllegalArgumentException If any parameter is null
      */
-    public Point(final Latitude latitude, final Longitude longitude, final String name) {
-        this(latitude, longitude);
-        setName(name);
-    }
-
-    public Latitude getLatitude() {
-        return latitude;
-    }
-
-    private void setLatitude(final Latitude latitude) {
-        failIf(latitude == null, () -> LATITUDE_NULL);
-        this.latitude = latitude;
-    }
-
-    public Longitude getLongitude() {
-        return longitude;
-    }
-
-    private void setLongitude(final Longitude longitude) {
-        failIf(longitude == null, () -> LONGITUDE_NULL);
-        this.longitude = longitude;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name - Use for identification, such as displaying a label on a map
-     */
-    private void setName(final String name) {
-        failIf(name == null, () -> "name cannot be null");
-        this.name = name;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
-        result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    /**
-     * Compares this object to an {@code instanceof} Point.  All fields are compared.
-     *
-     * @param obj - The object to compare to
-     * @return {@code true} if equal, {@code false} if not
-     */
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof Point other)) return false;
-
-        if (getLatitude() == null) {
-            if (other.getLatitude() != null) {
-                return false;
-            }
-        } else if (!getLatitude().equals(other.getLatitude())) {
-            return false;
-        }
-
-        if (getLongitude() == null) {
-            if (other.getLongitude() != null) {
-                return false;
-            }
-        } else if (!getLongitude().equals(other.getLongitude())) {
-            return false;
-        }
-
-        if (getName() == null) {
-            return other.getName() == null;
-        }
-
-        return getName().equals(other.getName());
+    public Point(final Latitude latitude, final Longitude longitude) {
+        this(latitude, longitude, null);
     }
 
     @Override
     public String toString() {
-        return "%s {%s , %s}".formatted(getName(), getLatitude(), getLongitude());
+        return name != null
+            ? "%s {%s , %s}".formatted(name, latitude, longitude)
+            : "{%s , %s}".formatted(latitude, longitude);
     }
 }
