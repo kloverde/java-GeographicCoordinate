@@ -1,4 +1,4 @@
-# Release 5.0.0 (April 1, 2024)
+# Release 5.0.0 (April ?, 2024)
 
 * Removed dependencies on my external `BuildScripts` and `NumberUtil` projects
 * Retargeted at Java 17 + Gradle 8.0
