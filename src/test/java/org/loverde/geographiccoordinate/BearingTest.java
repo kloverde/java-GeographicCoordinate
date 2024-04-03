@@ -41,19 +41,20 @@ import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.BEARING_NULL;
 
 
 class BearingTest {
 
     @Test
     void setBearing_null() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Bearing<CompassDirection8>().setBearing(null));
-        assertEquals(GeographicCoordinateException.Messages.BEARING_BEARING_NULL, e.getMessage());
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Bearing<CompassDirection8>().setBearing(null));
+        assertEquals(BEARING_NULL, e.getMessage());
     }
 
     @Test
     void setBearing_outOfLowBound() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Bearing<CompassDirection8>().setBearing(new BigDecimal("-.0000000000001")));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Bearing<CompassDirection8>().setBearing(new BigDecimal("-.0000000000001")));
         assertEquals(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE, e.getMessage());
     }
 
@@ -69,7 +70,7 @@ class BearingTest {
 
     @Test
     void setBearing_outsideHighBound() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> new Bearing<CompassDirection8>().setBearing(new BigDecimal("360.0000000000000001")));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new Bearing<CompassDirection8>().setBearing(new BigDecimal("360.0000000000000001")));
         assertEquals(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE, e.getMessage());
     }
 }

@@ -38,7 +38,6 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static java.math.BigDecimal.ZERO;
 import static org.junit.jupiter.api.Assertions.*;
@@ -104,13 +103,13 @@ class CompassDirection16Test {
 
     @Test
     void getByBearing_invalidMin() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> CompassDirection16.getByBearing(new BigDecimal("-0.000000000001")));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> CompassDirection16.getByBearing(new BigDecimal("-0.000000000001")));
         assertEquals("Bearing -0.000000000001 is not in range [0, 360]", e.getMessage());
     }
 
     @Test
     void getByBearing_invalidMax() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> CompassDirection16.getByBearing(new BigDecimal("360.000000000001")));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> CompassDirection16.getByBearing(new BigDecimal("360.000000000001")));
         assertEquals("Bearing 360.000000000001 is not in range [0, 360]", e.getMessage());
     }
 

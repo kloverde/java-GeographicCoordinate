@@ -40,7 +40,6 @@ import org.loverde.geographiccoordinate.Latitude;
 import org.loverde.geographiccoordinate.Longitude;
 import org.loverde.geographiccoordinate.Point;
 import org.loverde.geographiccoordinate.calculator.DistanceCalculator.Unit;
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -78,19 +77,19 @@ class DistanceCalculatorTest {
 
     @Test
     void distance_noPoints() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> distance(Unit.KILOMETERS));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS));
         assertEquals("Need to provide at least 2 points", e.getMessage());
     }
 
     @Test
     void distance_onePoint() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> distance(Unit.KILOMETERS, point1));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, point1));
         assertEquals("Need to provide at least 2 points", e.getMessage());
     }
 
     @Test
     void distance_nullPoint() {
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> distance(Unit.KILOMETERS, null, point2));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, null, point2));
         assertEquals("points 0 is null", e.getMessage());
     }
 
@@ -103,7 +102,7 @@ class DistanceCalculatorTest {
     void distance_nullLatitudePoint1() {
         when(mockPoint.getLatitude()).thenReturn(null);
 
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> distance(Unit.KILOMETERS, mockPoint, point2));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, mockPoint, point2));
         assertEquals("Latitude 1 is null", e.getMessage());
     }
 
@@ -116,7 +115,7 @@ class DistanceCalculatorTest {
     void distance_nullLatitudePoint2() {
         when(mockPoint.getLatitude()).thenReturn(null);
 
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> distance(Unit.KILOMETERS, point1, mockPoint));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, point1, mockPoint));
         assertEquals("Latitude 2 is null", e.getMessage());
     }
 
@@ -129,7 +128,7 @@ class DistanceCalculatorTest {
     void distance_nullLongitudePoint1() {
         when(mockPoint.getLongitude()).thenReturn(null);
 
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> distance(Unit.KILOMETERS, mockPoint, point2));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, mockPoint, point2));
         assertEquals("Longitude 1 is null", e.getMessage());
     }
 
@@ -142,7 +141,7 @@ class DistanceCalculatorTest {
     void distance_nullLongitudePoint2() {
         when(mockPoint.getLongitude()).thenReturn(null);
 
-        Exception e = assertThrows(GeographicCoordinateException.class, () -> distance(Unit.KILOMETERS, point1, mockPoint));
+        Exception e = assertThrows(IllegalArgumentException.class, () -> distance(Unit.KILOMETERS, point1, mockPoint));
         assertEquals("Longitude 2 is null", e.getMessage());
     }
 
@@ -263,7 +262,7 @@ class DistanceCalculatorTest {
         points[idx++] = new Point(new Latitude(35.974480d), new Longitude(-119.952690d));
         points[idx++] = new Point(new Latitude(36.003834d), new Longitude(-119.981400d));
         points[idx++] = new Point(new Latitude(36.028889d), new Longitude(-120.019310d));
-        points[idx++] = new Point(new Latitude(36.078247d), new Longitude(-120.103787d));
+        points[idx] = new Point(new Latitude(36.078247d), new Longitude(-120.103787d));
 
         final double distance = distance(Unit.MILES, points);
 

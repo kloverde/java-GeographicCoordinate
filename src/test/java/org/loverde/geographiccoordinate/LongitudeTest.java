@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.DIRECTION_NULL;
 
 
 class LongitudeTest {
@@ -214,7 +215,7 @@ class LongitudeTest {
     @Test
     void constructor_fail_directionNull() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> new Longitude(1, 2, 3, null));
-        assertEquals("Direction cannot be null", e.getMessage());
+        assertEquals(DIRECTION_NULL, e.getMessage());
     }
 
     @Test

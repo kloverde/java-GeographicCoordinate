@@ -44,16 +44,18 @@ import org.loverde.geographiccoordinate.compass.CompassDirection8;
 import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static java.math.BigDecimal.ZERO;
+import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.COMPASS_TYPE_NULL;
+import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.BEARING_NULL;
+import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
 /**
  * This class calculates initial bearing and back azimuth.
  *
  * <p><strong>
- * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN
- * UNDERSTANDING OF, GEODESY, AND MERELY IMPLEMENTED FORMULAS FOUND ONLINE.
- * DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME
- * TO READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
+ * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN UNDERSTANDING OF, GEODESY, AND MERELY
+ * IMPLEMENTED FORMULAS FOUND ONLINE.  DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME TO
+ * READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
  * </strong></p>
  */
 public class BearingCalculator {
@@ -70,10 +72,9 @@ public class BearingCalculator {
      * </p>
      *
      * <p><strong>
-     * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN
-     * UNDERSTANDING OF, GEODESY, AND MERELY IMPLEMENTED FORMULAS FOUND ONLINE.
-     * DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME
-     * TO READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
+     * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN UNDERSTANDING OF, GEODESY, AND MERELY
+     * IMPLEMENTED FORMULAS FOUND ONLINE.  DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME TO
+     * READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
      * </strong></p>
      *
      * @param compassType The returned {@code Bearing} will be parameterized with this type, allowing you to safely cast it
@@ -90,10 +91,9 @@ public class BearingCalculator {
      * Calculates the back azimuth - the bearing that gets you back to your starting point
      *
      * <p><strong>
-     * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN
-     * UNDERSTANDING OF, GEODESY, AND MERELY IMPLEMENTED FORMULAS FOUND ONLINE.
-     * DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME
-     * TO READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
+     * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN UNDERSTANDING OF, GEODESY, AND MERELY
+     * IMPLEMENTED FORMULAS FOUND ONLINE.  DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME TO
+     * READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
      * </strong></p>
      *
      * @param compassType    The returned {@code Bearing} will be parameterized with this type, allowing you to safely cast it
@@ -104,56 +104,35 @@ public class BearingCalculator {
         return newBearing(compassType, calculateBackAzimuth(initialBearing));
     }
 
-    private static Bearing<? extends CompassDirection> newBearing(final Class<? extends CompassDirection> compassClass, final BigDecimal angle) {
-        if (compassClass == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_COMPASS_DIRECTION_NULL);
-        }
-
-        if (compassClass == CompassDirection8.class) {
+    private static Bearing<? extends CompassDirection> newBearing(final Class<? extends CompassDirection> compassType, final BigDecimal angle) {
+        if (compassType == CompassDirection8.class) {
             return new Bearing<>(CompassDirection8.getByBearing(angle), angle);
-        } else if (compassClass == CompassDirection16.class) {
+        } else if (compassType == CompassDirection16.class) {
             return new Bearing<>(CompassDirection16.getByBearing(angle), angle);
-        } else if (compassClass == CompassDirection32.class) {
+        } else if (compassType == CompassDirection32.class) {
             return new Bearing<>(CompassDirection32.getByBearing(angle), angle);
         }
 
-        return null;
+        throw new IllegalArgumentException(COMPASS_TYPE_NULL);
     }
 
     private static BigDecimal calculateBearing(final Point from, final Point to) {
-        if (from == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_FROM_NULL);
-        }
-
-        if (to == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_TO_NULL);
-        }
-
-        if (from.getLatitude() == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_FROM_LATITUDE_NULL);
-        }
-
-        if (from.getLongitude() == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_FROM_LONGITUDE_NULL);
-        }
-
-        if (to.getLatitude() == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_TO_LATITUDE_NULL);
-        }
-
-        if (to.getLongitude() == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_TO_LONGITUDE_NULL);
-        }
+        failIf(from == null, () -> GeographicCoordinateException.Messages.STARTING_POINT_NULL);
+        failIf(to == null, () -> GeographicCoordinateException.Messages.BEARING_TO_NULL);
+        failIf(from.getLatitude() == null, () -> GeographicCoordinateException.Messages.BEARING_FROM_LATITUDE_NULL);
+        failIf(from.getLongitude() == null, () -> GeographicCoordinateException.Messages.BEARING_FROM_LONGITUDE_NULL);
+        failIf(to.getLatitude() == null, () -> GeographicCoordinateException.Messages.BEARING_TO_LATITUDE_NULL);
+        failIf(to.getLongitude() == null, () -> GeographicCoordinateException.Messages.BEARING_TO_LONGITUDE_NULL);
 
         final double fromLatRadians = from.getLatitude().toRadians(),
-                fromLonRadians = from.getLongitude().toRadians(),
-                toLatRadians = to.getLatitude().toRadians(),
-                toLonRadians = to.getLongitude().toRadians(),
-                deltaLon = toLonRadians - fromLonRadians;
+            fromLonRadians = from.getLongitude().toRadians(),
+            toLatRadians = to.getLatitude().toRadians(),
+            toLonRadians = to.getLongitude().toRadians(),
+            deltaLon = toLonRadians - fromLonRadians;
 
         final double y = Math.sin(deltaLon) * Math.cos(toLatRadians);
         final double x = Math.cos(fromLatRadians) * Math.sin(toLatRadians) -
-                Math.sin(fromLatRadians) * Math.cos(toLatRadians) * Math.cos(deltaLon);
+            Math.sin(fromLatRadians) * Math.cos(toLatRadians) * Math.cos(deltaLon);
 
         final double bearing = Math.toDegrees(Math.atan2(y, x));
         final double normalizedBearing = normalizeBearing(bearing);
@@ -165,13 +144,8 @@ public class BearingCalculator {
         final BigDecimal zeroedBearing;
         BigDecimal backAzimuth;
 
-        if (bearing == null) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_BEARING_NULL);
-        }
-
-        if (bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD_360) > 0) {
-            throw new GeographicCoordinateException(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE);
-        }
+        failIf(bearing == null, () -> BEARING_NULL);
+        failIf(bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD_360) > 0, () -> GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE);
 
         zeroedBearing = bearing.compareTo(BD_360) == 0 ? ZERO : bearing;
 

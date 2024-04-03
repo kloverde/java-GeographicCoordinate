@@ -37,7 +37,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
 
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 import org.loverde.geographiccoordinate.internal.EnumHelper;
 
 import static java.math.BigDecimal.ZERO;
@@ -161,7 +160,7 @@ public enum CompassDirection16 implements CompassDirection {
         CompassDirection16 dir;
 
         if (bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD360) > 0) {
-            throw new GeographicCoordinateException(String.format("Bearing %s is not in range [0, 360]", bearing.toPlainString()));
+            throw new IllegalArgumentException(String.format("Bearing %s is not in range [0, 360]", bearing.toPlainString()));
         }
 
         values = values();

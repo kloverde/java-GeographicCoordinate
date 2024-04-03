@@ -53,7 +53,7 @@ public class Point {
      *
      * @param latitude  - {@linkplain Latitude}
      * @param longitude - {@linkplain Longitude}
-     * @throws GeographicCoordinateException If either parameter is null
+     * @throws IllegalArgumentException If either parameter is null
      */
     public Point(final Latitude latitude, final Longitude longitude) {
         setLatitude(latitude);

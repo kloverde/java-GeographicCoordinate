@@ -53,12 +53,15 @@ public class GeographicCoordinateException extends RuntimeException {
             (Minutes and seconds must be 0 when degrees is %d)
             """;
 
-        public static String DIRECTION_CANT_BE_NEITHER = "Direction can only be NEITHER when the value is 0.0";
+        public static final String DIRECTION_NULL = "Direction is null";
 
-        public static final String BEARING_BEARING_NULL = "Bearing is null",
+        public static final String DIRECTION_CANT_BE_NEITHER = "Direction can only be NEITHER when the value is 0.0";
+
+        public static final String
             BEARING_OUT_OF_RANGE = "Bearing is out of range [0, 360]",
-            BEARING_COMPASS_DIRECTION_NULL = "CompassDirection class is null",
-            BEARING_FROM_NULL = "'from' is null",
+            COMPASS_TYPE_NULL = "Compass type is null",
+            BEARING_NULL = "Bearing is null",
+            STARTING_POINT_NULL = "Starting point is null",
             BEARING_TO_NULL = "'to' is null",
             BEARING_FROM_LATITUDE_NULL = "'from' latitude is null",
             BEARING_FROM_LONGITUDE_NULL = "'from' longitude is null",

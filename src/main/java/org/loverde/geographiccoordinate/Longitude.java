@@ -33,12 +33,10 @@
 
 package org.loverde.geographiccoordinate;
 
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 import org.loverde.geographiccoordinate.internal.GeographicCoordinate;
 import org.loverde.geographiccoordinate.internal.LatLonDirection;
 
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.DIRECTION_CANT_BE_NEITHER;
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.LAT_LON_RANGE_ERROR;
+import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.*;
 import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
@@ -86,15 +84,15 @@ public record Longitude (int degrees, int minutes, double seconds, Longitude.Dir
      * @param minutes   - Accepted range [0-59] unless {@code degrees} is 180, in which case {@code minutes} must be 0
      * @param seconds   - Accepted range [0-59.9999999999999] unless {@code degrees} is 180, in which case {@code seconds} must be 0
      * @param direction - A {@linkplain Longitude.Direction}
-     * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges, or if degrees/minutes/seconds
-     *                                       are all 0 with a {@code direction} other than {@linkplain Direction#NEITHER}
+     * @throws IllegalArgumentException If any arguments fall outside their accepted ranges, or if degrees/minutes/seconds
+     *                                  are all 0 with a {@code direction} other than {@linkplain Direction#NEITHER}
      */
     public Longitude {
         failIf(degrees < 0 || degrees > MAX_VALUE, Longitude::getRangeError);
         failIf(minutes < 0 || minutes > MAX_VALUE_MINUTES, Longitude::getRangeError);
         failIf(seconds < 0.0 || seconds > MAX_VALUE_SECONDS, Longitude::getRangeError);
         failIf(degrees == MAX_VALUE && (minutes > 0 || seconds > 0.0), Longitude::getRangeError);
-        failIf(direction == null, () -> "Direction cannot be null");
+        failIf(direction == null, () -> DIRECTION_NULL);
         failIf(direction == Direction.NEITHER && !(degrees == 0 && minutes == 0 && seconds == 0.0d), () -> DIRECTION_CANT_BE_NEITHER);
     }
 
@@ -104,7 +102,7 @@ public record Longitude (int degrees, int minutes, double seconds, Longitude.Dir
      * @param longitude - A signed value.  Positive values are east; negative values are west.  Note that a value
      *                    of 0.0 is the Prime Meridian, which is neither east nor west.  If you supply a value of
      *                    0.0, the {@code direction} will be initialized to {@link Direction#NEITHER}.
-     * @throws GeographicCoordinateException If the supplied value falls outside of +/- {@linkplain Longitude#MAX_VALUE}
+     * @throws IllegalArgumentException If the supplied value falls outside +/- {@linkplain Longitude#MAX_VALUE}
      */
     public Longitude(final double longitude) {
         this(
