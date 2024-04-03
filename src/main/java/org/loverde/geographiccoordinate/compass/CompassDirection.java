@@ -38,11 +38,11 @@ import java.math.BigDecimal;
 
 public interface CompassDirection {
 
-   public String getAbbreviation();
-   public String getPrintName();
-   public BigDecimal getMinimum();
-   public BigDecimal getMiddle();
-   public BigDecimal getMaximum();
-   public CompassDirection getPrevious();
-   public CompassDirection getNext();
+   String getAbbreviation();
+   String getPrintName();
+   BigDecimal getMinimum();
+   BigDecimal getMiddle();
+   BigDecimal getMaximum();
+   CompassDirection getPrevious();
+   CompassDirection getNext();
 }

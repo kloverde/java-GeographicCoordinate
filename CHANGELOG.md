@@ -1,3 +1,23 @@
+# Release 5.0.0 (April 3, 2024)
+
+* Removed dependencies on my external `BuildScripts` and `NumberUtil` projects
+* Retargeted at Java 17 + Gradle 8.0
+* Upgraded to JUnit 5
+* Upgraded Mockito
+* The internals are updated to use modern Java features
+* Removed reflection from the compass direction internals
+* Added [Spotbugs](https://spotbugs.github.io/) to the build script
+
+Breaking changes:
+
+* `Latitude`, `Longitude` and `Point` are now records rather than classes (getter names changed, can no longer be extended)
+* `AbstractGeographicCoordinate` has been removed, as well as the exception constants in its nested `Messages` class
+* `IllegalArgumentException` has replaced `GeographicCoordinateException`.  `GeographicCoordinateException` has been removed.
+* Exception messages have changed
+* `toString(Locale)` has been removed in favor of `toString()`.  Apparently the international standard is to use U.S. formatting for coordinates.
+* The `EnumHelper` API has changed (you weren't using an API that was labeled _internal_, were you? 👀)
+* `Latitude.MAX_VALUE` and `Longitude.MAX_VALUE` have been changed to doubles
+
 # Release 4.2.1 (May 8, 2021)
 
 * Fixed a compilation error observed on OpenJDK 15/Linux where the 'degree' symbol was not a UTF-8 character.  Whatever it was previously, it's been replaced with a compliant character.  This changes the value returned by `toString` in `Latitude` and `Longitude`.

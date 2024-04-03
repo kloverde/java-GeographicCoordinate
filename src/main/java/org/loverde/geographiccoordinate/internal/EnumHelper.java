@@ -33,59 +33,35 @@
 
 package org.loverde.geographiccoordinate.internal;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
+
+import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
 public class EnumHelper {
 
-   /**
-    * Uses reflection to populate a map of enum members using a configurable getter from the enum
-    *
-    * @param enumClass The enumeration
-    * @param keySourceGetterName The name of a public getter within the enumeration, which provides the keys for the map
-    *
-    * @return A map containing all members of the enumeration
-    */
-   public static final <E> Map<String, E> populateEnumMap_stringKey( final Class<E> enumClass, final String keySourceGetterName ) {
-      final Map<String, E> map;
-      final Method methods[];
+    /**
+     * Populate a map of enum members using a configurable getter from the enum as the key supplier
+     *
+     * @param enumClass    The enumeration
+     * @param keyExtractor A method reference on the enum which supplies the key value for the map
+     * @return A map containing all members of the enum
+     * @throws IllegalArgumentException If the keyExtractor does not provide unique values, or if any parameter is null
+     */
+    public static <E extends Enum<E>, K> Map<K, E> populateEnumMap(final Class<E> enumClass, final Function<E, K> keyExtractor) {
+        failIf(enumClass == null, () -> "enumClass is null");
+        failIf(keyExtractor == null, () -> "keyExtractor is null");
 
-      Method method = null;
+        final Map<K, E> map = new LinkedHashMap<>();
 
-      if( enumClass == null ) {
-         throw new IllegalArgumentException( "enumClass is null" );
-      }
-
-      if( (keySourceGetterName + "").trim().isEmpty() ) {
-         throw new IllegalArgumentException( "keySourceGetterName is empty" );
-      }
-
-      map = new LinkedHashMap<>();
-      methods = enumClass.getMethods();
-
-      if( methods.length > 0 ) {
-         for( Method m : methods ) {
-            if( m.getName().equals(keySourceGetterName) && m.getReturnType() == String.class ) {
-               method = m;
+        for (final E enumObj : enumClass.getEnumConstants()) {
+            if (map.put(keyExtractor.apply(enumObj), enumObj) != null) {
+                throw new IllegalArgumentException("The specified key extractor does not provide unique values");
             }
-         }
+        }
 
-         if( method == null ) {
-            throw new IllegalArgumentException( "Could not find a matching String method named " + keySourceGetterName );
-         }
-
-         try {
-            for( final E enumObj : enumClass.getEnumConstants() ) {
-               map.put( (String) method.invoke(enumObj, (Object[]) null), enumObj );
-            }
-         } catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
-            throw new RuntimeException( e );
-         }
-      }
-
-      return map;
-   }
+        return map;
+    }
 }

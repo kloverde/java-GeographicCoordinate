@@ -33,174 +33,103 @@
 
 package org.loverde.geographiccoordinate;
 
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
-import org.loverde.geographiccoordinate.internal.AbstractGeographicCoordinate;
+import org.loverde.geographiccoordinate.internal.GeographicCoordinate;
 import org.loverde.geographiccoordinate.internal.LatLonDirection;
+
+import static org.loverde.geographiccoordinate.Latitude.Direction.SOUTH;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.*;
+import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
 /**
- * Lines of latitude run parallel to the Equator (perpendicular to the Prime Meridian).
- * Latitude denotes whether a location is north or south of the Equator.
- * The Equator is located at latitude 0.
+ * Lines of latitude run parallel to the Equator (perpendicular to the Prime Meridian).  Latitude denotes whether a
+ * location is north or south of the Equator.  The Equator is located at latitude 0.
  */
-public class Latitude extends AbstractGeographicCoordinate {
+public record Latitude(int degrees, int minutes, double seconds, Direction direction) implements GeographicCoordinate {
 
-   /**
-    * Indicates whether a location is north or south of the Equator, or on the Equator
-    */
-   public static enum Direction implements LatLonDirection {
-      /**
-       * Indicates that the location is north of the Equator
-       */
-      NORTH( "N" ),
+    /** Indicates whether a location is north or south of the Equator, or on the Equator */
+    public enum Direction implements LatLonDirection {
+        /** Indicates that the location is north of the Equator */
+        NORTH("N"),
 
-      /**
-       * Indicates that the location is south of the Equator
-       */
-      SOUTH( "S" ),
+        /** Indicates that the location is south of the Equator */
+        SOUTH("S"),
 
-      /**
-       * Indicates that the location is on the Equator
-       * (neither north nor south:  the latitude is exactly 0.0).
-       */
-      NEITHER( "" );
+        /** Indicates that the location is on the Equator (neither north nor south:  the latitude is exactly 0.0). */
+        NEITHER("");
 
-      private String abbreviation;
+        private final String abbreviation;
 
-      private Direction( final String abbr ) {
-         this.abbreviation = abbr;
-      }
+        Direction(final String abbr) {
+            this.abbreviation = abbr;
+        }
 
-      @Override
-      public String getAbbreviation() {
-         return abbreviation;
-      }
-   };
+        @Override
+        public String getAbbreviation() {
+            return abbreviation;
+        }
+    }
 
-   private Latitude.Direction direction;
-
-   /**
-    * When expressed as a floating-point number, valid latitudes sit in a
-    * range of +/- 90.0.  When expressed as degrees/minutes/seconds, the
-    * valid range for degrees is 0-90, with minutes and seconds equal to
-    * 0 when degrees is 90.
-    */
-   public static final int MAX_VALUE = 90;
+    /**
+     * When expressed as a floating-point number, valid latitudes sit in a range of +/- 90.0.  When expressed as
+     * degrees/minutes/seconds, the valid range for degrees is 0-90, with minutes and seconds equal to 0 when
+     * degrees is 90.
+     */
+    public static final double MAX_VALUE = 90.0;
 
 
-   /**
-    * Creates a new latitude object
-    *
-    * @param latitude - A signed value.  Positive values are north; negative values are south.  Note that a value
-    *                   of 0.0 is the Equator, which is neither north nor south.  If you supply a value of 0.0,
-    *                   the {@code direction} will be initialized to {@link Direction#NEITHER}.
-    *
-    * @throws GeographicCoordinateException If the supplied value falls outside of +/- {@linkplain Latitude#MAX_VALUE}
-    */
-   public Latitude( final double latitude ) {
-      super( latitude );
+    /**
+     * Creates a new latitude object
+     *
+     * @param degrees   - Accepted range [0-90]
+     * @param minutes   - Accepted range [0-59] unless {@code degrees} is 90, in which case {@code minutes} must be 0
+     * @param seconds   - Accepted range [0-59.9999999999999] unless {@code degrees} is 90, in which case {@code seconds} must be 0
+     * @param direction - A {@linkplain Direction}
+     * @throws IllegalArgumentException If any arguments fall outside their accepted ranges, or if degrees/minutes/seconds
+     *                                  are all 0 with a {@code direction} other than {@linkplain Direction#NEITHER}
+     */
+    public Latitude {
+        failIf(degrees < 0 || degrees > MAX_VALUE, Latitude::getRangeError);
+        failIf(minutes < 0 || minutes > MAX_VALUE_MINUTES, Latitude::getRangeError);
+        failIf(seconds < 0.0 || seconds > MAX_VALUE_SECONDS, Latitude::getRangeError);
+        failIf(degrees == MAX_VALUE && (minutes > 0 || seconds > 0.0), Latitude::getRangeError);
+        failIf(direction == null, () -> DIRECTION_NULL);
+        failIf(direction == Direction.NEITHER && !(degrees == 0 && minutes == 0 && seconds == 0.0d), () -> DIRECTION_CANT_BE_NEITHER);
+    }
 
-      if( latitude == 0.0d ) {
-         setDirection( Direction.NEITHER );
-      } else {
-         setDirection( latitude > 0.0d ? Direction.NORTH : Direction.SOUTH );
-      }
-   }
+    /**
+     * Creates an immutable Latitude object.
+     *
+     * @param latitude - A signed value.  Positive values are north; negative values are south.  Note that a value
+     *                   of 0.0 is the Equator, which is neither north nor south.  If you supply a value of 0.0,
+     *                   the {@code direction} will be initialized to {@link Direction#NEITHER}.
+     * @throws IllegalArgumentException If the supplied value falls outside +/- {@linkplain Latitude#MAX_VALUE}
+     */
+    public Latitude(final double latitude) {
+        this(
+            ((int) Math.abs(latitude)),
+            ((int) ((Math.abs(latitude) - (int) Math.abs(latitude)) * 60.0d)),
+            ((((Math.abs(latitude) - (int) Math.abs(latitude)) * 60.0d) % 1.0d) * 60.0d),
 
-   /**
-    * Creates a new latitude object
-    *
-    * @param degrees   - Accepted range [0-90]
-    * @param minutes   - Accepted range [0-59] unless {@code degrees} is 90, in which case {@code minutes} must be 0
-    * @param seconds   - Accepted range [0-59.9999999999999] unless {@code degrees} is 90, in which case {@code seconds} must be 0
-    * @param direction - A {@linkplain Latitude.Direction}
-    *
-    * @throws GeographicCoordinateException If any arguments fall outside their accepted ranges, or if degrees/minutes/seconds
-    *                                       are all 0 with a {@code direction} other than {@linkplain Direction#NEITHER}
-    */
-   public Latitude( final int degrees, final int minutes, final double seconds, final Latitude.Direction direction ) {
-      super( degrees, minutes, seconds );
+            switch ((int) Math.signum(latitude)) {
+                case 1 -> Direction.NORTH;
+                case -1 -> SOUTH;
+                default -> Direction.NEITHER;
+            }
+        );
+    }
 
-      setDirection( direction );
-   }
+    public double toDouble() {
+        return (direction == SOUTH ? -1 : 1) * (degrees + ((minutes / 60.0) + (seconds / 3600.0)));
+    }
 
-   /**
-    * @param direction - A member of {@linkplain Latitude.Direction}
-    *
-    * @throws GeographicCoordinateException In the following situations:
-    * <ul>
-    *    <li>{@code direction} is null</li>
-    *    <li>{@code direction} is {@linkplain Direction#NEITHER} but the latitude is not 0.0
-    * </ul>
-    */
-   private void setDirection( final Latitude.Direction direction ) {
-      if( direction == null ) {
-         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
-      }
+    /** Returns the string representation provided by {@link #toDmsString()} */
+    @Override
+    public String toString() {
+        return toDmsString();
+    }
 
-      if( direction == Direction.NEITHER && !(getDegrees() == 0 && getMinutes() == 0 && getSeconds() == 0.0d) ) {
-         throw new GeographicCoordinateException( GeographicCoordinateException.Messages.DIRECTION_INVALID );
-      }
-
-      this.direction = direction;
-   }
-
-   /**
-    * Indicates whether the location is north or south of the Equator, or on the Equator.
-    * When on the Equator, the direction is {@linkplain Direction#NEITHER}.
-    *
-    * @return Orientation with respect to the Equator
-    */
-   @Override
-   public Latitude.Direction getDirection() {
-      return direction;
-   }
-
-   @Override
-   public double toDouble() {
-      // Sanity check for an impossible scenario
-      if( getDirection() == null ) {
-         final IllegalStateException stateEx = new IllegalStateException( GeographicCoordinateException.Messages.DIRECTION_NULL );
-         throw new GeographicCoordinateException( stateEx.getMessage(), stateEx );
-      }
-
-      final double decimal = getDegrees() + (getMinutes() / 60.0d) + (getSeconds() / 3600.0d);
-
-      return getDirection() == Direction.NORTH ? decimal : -decimal;
-   }
-
-   @Override
-   public int hashCode() {
-      final int prime = 31;
-      int result = super.hashCode();
-
-      result = prime * result + (direction == null ? 0 : direction.hashCode());
-
-      return result;
-   }
-
-   /**
-    * Compares this object to an {@code instanceof} Latitude.  All Latitude fields are compared.
-    *
-    * @param compareTo - The object to compare to
-    *
-    * @return {@code true} if equal, {@code false} if not
-    */
-   @Override
-   public boolean equals( final Object compareTo ) {
-      final Latitude other;
-
-      if( this == compareTo ) return true;
-      if( compareTo == null ) return false;
-
-      if( !(compareTo instanceof Latitude) ) return false;
-
-      other = (Latitude) compareTo;
-
-      if( getDirection() == null && other.getDirection() != null ) return false;
-      if( getDirection() != null && other.getDirection() == null ) return false;
-      if( !getDirection().equals(other.getDirection()) ) return false;
-
-      return super.equals( other );
-   }
+    public static String getRangeError() {
+        return LAT_LON_RANGE_ERROR.formatted(MAX_VALUE, MAX_VALUE, (int) MAX_VALUE, (int) MAX_VALUE);
+    }
 }
