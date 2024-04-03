@@ -5,8 +5,13 @@ import java.util.function.Supplier;
 
 public class Objects {
 
-    public static void failIf(boolean condition, Supplier<String> iaeMessage) {
-        if (condition) {
+    /**
+     * Shorthand for IF statements that throw IllegalArgumentException
+     * @param isFailed The result of the check
+     * @param iaeMessage Exception message
+     */
+    public static void failIf(final boolean isFailed, final Supplier<String> iaeMessage) {
+        if (isFailed) {
             throw new IllegalArgumentException(iaeMessage.get());
         }
     }

@@ -37,6 +37,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.LATITUDE_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.LONGITUDE_NULL;
 
 
 class PointTest {
@@ -66,25 +68,25 @@ class PointTest {
     @Test
     void constructor2arg_fail_nullLatitude() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(null, longitude1));
-        assertEquals("Latitude cannot be null", e.getMessage());
+        assertEquals(LATITUDE_NULL, e.getMessage());
     }
 
     @Test
     void constructor2arg_fail_nullLongitude() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(latitude1, null));
-        assertEquals("Longitude cannot be null", e.getMessage());
+        assertEquals(LONGITUDE_NULL, e.getMessage());
     }
 
     @Test
     void constructor3arg_fail_nullLatitude() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(null, longitude1, "name"));
-        assertEquals("Latitude cannot be null", e.getMessage());
+        assertEquals(LATITUDE_NULL, e.getMessage());
     }
 
     @Test
     void constructor3arg_fail_nullLongitude() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> new Point(latitude1, null, "name"));
-        assertEquals("Longitude cannot be null", e.getMessage());
+        assertEquals(LONGITUDE_NULL, e.getMessage());
     }
 
     @Test

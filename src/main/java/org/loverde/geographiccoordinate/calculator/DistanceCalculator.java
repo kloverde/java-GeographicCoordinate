@@ -170,11 +170,11 @@ public class DistanceCalculator {
             failIf(longitude2 == null, () -> "Longitude 2 is null");
 
             final double lat1 = latitude1.toRadians(),
-                lat2 = latitude2.toRadians(),
-                lon1 = longitude1.toRadians(),
-                lon2 = longitude2.toRadians(),
-                deltaLat = lat2 - lat1,
-                deltaLon = lon2 - lon1;
+                         lat2 = latitude2.toRadians(),
+                         lon1 = longitude1.toRadians(),
+                         lon2 = longitude2.toRadians(),
+                         deltaLat = lat2 - lat1,
+                         deltaLon = lon2 - lon1;
 
             final double d = (2.0d * EARTH_RADIUS_KILOMETERS) * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2.0d), 2.0d)
                 + (Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2.0d), 2.0d))));

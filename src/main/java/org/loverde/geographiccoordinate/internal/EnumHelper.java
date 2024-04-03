@@ -37,6 +37,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static org.loverde.geographiccoordinate.internal.Objects.failIf;
+
 
 public class EnumHelper {
 
@@ -46,16 +48,11 @@ public class EnumHelper {
      * @param enumClass    The enumeration
      * @param keyExtractor A method reference on the enum which supplies the key value for the map
      * @return A map containing all members of the enum
-     * @throws IllegalArgumentException If the keyExtractor does not provide unique values
+     * @throws IllegalArgumentException If the keyExtractor does not provide unique values, or if any parameter is null
      */
     public static <E extends Enum<E>, K> Map<K, E> populateEnumMap(final Class<E> enumClass, final Function<E, K> keyExtractor) {
-        if (enumClass == null) {
-            throw new IllegalArgumentException("enumClass is null");
-        }
-
-        if (keyExtractor == null) {
-            throw new IllegalArgumentException("keyExtractor is null");
-        }
+        failIf(enumClass == null, () -> "enumClass is null");
+        failIf(keyExtractor == null, () -> "keyExtractor is null");
 
         final Map<K, E> map = new LinkedHashMap<>();
 

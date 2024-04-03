@@ -9,6 +9,7 @@
 
 API BREAKING CHANGES:
 
+* `Latitude`, `Longitude` and `Point` are now records rather than classes
 * `AbstractGeographicCoordinate` has been removed, as well as the exception constants in its nested `Messages` class
 * TODO: `IllegalArgumentException` has replaced `GeographicCoordinateException`.  `GeographicCoordinateException` has been removed.
 * Exception messages have changed

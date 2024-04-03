@@ -101,10 +101,7 @@ public class Point {
      * @param name - Use for identification, such as displaying a label on a map
      */
     private void setName(final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException("name cannot be null");
-        }
-
+        failIf(name == null, () -> "name cannot be null");
         this.name = name;
     }
 

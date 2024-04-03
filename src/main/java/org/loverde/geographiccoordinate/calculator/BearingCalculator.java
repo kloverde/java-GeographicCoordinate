@@ -123,14 +123,13 @@ public class BearingCalculator {
         failIf(to.getLongitude() == null, () -> BEARING_TO_LONGITUDE_NULL);
 
         final double fromLatRadians = from.getLatitude().toRadians(),
-            fromLonRadians = from.getLongitude().toRadians(),
-            toLatRadians = to.getLatitude().toRadians(),
-            toLonRadians = to.getLongitude().toRadians(),
-            deltaLon = toLonRadians - fromLonRadians;
+                     fromLonRadians = from.getLongitude().toRadians(),
+                     toLatRadians = to.getLatitude().toRadians(),
+                     toLonRadians = to.getLongitude().toRadians(),
+                     deltaLon = toLonRadians - fromLonRadians;
 
         final double y = Math.sin(deltaLon) * Math.cos(toLatRadians);
-        final double x = Math.cos(fromLatRadians) * Math.sin(toLatRadians) -
-            Math.sin(fromLatRadians) * Math.cos(toLatRadians) * Math.cos(deltaLon);
+        final double x = Math.cos(fromLatRadians) * Math.sin(toLatRadians) - Math.sin(fromLatRadians) * Math.cos(toLatRadians) * Math.cos(deltaLon);
 
         final double bearing = Math.toDegrees(Math.atan2(y, x));
         final double normalizedBearing = normalizeBearing(bearing);

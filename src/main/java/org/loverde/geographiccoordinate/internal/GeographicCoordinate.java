@@ -54,8 +54,8 @@ public interface GeographicCoordinate {
     }
 
     /**
-     * Returns a degrees-minutes-seconds formatted string for the specified locale.
-     * For example, <code>30°60'40.912"N</code>
+     * Returns a degrees-minutes-seconds formatted string for the specified locale.  For example,
+     * <code>30°60'40.912"N</code>
      *
      * @return String representation of this object
      */
