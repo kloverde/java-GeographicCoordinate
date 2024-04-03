@@ -206,7 +206,7 @@ class DistanceCalculatorTest {
     }
 
     @Test
-    void distance_usSurveyfeet() {
+    void distance_usSurveyFeet() {
         final double distance = distance(Unit.US_SURVEY_FEET, point1, point2);
         assertEquals(1070811.026664366d, distance, fpDelta);
     }

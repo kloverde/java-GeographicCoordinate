@@ -81,7 +81,7 @@ public class BearingCalculator {
      * @return The initial bearing from A to B, and a mapping of the bearing to an 8, 16 or 32-point compass direction, depending on {@code compassType}
      * @see <a href="http://www.movable-type.co.uk/scripts/latlong.html">http://www.movable-type.co.uk/scripts/latlong.html</a>.
      */
-    public static Bearing<? extends CompassDirection> initialBearing(final Class<? extends CompassDirection> compassType, final Point from, final Point to) {
+    public static <T extends CompassDirection> Bearing<T> initialBearing(final Class<T> compassType, final Point from, final Point to) {
         return newBearing(compassType, calculateBearing(from, to));
     }
 
@@ -98,17 +98,19 @@ public class BearingCalculator {
      * @param initialBearing The initial bearing
      * @return The back azimuth based on initial bearing
      */
-    public static Bearing<? extends CompassDirection> backAzimuth(final Class<? extends CompassDirection> compassType, final BigDecimal initialBearing) {
+    public static <T extends CompassDirection> Bearing<T> backAzimuth(final Class<T> compassType, final BigDecimal initialBearing) {
         return newBearing(compassType, calculateBackAzimuth(initialBearing));
     }
 
-    private static Bearing<? extends CompassDirection> newBearing(final Class<? extends CompassDirection> compassType, final BigDecimal angle) {
-        if (compassType == CompassDirection8.class) {
-            return new Bearing<>(CompassDirection8.getByBearing(angle), angle);
+    private static <T extends CompassDirection> Bearing<T> newBearing(final Class<T> compassType, final BigDecimal angle) {
+        failIf(compassType == null, () -> COMPASS_TYPE_NULL);
+
+        if (compassType.equals(CompassDirection8.class)) {
+            return new Bearing(CompassDirection8.getByBearing(angle), angle);
         } else if (compassType == CompassDirection16.class) {
-            return new Bearing<>(CompassDirection16.getByBearing(angle), angle);
+            return new Bearing(CompassDirection16.getByBearing(angle), angle);
         } else if (compassType == CompassDirection32.class) {
-            return new Bearing<>(CompassDirection32.getByBearing(angle), angle);
+            return new Bearing(CompassDirection32.getByBearing(angle), angle);
         }
 
         throw new IllegalArgumentException(COMPASS_TYPE_NULL);

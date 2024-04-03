@@ -133,32 +133,28 @@ class BearingCalculatorTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void initalBearing_compassDirection8() {
-        final Bearing<CompassDirection8> bearing8 = (Bearing<CompassDirection8>) initialBearing(CompassDirection8.class, point1, point2);
+        final Bearing<CompassDirection8> bearing8 = initialBearing(CompassDirection8.class, point1, point2);
         assertEquals(232.95302, bearing8.getBearing().doubleValue(), .00001);
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void initalBearing_compassDirection16() {
-        final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) initialBearing(CompassDirection16.class, point1, point2);
+        final Bearing<CompassDirection16> bearing16 = initialBearing(CompassDirection16.class, point1, point2);
         assertEquals(232.95302, bearing16.getBearing().doubleValue(), .00001);
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void initalBearing_compassDirection32() {
-        final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) initialBearing(CompassDirection32.class, point1, point2);
+        final Bearing<CompassDirection32> bearing32 = initialBearing(CompassDirection32.class, point1, point2);
         assertEquals(232.95302, bearing32.getBearing().doubleValue(), .00001);
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void initialBearing_equivalence() {
-        final Bearing<CompassDirection8> bearing8 = (Bearing<CompassDirection8>) initialBearing(CompassDirection8.class, point1, point2);
-        final Bearing<CompassDirection16> bearing16 = (Bearing<CompassDirection16>) initialBearing(CompassDirection16.class, point1, point2);
-        final Bearing<CompassDirection32> bearing32 = (Bearing<CompassDirection32>) initialBearing(CompassDirection32.class, point1, point2);
+        final Bearing<CompassDirection8> bearing8 = initialBearing(CompassDirection8.class, point1, point2);
+        final Bearing<CompassDirection16> bearing16 = initialBearing(CompassDirection16.class, point1, point2);
+        final Bearing<CompassDirection32> bearing32 = initialBearing(CompassDirection32.class, point1, point2);
 
         assertEquals(bearing8.getBearing(), bearing16.getBearing());
         assertEquals(bearing16.getBearing(), bearing32.getBearing());
@@ -190,8 +186,7 @@ class BearingCalculatorTest {
 
     @Test
     void backAzimuth_0() {
-        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, BigDecimal.ZERO);
-
+        final Bearing<CompassDirection8> back = backAzimuth(CompassDirection8.class, BigDecimal.ZERO);
         assertEquals(new BigDecimal(180), back.getBearing());
     }
 
@@ -199,14 +194,14 @@ class BearingCalculatorTest {
     void backAzimuth_179_9999() {
         final BigDecimal bearing = new BigDecimal("179.9999999999");
 
-        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, bearing);
+        final Bearing<CompassDirection8> back = backAzimuth(CompassDirection8.class, bearing);
 
         assertEquals("359.9999999999", back.getBearing().toPlainString());
     }
 
     @Test
     void backAzimuth_180() {
-        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, new BigDecimal(180));
+        final Bearing<CompassDirection8> back = backAzimuth(CompassDirection8.class, new BigDecimal(180));
 
         assertEquals(BigDecimal.ZERO, back.getBearing());
     }
@@ -215,14 +210,14 @@ class BearingCalculatorTest {
     void backAzimuth_180_0001() {
         final BigDecimal bearing = new BigDecimal("180.00000000001");
 
-        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, bearing);
+        final Bearing<CompassDirection8> back = backAzimuth(CompassDirection8.class, bearing);
 
         assertEquals("0.00000000001", back.getBearing().toPlainString());
     }
 
     @Test
     void backAzimuth_360() {
-        @SuppressWarnings("unchecked") final Bearing<CompassDirection8> back = (Bearing<CompassDirection8>) backAzimuth(CompassDirection8.class, new BigDecimal(360));
+        final Bearing<CompassDirection8> back = backAzimuth(CompassDirection8.class, new BigDecimal(360));
 
         assertEquals(new BigDecimal(180), back.getBearing());
     }
