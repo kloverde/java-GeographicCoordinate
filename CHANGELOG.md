@@ -5,9 +5,9 @@
 * Upgraded to JUnit 5
 * Upgraded Mockito
 * The internals are updated to use modern Java features
-* Removed use of reflection from the compass direction internals
+* Removed reflection from the compass direction internals
 
-API BREAKING CHANGES:
+Breaking changes:
 
 * `Latitude`, `Longitude` and `Point` are now records rather than classes (getter names changed, can no longer be extended)
 * `AbstractGeographicCoordinate` has been removed, as well as the exception constants in its nested `Messages` class
