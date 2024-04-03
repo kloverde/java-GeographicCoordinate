@@ -1,14 +1,17 @@
-apply plugin: "java"
-apply plugin: "maven-publish"
-
-sourceCompatibility = javaSourceCompatibility
-targetCompatibility = javaTargetCompatibility
-
 buildscript {
    repositories {
       mavenCentral()
    }
 }
+
+plugins {
+   id("java")
+   id("com.github.spotbugs") version "6.0.9"
+   id("maven-publish")
+}
+
+sourceCompatibility = javaSourceCompatibility
+targetCompatibility = javaTargetCompatibility
 
 repositories {
    mavenCentral()

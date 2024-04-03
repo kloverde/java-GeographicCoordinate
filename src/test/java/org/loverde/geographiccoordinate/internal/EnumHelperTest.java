@@ -16,8 +16,8 @@ class EnumHelperTest {
 
         assertEquals(GoodEnum.values().length, map.size());
 
-        for (Integer val : map.keySet()) {
-            assertEquals(val, map.get(val).getVal());
+        for (var pair : map.entrySet()) {
+            assertEquals(pair.getKey(), map.get(pair.getKey()).getVal());
         }
     }
 

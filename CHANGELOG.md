@@ -6,6 +6,7 @@
 * Upgraded Mockito
 * The internals are updated to use modern Java features
 * Removed reflection from the compass direction internals
+* Added [Spotbugs](https://spotbugs.github.io/) to the build script
 
 Breaking changes:
 
