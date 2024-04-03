@@ -12,7 +12,7 @@ Breaking changes:
 
 * `Latitude`, `Longitude` and `Point` are now records rather than classes (getter names changed, can no longer be extended)
 * `AbstractGeographicCoordinate` has been removed, as well as the exception constants in its nested `Messages` class
-* TODO: `IllegalArgumentException` has replaced `GeographicCoordinateException`.  `GeographicCoordinateException` has been removed.
+* `IllegalArgumentException` has replaced `GeographicCoordinateException`.  `GeographicCoordinateException` has been removed.
 * Exception messages have changed
 * `toString(Locale)` has been removed in favor of `toString()`.  Apparently the international standard is to use U.S. formatting for coordinates.
 * The `EnumHelper` API has changed (you weren't using an API that was labeled _internal_, were you? 👀)
