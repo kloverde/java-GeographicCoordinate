@@ -33,7 +33,9 @@
 
 package org.loverde.geographiccoordinate;
 
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.LATITUDE_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.LONGITUDE_NULL;
+import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
 /**
@@ -66,7 +68,7 @@ public class Point {
      * @param latitude  - {@linkplain Latitude}
      * @param longitude - {@linkplain Longitude}
      * @param name      - Use for identification, such as displaying a caption on a map.  Null is permitted.
-     * @throws GeographicCoordinateException If any parameter is null
+     * @throws IllegalArgumentException If any parameter is null
      */
     public Point(final Latitude latitude, final Longitude longitude, final String name) {
         this(latitude, longitude);
@@ -78,10 +80,7 @@ public class Point {
     }
 
     private void setLatitude(final Latitude latitude) {
-        if (latitude == null) {
-            throw new IllegalArgumentException("Latitude cannot be null");
-        }
-
+        failIf(latitude == null, () -> LATITUDE_NULL);
         this.latitude = latitude;
     }
 
@@ -90,10 +89,7 @@ public class Point {
     }
 
     private void setLongitude(final Longitude longitude) {
-        if (longitude == null) {
-            throw new IllegalArgumentException("Longitude cannot be null");
-        }
-
+        failIf(longitude == null, () -> LONGITUDE_NULL);
         this.longitude = longitude;
     }
 
@@ -152,7 +148,9 @@ public class Point {
 
         if (getName() == null) {
             return other.getName() == null;
-        } else return getName().equals(other.getName());
+        }
+
+        return getName().equals(other.getName());
     }
 
     @Override

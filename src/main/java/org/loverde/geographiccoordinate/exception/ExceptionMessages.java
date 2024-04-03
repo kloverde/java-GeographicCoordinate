@@ -33,55 +33,31 @@
 
 package org.loverde.geographiccoordinate.exception;
 
-import java.io.Serial;
 
+public class ExceptionMessages {
 
-public class GeographicCoordinateException extends RuntimeException {
+    public static final String LAT_LON_RANGE_ERROR = """
+        Value out of range.  Values must be within the following ranges (inclusive):
 
-    @Serial
-    private static final long serialVersionUID = -5390540198404132694L;
+        Decimal:  -%f to %f
 
-    public static final class Messages {
-        public static final String LAT_LON_RANGE_ERROR = """
-            Value out of range.  Values must be within the following ranges (inclusive):
+        Degrees:  0 to %d
+        Minutes:  0 to 59
+        Seconds:  0 to 59.9[...]
+        (Minutes and seconds must be 0 when degrees is %d)
+        """;
+    public static final String DIRECTION_NULL = "Direction is null";
+    public static final String DIRECTION_CANT_BE_NEITHER = "Direction can only be NEITHER when the value is 0.0";
+    public static final String BEARING_OUT_OF_RANGE = "Bearing is out of range [0, 360]";
+    public static final String COMPASS_TYPE_NULL = "Compass type is null";
+    public static final String BEARING_NULL = "Bearing is null";
+    public static final String LATITUDE_NULL = "Latitude is null";
+    public static final String LONGITUDE_NULL = "Longitude is null";
 
-            Decimal:  -%f to %f
-
-            Degrees:  0 to %d
-            Minutes:  0 to 59
-            Seconds:  0 to 59.9[...]
-            (Minutes and seconds must be 0 when degrees is %d)
-            """;
-
-        public static final String DIRECTION_NULL = "Direction is null";
-
-        public static final String DIRECTION_CANT_BE_NEITHER = "Direction can only be NEITHER when the value is 0.0";
-
-        public static final String
-            BEARING_OUT_OF_RANGE = "Bearing is out of range [0, 360]",
-            COMPASS_TYPE_NULL = "Compass type is null",
-            BEARING_NULL = "Bearing is null",
-            STARTING_POINT_NULL = "Starting point is null",
-            BEARING_TO_NULL = "'to' is null",
-            BEARING_FROM_LATITUDE_NULL = "'from' latitude is null",
-            BEARING_FROM_LONGITUDE_NULL = "'from' longitude is null",
-            BEARING_TO_LATITUDE_NULL = "'to' latitude is null",
-            BEARING_TO_LONGITUDE_NULL = "'to' longitude is null";
-    }
-
-    public GeographicCoordinateException() {
-        super();
-    }
-
-    public GeographicCoordinateException(final String msg) {
-        super(msg);
-    }
-
-    public GeographicCoordinateException(final Throwable t) {
-        super(t);
-    }
-
-    public GeographicCoordinateException(final String msg, final Throwable t) {
-        super(msg, t);
-    }
+    public static final String STARTING_POINT_NULL = "Starting point is null";
+    public static final String BEARING_TO_NULL = "'to' is null";
+    public static final String BEARING_FROM_LATITUDE_NULL = "'from' latitude is null";
+    public static final String BEARING_FROM_LONGITUDE_NULL = "'from' longitude is null";
+    public static final String BEARING_TO_LATITUDE_NULL = "'to' latitude is null";
+    public static final String BEARING_TO_LONGITUDE_NULL = "'to' longitude is null";
 }

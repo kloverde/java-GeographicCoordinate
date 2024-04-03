@@ -36,8 +36,7 @@ package org.loverde.geographiccoordinate.calculator;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.loverde.geographiccoordinate.calculator.BearingCalculator.backAzimuth;
 import static org.loverde.geographiccoordinate.calculator.BearingCalculator.initialBearing;
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.COMPASS_TYPE_NULL;
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.BEARING_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.*;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
@@ -53,7 +52,7 @@ import org.loverde.geographiccoordinate.Point;
 import org.loverde.geographiccoordinate.compass.CompassDirection16;
 import org.loverde.geographiccoordinate.compass.CompassDirection32;
 import org.loverde.geographiccoordinate.compass.CompassDirection8;
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
+import org.loverde.geographiccoordinate.exception.ExceptionMessages;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -94,7 +93,7 @@ class BearingCalculatorTest {
         when(point1.getLatitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
-        assertEquals(GeographicCoordinateException.Messages.BEARING_FROM_LATITUDE_NULL, e.getMessage());
+        assertEquals(BEARING_FROM_LATITUDE_NULL, e.getMessage());
     }
 
     @Test
@@ -102,13 +101,13 @@ class BearingCalculatorTest {
         when(point1.getLongitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
-        assertEquals(GeographicCoordinateException.Messages.BEARING_FROM_LONGITUDE_NULL, e.getMessage());
+        assertEquals(BEARING_FROM_LONGITUDE_NULL, e.getMessage());
     }
 
     @Test
     void initialBearing_nullFromPoint() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, null, point2));
-        assertEquals(GeographicCoordinateException.Messages.STARTING_POINT_NULL, e.getMessage());
+        assertEquals(STARTING_POINT_NULL, e.getMessage());
     }
 
     @Test
@@ -116,7 +115,7 @@ class BearingCalculatorTest {
         when(point2.getLatitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
-        assertEquals(GeographicCoordinateException.Messages.BEARING_TO_LATITUDE_NULL, e.getMessage());
+        assertEquals(BEARING_TO_LATITUDE_NULL, e.getMessage());
     }
 
     @Test
@@ -124,13 +123,13 @@ class BearingCalculatorTest {
         when(point2.getLongitude()).thenReturn(null);
 
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
-        assertEquals(GeographicCoordinateException.Messages.BEARING_TO_LONGITUDE_NULL, e.getMessage());
+        assertEquals(BEARING_TO_LONGITUDE_NULL, e.getMessage());
     }
 
     @Test
     void initialBearing_nullToPoint() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, null));
-        assertEquals(GeographicCoordinateException.Messages.BEARING_TO_NULL, e.getMessage());
+        assertEquals(ExceptionMessages.BEARING_TO_NULL, e.getMessage());
     }
 
     @Test
@@ -180,13 +179,13 @@ class BearingCalculatorTest {
     @Test
     void backAzimuth_outOfLowerBound() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> backAzimuth(CompassDirection8.class, new BigDecimal("-.00000000001")));
-        assertEquals(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE, e.getMessage());
+        assertEquals(BEARING_OUT_OF_RANGE, e.getMessage());
     }
 
     @Test
     void backAzimuth_outOfUpperBound() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> backAzimuth(CompassDirection8.class, new BigDecimal("360.00000000001")));
-        assertEquals(GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE, e.getMessage());
+        assertEquals(BEARING_OUT_OF_RANGE, e.getMessage());
     }
 
     @Test

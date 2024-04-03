@@ -35,10 +35,10 @@ package org.loverde.geographiccoordinate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.DIRECTION_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.DIRECTION_CANT_BE_NEITHER;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.DIRECTION_NULL;
 
 
 class LatitudeTest {
@@ -104,7 +104,7 @@ class LatitudeTest {
     @Test
     void constructor_fail_directionNeither() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> new Latitude(1, 1, 1, Latitude.Direction.NEITHER));
-        assertEquals(GeographicCoordinateException.Messages.DIRECTION_CANT_BE_NEITHER, e.getMessage());
+        assertEquals(DIRECTION_CANT_BE_NEITHER, e.getMessage());
     }
 
     @Test

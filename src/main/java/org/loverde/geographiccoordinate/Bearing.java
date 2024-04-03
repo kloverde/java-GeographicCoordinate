@@ -36,10 +36,10 @@ package org.loverde.geographiccoordinate;
 import java.math.BigDecimal;
 
 import org.loverde.geographiccoordinate.compass.CompassDirection;
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static java.math.BigDecimal.ZERO;
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.BEARING_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.BEARING_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.BEARING_OUT_OF_RANGE;
 import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
@@ -76,7 +76,7 @@ public class Bearing<T extends CompassDirection> {
 
     public void setBearing(final BigDecimal bearing) {
         failIf(bearing == null, () -> BEARING_NULL);
-        failIf((bearing.compareTo(ZERO) < 0) || bearing.compareTo(new BigDecimal(360)) > 0, () -> GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE);
+        failIf((bearing.compareTo(ZERO) < 0) || bearing.compareTo(new BigDecimal(360)) > 0, () -> BEARING_OUT_OF_RANGE);
 
         this.bearing = bearing;
     }

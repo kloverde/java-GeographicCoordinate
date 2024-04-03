@@ -41,11 +41,9 @@ import org.loverde.geographiccoordinate.compass.CompassDirection;
 import org.loverde.geographiccoordinate.compass.CompassDirection16;
 import org.loverde.geographiccoordinate.compass.CompassDirection32;
 import org.loverde.geographiccoordinate.compass.CompassDirection8;
-import org.loverde.geographiccoordinate.exception.GeographicCoordinateException;
 
 import static java.math.BigDecimal.ZERO;
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.COMPASS_TYPE_NULL;
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.BEARING_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.*;
 import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
@@ -117,12 +115,12 @@ public class BearingCalculator {
     }
 
     private static BigDecimal calculateBearing(final Point from, final Point to) {
-        failIf(from == null, () -> GeographicCoordinateException.Messages.STARTING_POINT_NULL);
-        failIf(to == null, () -> GeographicCoordinateException.Messages.BEARING_TO_NULL);
-        failIf(from.getLatitude() == null, () -> GeographicCoordinateException.Messages.BEARING_FROM_LATITUDE_NULL);
-        failIf(from.getLongitude() == null, () -> GeographicCoordinateException.Messages.BEARING_FROM_LONGITUDE_NULL);
-        failIf(to.getLatitude() == null, () -> GeographicCoordinateException.Messages.BEARING_TO_LATITUDE_NULL);
-        failIf(to.getLongitude() == null, () -> GeographicCoordinateException.Messages.BEARING_TO_LONGITUDE_NULL);
+        failIf(from == null, () -> STARTING_POINT_NULL);
+        failIf(to == null, () -> BEARING_TO_NULL);
+        failIf(from.getLatitude() == null, () -> BEARING_FROM_LATITUDE_NULL);
+        failIf(from.getLongitude() == null, () -> BEARING_FROM_LONGITUDE_NULL);
+        failIf(to.getLatitude() == null, () -> BEARING_TO_LATITUDE_NULL);
+        failIf(to.getLongitude() == null, () -> BEARING_TO_LONGITUDE_NULL);
 
         final double fromLatRadians = from.getLatitude().toRadians(),
             fromLonRadians = from.getLongitude().toRadians(),
@@ -145,7 +143,7 @@ public class BearingCalculator {
         BigDecimal backAzimuth;
 
         failIf(bearing == null, () -> BEARING_NULL);
-        failIf(bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD_360) > 0, () -> GeographicCoordinateException.Messages.BEARING_OUT_OF_RANGE);
+        failIf(bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD_360) > 0, () -> BEARING_OUT_OF_RANGE);
 
         zeroedBearing = bearing.compareTo(BD_360) == 0 ? ZERO : bearing;
 

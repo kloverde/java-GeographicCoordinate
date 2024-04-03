@@ -36,7 +36,7 @@ package org.loverde.geographiccoordinate;
 import org.loverde.geographiccoordinate.internal.GeographicCoordinate;
 import org.loverde.geographiccoordinate.internal.LatLonDirection;
 
-import static org.loverde.geographiccoordinate.exception.GeographicCoordinateException.Messages.*;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.*;
 import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
 
