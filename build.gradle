@@ -27,6 +27,7 @@ dependencies {
 def includeManifest = {
    manifest {
       attributes "Specification-Title": rootProject.name,
+                 "Implementation-Version": version,
                  "Built-Date": new Date(),
                  "Built-JDK": System.getProperty("java.version"),
                  "Target-JDK": targetCompatibility,
