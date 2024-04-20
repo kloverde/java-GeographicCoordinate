@@ -33,9 +33,11 @@
 
 package org.loverde.geographiccoordinate.calculator;
 
-import org.loverde.geographiccoordinate.Latitude;
-import org.loverde.geographiccoordinate.Longitude;
 import org.loverde.geographiccoordinate.Point;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.loverde.geographiccoordinate.internal.Objects.failIf;
 
@@ -52,8 +54,8 @@ import static org.loverde.geographiccoordinate.internal.Objects.failIf;
  * </p>
  *
  * <p>
- * The Earth radius used in calculations is the volumetric mean radius, not the equatorial radius.  As of the date this
- * software was written, NASA's figure for the volumetric mean radius was 6371.008 km.
+ * The Earth radius used in calculations is the volumetric mean radius, not the equatorial radius.  As of April 2024,
+ * NASA's figure for the volumetric mean radius was 6371.000 km.
  * </p>
  *
  * <p><strong>
@@ -123,7 +125,7 @@ public class DistanceCalculator {
     /**
      * @see <a href="http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html">http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html</a>
      */
-    private static final double EARTH_RADIUS_KILOMETERS = 6371.008;
+    private static final double EARTH_RADIUS_KILOMETERS = 6371;
 
 
     /**
@@ -139,45 +141,56 @@ public class DistanceCalculator {
      * READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
      * </strong></p>
      *
-     * @param unit   The unit of distance
-     * @param points A vararg of {@linkplain Point}s arranged in the order in which they are visited.  You must provide
-     *               at least 2, otherwise a {@linkplain IllegalArgumentException} will be thrown.
+     * @param unit   The unit that the returned value will be expressed in
+     * @param points {@linkplain Point}s arranged in the order in which they are visited.  You must provide at least 2,
+     *               otherwise a {@linkplain IllegalArgumentException} will be thrown.
      * @return The total distance traveled, expressed in terms of {@code unit}
      */
     public static double distance(final Unit unit, final Point... points) {
+        return distance(unit, Arrays.stream(points).collect(Collectors.toList()));
+    }
+
+    /**
+     * <p>
+     * Gets the total distance between an unlimited number of {@linkplain Point}s.  For example, if the distance from
+     * point A to point B is 3, and the distance from point B to point C is 2, the total distance traveled will be
+     * (3 + 2) = 5.  Just pass {@code Point}s in the order in which they're visited.
+     * </p>
+     *
+     * <p><strong>
+     * THIS IS HOBBYIST SOFTWARE.  THE AUTHOR HAS NO BACKGROUND IN, OR EVEN AN UNDERSTANDING OF, GEODESY, AND MERELY
+     * IMPLEMENTED FORMULAS FOUND ONLINE.  DON'T ENTRUST YOUR SAFETY TO THIS SOFTWARE.  NOW WOULD BE A GOOD TIME TO
+     * READ AND UNDERSTAND THE WAIVER PRESENT IN THIS SOFTWARE'S LICENSE.
+     * </strong></p>
+     *
+     * @param unit   The unit that the returned value will be expressed in
+     * @param points {@linkplain Point}s arranged in the order in which they are visited.  You must provide at least 2,
+     *               otherwise a {@linkplain IllegalArgumentException} will be thrown.
+     * @return The total distance traveled, expressed in terms of {@code unit}
+     */
+    public static double distance(final Unit unit, final List<Point> points) {
         failIf(unit == null, () -> "Unit is null");
         failIf(points == null, () -> "Points are null");
-        failIf(points.length < 2, () -> "Need to provide at least 2 points");
+        failIf(points.size() < 2, () -> "Need to provide at least 2 points");
 
         double distance = 0;
-        Point previous = points[0];
+        Point previous = points.get(0);
 
-        for (int i = 1; i < points.length; i++) {
-            final Point current = points[i];
+        for (int i = 1; i < points.size(); i++) {
+            final Point current = points.get(i);
 
-            if (previous == null) throw new IllegalArgumentException("points " + (i - 1) + " is null");
-            if (current == null) throw new IllegalArgumentException("points " + i + " is null");
+            failIf(previous == null, "point %d is null".formatted(i - 1));
+            failIf(current == null, "point %d is null".formatted(i));
 
-            final Latitude latitude1 = previous.latitude();
-            final Latitude latitude2 = current.latitude();
-
-            final Longitude longitude1 = previous.longitude();
-            final Longitude longitude2 = current.longitude();
-
-            failIf(latitude1 == null, () -> "Latitude 1 is null");
-            failIf(latitude2 == null, () -> "Latitude 2 is null");
-            failIf(longitude1 == null, () -> "Longitude 1 is null");
-            failIf(longitude2 == null, () -> "Longitude 2 is null");
-
-            final double lat1 = latitude1.toRadians(),
-                         lat2 = latitude2.toRadians(),
-                         lon1 = longitude1.toRadians(),
-                         lon2 = longitude2.toRadians(),
+            final double lat1 = previous.latitude().toRadians(),
+                         lat2 = current.latitude().toRadians(),
+                         lon1 = previous.longitude().toRadians(),
+                         lon2 = current.longitude().toRadians(),
                          deltaLat = lat2 - lat1,
                          deltaLon = lon2 - lon1;
 
             final double d = (2.0d * EARTH_RADIUS_KILOMETERS) * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2.0d), 2.0d)
-                + (Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2.0d), 2.0d))));
+                    + (Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2.0d), 2.0d))));
 
             distance += d * unit.perKilometer;
             previous = current;

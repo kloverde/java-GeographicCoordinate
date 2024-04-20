@@ -36,15 +36,15 @@ package org.loverde.geographiccoordinate.calculator;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.loverde.geographiccoordinate.calculator.BearingCalculator.backAzimuth;
 import static org.loverde.geographiccoordinate.calculator.BearingCalculator.initialBearing;
-import static org.loverde.geographiccoordinate.exception.ExceptionMessages.*;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.BEARING_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.BEARING_OUT_OF_RANGE;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.COMPASS_TYPE_NULL;
+import static org.loverde.geographiccoordinate.exception.ExceptionMessages.STARTING_POINT_NULL;
 
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.loverde.geographiccoordinate.Bearing;
 import org.loverde.geographiccoordinate.Latitude;
 import org.loverde.geographiccoordinate.Longitude;
@@ -53,17 +53,12 @@ import org.loverde.geographiccoordinate.compass.CompassDirection16;
 import org.loverde.geographiccoordinate.compass.CompassDirection32;
 import org.loverde.geographiccoordinate.compass.CompassDirection8;
 import org.loverde.geographiccoordinate.exception.ExceptionMessages;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 
-@ExtendWith(MockitoExtension.class)
 class BearingCalculatorTest {
 
-    @Mock
     private Point point1;
 
-    @Mock
     private Point point2;
 
 
@@ -75,11 +70,8 @@ class BearingCalculatorTest {
         final Latitude latitude2 = new Latitude(38, 54, 17, Latitude.Direction.NORTH);
         final Longitude longitude2 = new Longitude(77, 0, 59, Longitude.Direction.WEST);
 
-        lenient().when(point1.latitude()).thenReturn(latitude1);
-        lenient().when(point1.longitude()).thenReturn(longitude1);
-
-        lenient().when(point2.latitude()).thenReturn(latitude2);
-        lenient().when(point2.longitude()).thenReturn(longitude2);
+        point1 = new Point(latitude1, longitude1);
+        point2 = new Point(latitude2, longitude2);
     }
 
     @Test
@@ -89,41 +81,9 @@ class BearingCalculatorTest {
     }
 
     @Test
-    void initialBearing_nullFromLatitude() {
-        when(point1.latitude()).thenReturn(null);
-
-        Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
-        assertEquals(BEARING_FROM_LATITUDE_NULL, e.getMessage());
-    }
-
-    @Test
-    void initialBearing_nullFromLongitude() {
-        when(point1.longitude()).thenReturn(null);
-
-        Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
-        assertEquals(BEARING_FROM_LONGITUDE_NULL, e.getMessage());
-    }
-
-    @Test
     void initialBearing_nullFromPoint() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, null, point2));
         assertEquals(STARTING_POINT_NULL, e.getMessage());
-    }
-
-    @Test
-    void initialBearing_nullToLatitude() {
-        when(point2.latitude()).thenReturn(null);
-
-        Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
-        assertEquals(BEARING_TO_LATITUDE_NULL, e.getMessage());
-    }
-
-    @Test
-    void initialBearing_nullToLongitude() {
-        when(point2.longitude()).thenReturn(null);
-
-        Exception e = assertThrows(IllegalArgumentException.class, () -> initialBearing(CompassDirection8.class, point1, point2));
-        assertEquals(BEARING_TO_LONGITUDE_NULL, e.getMessage());
     }
 
     @Test

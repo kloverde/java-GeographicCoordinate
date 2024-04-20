@@ -103,7 +103,7 @@ public class BearingCalculator {
     }
 
     private static <T extends CompassDirection> Bearing<T> newBearing(final Class<T> compassType, final BigDecimal angle) {
-        failIf(compassType == null, () -> COMPASS_TYPE_NULL);
+        failIf(compassType == null, COMPASS_TYPE_NULL);
 
         if (compassType.equals(CompassDirection8.class)) {
             return new Bearing(CompassDirection8.getByBearing(angle), angle);
@@ -117,8 +117,8 @@ public class BearingCalculator {
     }
 
     private static BigDecimal calculateBearing(final Point from, final Point to) {
-        failIf(from == null, () -> STARTING_POINT_NULL);
-        failIf(to == null, () -> BEARING_TO_NULL);
+        failIf(from == null, STARTING_POINT_NULL);
+        failIf(to == null, BEARING_TO_NULL);
 
         final double fromLatRadians = from.latitude().toRadians(),
                      fromLonRadians = from.longitude().toRadians(),
@@ -139,7 +139,7 @@ public class BearingCalculator {
         final BigDecimal zeroedBearing;
         BigDecimal backAzimuth;
 
-        failIf(bearing == null, () -> BEARING_NULL);
+        failIf(bearing == null, BEARING_NULL);
         failIf(bearing.compareTo(ZERO) < 0 || bearing.compareTo(BD_360) > 0, () -> BEARING_OUT_OF_RANGE.formatted(bearing.toPlainString()));
 
         zeroedBearing = bearing.compareTo(BD_360) == 0 ? ZERO : bearing;

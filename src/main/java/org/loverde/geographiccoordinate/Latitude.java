@@ -130,6 +130,6 @@ public record Latitude(int degrees, int minutes, double seconds, Direction direc
     }
 
     public static String getRangeError() {
-        return LAT_LON_RANGE_ERROR.formatted(MAX_VALUE, MAX_VALUE, (int) MAX_VALUE, (int) MAX_VALUE);
+        return LAT_LON_RANGE_ERROR.replaceAll("\n", "%n").formatted(MAX_VALUE, MAX_VALUE, (int) MAX_VALUE, (int) MAX_VALUE);
     }
 }
