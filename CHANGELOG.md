@@ -1,3 +1,10 @@
+# Release 5.1.0 (April 20, 2024)
+
+* Added an additional `distance` method to `DistanceCalulator`.  You can now pass a `List` of points rather than being required to use vararg/array
+* `DistanceCalculator` has been updated to use [NASA's latest figure](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) for Earth's radius (revised down from 6371.008 km to 6371.0 km)
+* Mockito is no longer a test dependency
+* Fixed Spotbugs failure regarding newline platform independence
+
 # Release 5.0.0 (April 3, 2024)
 
 * Removed dependencies on my external `BuildScripts` and `NumberUtil` projects
