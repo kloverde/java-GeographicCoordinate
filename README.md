@@ -1,4 +1,4 @@
-GeographicCoordinate 5.0.0
+GeographicCoordinate 5.1.0
 ==========================
 
 See LICENSE for this software's licensing terms.
